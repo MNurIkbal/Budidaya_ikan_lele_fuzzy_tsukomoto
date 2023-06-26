@@ -15,7 +15,7 @@ include 'config/koneksi.php';
 	<link rel="stylesheet" href="assets/css/demo.css">
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper"  style="background-color: rgb(78, 115, 223);">
 		<div>
 			<div class = "content">
 				<div class = "container-fluid">

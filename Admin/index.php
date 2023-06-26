@@ -24,22 +24,22 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
 
 
 	<div class="wrapper">
-		<div class="main-header">
-			<div class="logo-header">
-				<a href="?page=Dashboard" class="logo">
+		<div class="main-header" style="background-color: rgb(78, 115, 223);border:none	 !important"	>
+			<div class="logo-header" style="border: none !important;">
+				<a href="?page=Dashboard" class="logo text-white">
 					Admin Dashboard
 				</a>
-				<button class="navbar-toggler sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
+				<button class="navbar-toggler text-white sidenav-toggler ml-auto" type="button" data-toggle="collapse" data-target="collapse" aria-controls="sidebar" aria-expanded="false" aria-label="Toggle navigation">
 					<span class="navbar-toggler-icon"></span>
 				</button>
-				<button class="topbar-toggler more"><i class="la la-ellipsis-v"></i></button>
+				<button class="topbar-toggler more text-white"><i class="la la-ellipsis-v"></i></button>
 			</div>
-			<nav class="navbar navbar-header navbar-expand-lg">
+			<nav class="navbar navbar-header navbar-expand-lg" >
 				<div class="container-fluid">
 					<ul class="navbar-nav topbar-nav ml-md-auto align-items-center">
 						<li class="nav-item dropdown">
 							<!-- Foto pegawai -->
-							<a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="lihat_foto.php?id=<?php echo $_SESSION['id_admin']; ?>" alt="user-img" width="36" class="img-circle"><span ><?php echo $data_admin['nm_lengkap']; ?></span></span> </a>
+							<a class="dropdown-toggle profile-pic text-white" data-toggle="dropdown" href="#" aria-expanded="false"> <img src="lihat_foto.php?id=<?php echo $_SESSION['id_admin']; ?>" alt="user-img" width="36" class="img-circle"><span class="text-white"><?php echo $data_admin['nm_lengkap']; ?></span></span> </a>
 							
 							<ul class="dropdown-menu dropdown-user">
 								<li>
@@ -61,55 +61,72 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
 				</div>
 			</nav>
 		</div>
-		<div class="sidebar">
-			<div class="scrollbar-inner sidebar-wrapper">
-				<div class="user">
+		<style>
+			.text-whites {
+				color: white !important;
+			}
+			.nav-item.active {
+				background-color: white !important;
+				color: black !important;
+			}
+			
+			.nav-item.active .text-whites {
+				color: black !important;
+			}
+
+			.nav-item:hover .text-whites {
+				color: black !important;
+			}
+		</style>
+		<div class="sidebar"  style="background-color: rgb(78, 115, 223);">
+			<div class="scrollbar-inner sidebar-wrapper" >
+				<div class="user" style="border: none !important;">
 					<div class="photo">
 						<img src="lihat_foto.php?id=<?php echo $_SESSION['id_admin']; ?>">
 					</div>						
 					<div class="info">
 						<a class="" data-toggle="collapse" href="#collapseExample" aria-expanded="true">
-							<span>
+							<span class="text-white">
 								<?php echo $data_admin['nm_lengkap']; ?>
-								<span class="user-level">Administrator</span>
+								<span class="user-level text-white">Administrator</span>
 							</span>
 						</a>
 					</div>
 				</div>
 				<ul class="nav">
 					<li class="nav-item <?php echo ($_GET['page'] == 'Dashboard') ? "active" : ""; ?>">
-						<a href="?page=Dashboard">
-							<i class="la la-dashboard"></i>
+						<a href="?page=Dashboard" class="text-whites">
+							<i class="la la-dashboard text-whites"></i>
 							<p>Dashboard</p>
 						</a>
 					</li>
 					<li class="nav-item <?php echo ($_GET['page'] == 'Profil') ? "active" : ""; ?>">
-						<a href="?page=Profil">
-							<i class="la la-user"></i>
+						<a href="?page=Profil" class="text-whites">
+							<i class="la la-user text-whites"></i>
 							<p>Profil</p>
 						</a>
 					</li>
 					<li class="nav-item <?php echo ($_GET['page'] == 'Pengaturan') ? "active" : ""; ?>">
-						<a href="?page=Pengaturan">
-							<i class="la la-cog"></i>
+						<a href="?page=Pengaturan" class="text-whites">
+							<i class="la la-cog text-whites"></i>
 							<p>Password</p>
 						</a>
 					</li>
 					<li class="nav-item <?php echo ($_GET['page'] == 'Pegawai') ? "active" : ""; ?>">
-						<a href="?page=Pegawai">
-							<i class="la la-group"></i>
+						<a href="?page=Pegawai" class="text-whites">
+							<i class="la la-group text-whites"></i>
 							<p>Pegawai</p>
 						</a>
 					</li>
 					<li class="nav-item <?php echo ($_GET['page'] == 'BudiDaya') ? "active" : ""; ?>">
-						<a href="?page=NilaiPegawai">
-							<i class="la la-tasks"></i>
+						<a href="?page=NilaiPegawai" class="text-whites">
+							<i class="la la-tasks text-whites"></i>
 							<p>BudiDaya</p>
 						</a>
 					</li>
 					<li class="nav-item <?php echo ($_GET['page'] == 'NilaiPegawai') ? "active" : ""; ?>">
-						<a href="?page=NilaiPegawai">
-							<i class="fas fa-folder"></i>
+						<a href="?page=NilaiPegawai" class="text-whites">
+							<i class="fas fa-folder text-whites"></i>
 							<p>Hasil Panen</p>
 						</a>
 					</li>

@@ -17,7 +17,7 @@ include 'config/koneksi.php';
 	<link href="assets/datepicker/fontawesome/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper"  style="background-color: rgb(78, 115, 223);">
 		<div>
 			<div class = "content">
 				<div class = "container-fluid">
@@ -113,7 +113,7 @@ include 'config/koneksi.php';
 							</div>
 							</div>
 						</div>
-						<center><a href="login_pegawai.php" >Silahkan Masuk</a>, jika sudah mempunyai akun pegawai.</center>
+						<center class="text-white"><a href="login_pegawai.php" class="text-white">Silahkan Masuk</a>, jika sudah mempunyai akun pegawai.</center>
 						<!-- <div class="col-md-3">
 							<div class="card">
 								<div class="card-header">

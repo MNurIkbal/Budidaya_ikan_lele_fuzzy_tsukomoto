@@ -15,7 +15,7 @@ include 'config/koneksi.php';
 	<link rel="stylesheet" href="assets/css/demo.css">
 </head>
 <body>
-	<div class="wrapper">
+	<div class="wrapper" style="background-color: rgb(78, 115, 223);">
 		<div>
 			<div class = "content">
 				<div class = "container-fluid">
@@ -58,8 +58,8 @@ include 'config/koneksi.php';
 								}
 								?>
 							</div>
-							<center><a href="daftar_pegawai.php" >Daftarkan diri</a>, jika ingin mendaftar sebagai user.</center>
-							<center><a href="login_admin.php" >Masuk disini</a>, jika Anda adalah admin.</center>
+							<center class="text-white"><a class="text-white" href="daftar_pegawai.php" >Daftarkan diri</a>, jika ingin mendaftar sebagai user.</center>
+							<center class="text-white"><a href="login_admin.php" class="text-white">Masuk disini</a>, jika Anda adalah admin.</center>
 						</div>
 					</div>
 				</div>

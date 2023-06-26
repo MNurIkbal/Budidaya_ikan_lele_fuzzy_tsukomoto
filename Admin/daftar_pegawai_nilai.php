@@ -1,6 +1,6 @@
 
 				<div class = "container-fluid">
-					<h4 class = "page-title">Nilai Kinerja Pegawai</h4>
+					<h4 class = "page-title">Hasil Panen</h4>
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card card-tasks">
@@ -8,7 +8,7 @@
 										<form action='' method='POST'>
 										<div class='row'>
 											<div class='col-md-7'>
-												<h4 class="card-title">Daftar Pegawai</h4>
+												<h4 class="card-title">Hasil Panen</h4>
 											</div>
 											
 											<div class='col-md-4' >
