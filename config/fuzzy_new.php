@@ -1,49 +1,53 @@
 <?php 
+// $luasKolam = 100;
+// $jumlahBibit = 20000;
+// $jumlahPakan = 55;
 // function keanggotaan 
 function luasKolamMembership($luasKolam) {
     $membership = [];
-
+    
     // Himpunan fuzzy "kecil"
-    if ($luasKolam <= 65) {
+    if ($luasKolam < 65 ) {
         $membership['Kecil'] = 1;
-    } elseif ($luasKolam > 65 && $luasKolam <= 112) {
-        $membership['Kecil'] = (112 - $luasKolam) / (112 - 65);
-    } else {
-        $membership['Kecil'] = 0;
-    }
-
-    // Himpunan fuzzy "besar"
-    if ($luasKolam <= 65) {
         $membership['Besar'] = 0;
-    } elseif ($luasKolam > 65 && $luasKolam <= 112) {
+    } elseif ($luasKolam >= 65 && $luasKolam <= 85) {
+        $membership['Kecil'] = (112 - $luasKolam) / (112 - 65);
+        $membership['Besar'] = 0;
+    } 
+    
+    // Himpunan fuzzy "besar"
+    elseif ($luasKolam >= 85 && $luasKolam <= 112) {
         $membership['Besar'] = ($luasKolam - 65) / (112 - 65);
+        $membership['Kecil'] = 0;
     } else {
         $membership['Besar'] = 1;
+        $membership['Kecil'] = 0;   
     }
 
     return $membership;
 }
 
 
+
 function jumlahBibitMembership($jumlahBibit) {
     $membership = [];
 
     // Himpunan fuzzy "sedikit"
-    if ($jumlahBibit <= 10000) {
+    if ($jumlahBibit < 10000) {
         $membership['Sedikit'] = 1;
-    } elseif ($jumlahBibit > 10000 && $jumlahBibit <= 23000) {
-        $membership['Sedikit'] = (23000 - $jumlahBibit) / (23000 - 10000);
-    } else {
-        $membership['Sedikit'] = 0;
-    }
-
-    // Himpunan fuzzy "banyak"
-    if ($jumlahBibit <= 10000) {
         $membership['Banyak'] = 0;
-    } elseif ($jumlahBibit > 10000 && $jumlahBibit <= 23000) {
+    } elseif ($jumlahBibit >= 10000 && $jumlahBibit <= 17000) {
+        $membership['Sedikit'] = (23000 - $jumlahBibit) / (23000 - 10000);
+        $membership['Banyak'] = 0;
+    } 
+    
+    // Himpunan fuzzy "banyak"
+    elseif ($jumlahBibit > 17000 && $jumlahBibit <= 23000) {
         $membership['Banyak'] = ($jumlahBibit - 10000) / (23000 - 10000);
+        $membership['Sedikit'] = 0;
     } else {
         $membership['Banyak'] = 1;
+        $membership['Sedikit'] = 0;
     }
 
     return $membership;
@@ -53,82 +57,52 @@ function jumlahPakanMembership($jumlahPakan) {
     $membership = [];
 
     // Himpunan fuzzy "sedikit"
-    if ($jumlahPakan <= 30) {
+    if ($jumlahPakan < 30) {
         $membership['Sedikit'] = 1;
-    } elseif ($jumlahPakan > 30 && $jumlahPakan <= 69) {
-        $membership['Sedikit'] = (69 - $jumlahPakan) / (69 - 30);
-    } else {
-        $membership['Sedikit'] = 0;
-    }
-
-    // Himpunan fuzzy "banyak"
-    if ($jumlahPakan <= 30) {
         $membership['Banyak'] = 0;
-    } elseif ($jumlahPakan > 30 && $jumlahPakan <= 69) {
+    } elseif ($jumlahPakan >= 30 && $jumlahPakan <= 50) {
+        $membership['Sedikit'] = (69 - $jumlahPakan) / (69 - 30);
+        $membership['Banyak'] = 0;
+    }
+    
+    // Himpunan fuzzy "banyak"
+    elseif ($jumlahPakan > 50 && $jumlahPakan <= 69) {
+        $membership['Sedikit'] = 0;
         $membership['Banyak'] = ($jumlahPakan - 30) / (69 - 30);
     } else {
         $membership['Banyak'] = 1;
+        $membership['Sedikit'] = 0;
     }
 
     return $membership;
 }
 
-function hasilPanenMembership($hasilPanen) {
-    $membership = [];
+// function hasilPanenMembership($hasilPanen) {
+//     $membership = [];
 
-    // Himpunan fuzzy "rendah"
-    if ($hasilPanen <= 810) {
-        $membership['rendah'] = 1;
-    } elseif ($hasilPanen > 810 && $hasilPanen <= 2070) {
-        $membership['rendah'] = (2070 - $hasilPanen) / (2070 - 810);
-    } else {
-        $membership['rendah'] = 0;
-    }
+//     // Himpunan fuzzy "rendah"
+//     if ($hasilPanen <= 810) {
+//         $membership['rendah'] = 1;
+//     } elseif ($hasilPanen > 810 && $hasilPanen <= 2070) {
+//         $membership['rendah'] = (2070 - $hasilPanen) / (2070 - 810);
+//     } else {
+//         $membership['rendah'] = 0;
+//     }
 
-    // Himpunan fuzzy "tinggi"
-    if ($hasilPanen <= 810) {
-        $membership['tinggi'] = 0;
-    } elseif ($hasilPanen > 810 && $hasilPanen <= 2070) {
-        $membership['tinggi'] = ($hasilPanen - 810) / (2070 - 810);
-    } else {
-        $membership['tinggi'] = 1;
-    }
+//     // Himpunan fuzzy "tinggi"
+//     if ($hasilPanen >=  975) {
+//         $membership['tinggi'] = 0;
+//     } elseif ($hasilPanen > 975 && $hasilPanen <= 2070) {
+//         $membership['tinggi'] = ($hasilPanen - 810) / (2070 - 810);
+//     } else {
+//         $membership['tinggi'] = 1;
+//     }
 
-    return $membership;
-}
-
-
-
-// Fungsi Imply
-// function imply($luasKolam, $jumlahBibit, $jumlahPakan) {
-//     $hasilImply = [];
-
-//     // Rule 1: IF Kecil AND Sedikit AND Banyak THEN Rendah
-    
-//     $hasilImply['Rendah'] = min($luasKolam['Kecil'], $jumlahBibit['Sedikit'], $jumlahPakan['Banyak']);
-//     // Rule 2: IF Kecil AND Sedikit AND Sedikit THEN Rendah
-//     $hasilImply['Rendah'] = max($hasilImply['Rendah'], min($luasKolam['Kecil'], $jumlahBibit['Sedikit'], $jumlahPakan['Sedikit']));
-
-//     // Rule 3: IF Kecil AND Banyak AND Banyak THEN Rendah
-//     $hasilImply['Rendah'] = max($hasilImply['Rendah'], min($luasKolam['Kecil'], $jumlahBibit['Banyak'], $jumlahPakan['Banyak']));
-
-//     // Rule 4: IF Kecil AND Banyak AND Sedikit THEN Rendah
-//     $hasilImply['Rendah'] = max($hasilImply['Rendah'], min($luasKolam['Kecil'], $jumlahBibit['Banyak'], $jumlahPakan['Sedikit']));
-
-//     // Rule 5: IF Besar AND Sedikit AND Sedikit THEN Rendah
-//     $hasilImply['Rendah'] = max($hasilImply['Rendah'], min($luasKolam['Besar'], $jumlahBibit['Sedikit'], $jumlahPakan['Sedikit']));
-
-//     // Rule 6: IF Besar AND Sedikit AND Banyak THEN Rendah
-//     $hasilImply['Rendah'] = max($hasilImply['Rendah'], min($luasKolam['Besar'], $jumlahBibit['Sedikit'], $jumlahPakan['Banyak']));
-
-//     // Rule 7: IF Besar AND Banyak AND Sedikit THEN Rendah
-//     $hasilImply['Rendah'] = max($hasilImply['Rendah'], min($luasKolam['Besar'], $jumlahBibit['Banyak'], $jumlahPakan['Sedikit']));
-
-//     // Rule 8: IF Besar AND Banyak AND Banyak THEN Tinggi
-//     $hasilImply['Tinggi'] = min($luasKolam['Besar'], $jumlahBibit['Banyak'], $jumlahPakan['Banyak']);
-
-//     return $hasilImply;
+//     return $membership;
 // }
+
+
+
 
 function calculateRules($luasKolam, $jumlahBibit, $jumlahPakan) {
     // Menghitung keanggotaan untuk masing-masing variabel
@@ -166,6 +140,43 @@ function calculateRules($luasKolam, $jumlahBibit, $jumlahPakan) {
     return $predikat;
 }
 
+function agregasi($rules) {
+    // Inisialisasi array untuk menyimpan nilai agregasi
+    $agregasi = array();
+    
+    // Iterasi melalui setiap aturan fuzzy
+    foreach ($rules as $rule) {
+        // Iterasi melalui setiap keluaran fuzzy dalam aturan tersebut
+        foreach ($rule['outputs'] as $output => $value) {
+            // Jika keluaran fuzzy sudah ada dalam array agregasi, gunakan operasi minimum untuk menggabungkan nilai
+            if (isset($agregasi[$output])) {
+                $agregasi[$output] = min($agregasi[$output], $value);
+            }
+            // Jika keluaran fuzzy belum ada dalam array agregasi, tambahkan ke array
+            else {
+                $agregasi[$output] = $value;
+            }
+        }
+    }
+    
+    return $agregasi;
+}
+  
+
+
+function inferensi($luasKolam, $jumlahBibit, $jumlahPakan) {
+    // Menghitung predikat berdasarkan aturan fuzzy
+    $predikat = calculateRules($luasKolam, $jumlahBibit, $jumlahPakan);
+    
+    // Menghitung bobot untuk masing-masing hasil predikat
+    $bobot = array();
+    $bobot['Rendah'] = max($predikat[0], $predikat[1], $predikat[2], $predikat[3]);
+    $bobot['Tinggi'] = max($predikat[4], $predikat[5], $predikat[6], $predikat[7]);
+    
+    return $bobot;
+}
+
+
 function fuzzyTsukamoto($luasKolam, $jumlahBibit, $jumlahPakan) {
     // Menghitung predikat berdasarkan aturan fuzzy
     $predikat = calculateRules($luasKolam, $jumlahBibit, $jumlahPakan);
@@ -181,71 +192,44 @@ function fuzzyTsukamoto($luasKolam, $jumlahBibit, $jumlahPakan) {
     return $hasilTsukamoto;
 }
 
-$luasKolam = 80;
-$jumlahBibit = 15000;
-$jumlahPakan = 40;
+function defuzzifikasi($agregasi) {
+    $numerator = 0;
+    $denominator = 0;
 
-$hasilTsukamoto = fuzzyTsukamoto($luasKolam, $jumlahBibit, $jumlahPakan);
-echo "Hasil Fuzzy Tsukamoto: " . $hasilTsukamoto;
+    foreach ($agregasi as $output => $value) {
+        // Menentukan bobot berdasarkan nilai keluaran fuzzy
+        $bobot = getBobot($output);
 
-die;
-// Fungsi Agregasi
-// function aggregate($hasilImply) {
-//     $agregat = [];
+        // Menentukan nilai yang akan dikontribusikan pada defuzzifikasi
+        $kontribusi = $value * $bobot;
 
-//     // Menentukan nilai agregat Rendah
-//     $agregat['Rendah'] = $hasilImply['Rendah'];
+        // Mengakumulasikan nilai numerik dan denumerator
+        $numerator += $kontribusi;
+        $denominator += $value;
+    }
 
-//     // Menentukan nilai agregat Tinggi
-//     $agregat['Tinggi'] = $hasilImply['Tinggi'];
+    // Menghindari pembagian dengan nol
+    if ($denominator == 0) {
+        return 0;
+    }
 
-//     return $agregat;
-// }
+    // Menghitung hasil defuzzifikasi
+    $hasilDefuzzifikasi = $numerator / $denominator;
 
-// // Fungsi Defuzzifikasi (Centroid)
-// function defuzzification($aggregatedResult) {
-//     $numerator = 0;
-//     $denominator = 0;
+    return $hasilDefuzzifikasi;
+}
 
-//     foreach ($aggregatedResult as $key => $value) {
-//         $numerator += ($key * $value);
-//         $denominator += $value;
-//     }
-   
-//     if ($denominator == 0) {
-//         return 0; // handle jika pembagi adalah nol untuk menghindari pembagian dengan nol
-//     }
-
-//     $defuzzifiedValue = $numerator / $denominator;
-
-//     return $defuzzifiedValue;
-// }
-
-// $luasKolam = 70;
-// $jumlahBibit = 50;
-// $jumlahPakan = 70;
-
-// // Menghitung derajat keanggotaan
-
-// $luasKolamMembership = luasKolamMembership($luasKolam);
-// $jumlahBibitMembership = jumlahBibitMembership($jumlahBibit);
-// $jumlahPakanMembership = jumlahPakanMembership($jumlahPakan);
-
-// var_dump($luasKolamMembership);
-// die;
-// // Melakukan implikasi
-
-// $hasilImply = imply($luasKolamMembership, $jumlahBibitMembership, $jumlahPakanMembership);
-// // Melakukan agregasi   
-
-// $agregat = aggregate($hasilImply);
+function getBobot($output) {
+    // Menentukan bobot berdasarkan keluaran fuzzy
+    switch ($output) {
+        case 'rendah':
+            return 0;
+        case 'tinggi':
+            return 1;
+        default:
+            return 0; // Default bobot jika keluaran fuzzy tidak ditemukan
+    }
+}
 
 
-// // Melakukan defuzzifikasi
-
-// $defuzzifikasi = defuzzification($agregat);
-
-// // Menampilkan hasil defuzzifikasi
-
-// echo "Hasil defuzzifikasi: " . $defuzzifikasi;
 ?>

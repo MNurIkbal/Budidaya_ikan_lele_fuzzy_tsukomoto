@@ -36,7 +36,7 @@
 															</div> -->
 															<center>No</center>
 														</th>
-														<th>Nama Pegawai</th>
+														<th>Nama </th>
 														<th>Aksi</th>
 													</tr>
 												</thead>

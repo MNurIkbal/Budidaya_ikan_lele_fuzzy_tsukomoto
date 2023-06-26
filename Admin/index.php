@@ -118,12 +118,6 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
 							<p>Pegawai</p>
 						</a>
 					</li>
-					<li class="nav-item <?php echo ($_GET['page'] == 'BudiDaya') ? "active" : ""; ?>">
-						<a href="?page=NilaiPegawai" class="text-whites">
-							<i class="la la-tasks text-whites"></i>
-							<p>BudiDaya</p>
-						</a>
-					</li>
 					<li class="nav-item <?php echo ($_GET['page'] == 'NilaiPegawai') ? "active" : ""; ?>">
 						<a href="?page=NilaiPegawai" class="text-whites">
 							<i class="fas fa-folder text-whites"></i>
@@ -189,7 +183,7 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
 Circles.create({
 	id:           'task-complete',
 	radius:       75,
-	value:        <?php echo @$value; ?>, <!-- <--- Ganti nilai -->
+	value:        <?php echo @$value; ?>, 
 	maxValue:     100,
 	width:        8,
 	text:         function(value){return value + '%';},
