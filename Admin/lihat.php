@@ -1,9 +1,9 @@
-				<?php 
+				<?php
 				// include '../config/koneksi.php';
-				
-				$check = mysqli_query($koneksi,"SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id_pegawai'");
-				$count = mysqli_num_rows($check);	
-				if(!$count) {
+
+				$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id_pegawai'");
+				$count = mysqli_num_rows($check);
+				if (!$count) {
 					echo "<script>
 					alert('Data Masih Kosong');
 					window.location.href = 'index.php?page=NilaiPegawai';
@@ -12,16 +12,16 @@
 				}
 
 
-				$result = mysqli_query($koneksi,"SELECT * FROM tbl_data_uji INNER JOIN pegawai ON tbl_data_uji.pegawai_id = pegawai.id_pegawai WHERE tbl_data_uji.pegawai_id = '$id_pegawai' ORDER by id_kategori DESC");
-				$anggota_luas_kolam = mysqli_query($koneksi,"SELECT * FROM variable_keanggotaan INNER JOIN pegawai ON variable_keanggotaan.pegawai_id = pegawai.id_pegawai WHERE pegawai_id = '$id_pegawai'");
+				$result = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji INNER JOIN pegawai ON tbl_data_uji.pegawai_id = pegawai.id_pegawai WHERE tbl_data_uji.pegawai_id = '$id_pegawai' ORDER by id_kategori DESC");
+				$anggota_luas_kolam = mysqli_query($koneksi, "SELECT * FROM variable_keanggotaan INNER JOIN pegawai ON variable_keanggotaan.pegawai_id = pegawai.id_pegawai WHERE pegawai_id = '$id_pegawai'");
 				$res = mysqli_fetch_assoc($anggota_luas_kolam);
-				$pagwai = mysqli_query($koneksi,"SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai'");
+				$pagwai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai'");
 				$rty = mysqli_fetch_assoc($pagwai);
 				?>
-				
-				<div class = "container-fluid">
-					<h4 class = "page-title">Hasil</h4>
-					<h4 class = "page-title">Nama : <?= $rty['nm_pegawai']; ?></h4>
+
+				<div class="container-fluid">
+					<h4 class="page-title">Hasil</h4>
+					<h4 class="page-title">Nama : <?= $rty['nm_pegawai']; ?></h4>
 					<div class="card">
 						<div class="card-header">
 							<h4 class="card-title">Data Input</h4>
@@ -35,32 +35,33 @@
 									<th class="text-center">Jumlah Bibit</th>
 									<th class="text-center">Jumlah Pakan</th>
 								</tr>
-								<?php $no =1; foreach($result as $row) : ?>
-								<tr>
-									<td><?= $no++; ?></td>
-									<td><?= $row['nm_pegawai']; ?></td>
-									<td><?= $row['luas_kolam']; ?></td>
-									<td><?= $row['jumlah_bibit']; ?></td>
-									<td><?= $row['jumlah_pakan']; ?></td>
-								</tr>
+								<?php $no = 1;
+								foreach ($result as $row) : ?>
+									<tr>
+										<td><?= $no++; ?></td>
+										<td><?= $row['nm_pegawai']; ?></td>
+										<td><?= $row['luas_kolam']; ?></td>
+										<td><?= $row['jumlah_bibit']; ?></td>
+										<td><?= $row['jumlah_pakan']; ?></td>
+									</tr>
 								<?php endforeach; ?>
 							</table>
 						</div>
 					</div>
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">Data Keanggotaan  Variable Luas Kolam</h4>
+							<h4 class="card-title">Data Keanggotaan Variable Luas Kolam</h4>
 						</div>
 						<div class="card-body">
 							<table class="table table-bordered table-hoaver" id="table">
 								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<th rowspan="2"class="text-center" >No</th>
+									<th rowspan="2" class="text-center">No</th>
 									<th rowspan="2" class="text-center">Nama</th>
 									<th rowspan="2" class="text-center">Luas Kolam</th>
 									<th colspan="3" class="text-center"> Derajat Keanggotaan
-										</th>
-										
-									
+									</th>
+
+
 								</tr>
 								<tr></tr>
 								<tr style="background-color: rgb(78, 115, 223);color:white">
@@ -82,18 +83,18 @@
 					</div>
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">Data Keanggotaan  Variable Jumlah Bibit</h4>
+							<h4 class="card-title">Data Keanggotaan Variable Jumlah Bibit</h4>
 						</div>
 						<div class="card-body">
 							<table class="table table-bordered table-hoaver" id="table">
 								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<th rowspan="2"class="text-center" >No</th>
+									<th rowspan="2" class="text-center">No</th>
 									<th rowspan="2" class="text-center">Nama</th>
 									<th rowspan="2" class="text-center">Jumlah Bibit</th>
 									<th colspan="3" class="text-center"> Derajat Keanggotaan
-										</th>
-										
-									
+									</th>
+
+
 								</tr>
 								<tr></tr>
 								<tr style="background-color: rgb(78, 115, 223);color:white">
@@ -107,7 +108,7 @@
 									<td>1</td>
 									<td><?= $res['jumlah_bibit']; ?></td>
 									<td><?= $res['nm_pegawai']; ?></td>
-									<td ><?= $res['jumlah_bibit_sedikit']; ?></td>
+									<td><?= $res['jumlah_bibit_sedikit']; ?></td>
 									<td><?= $res['jumlah_bibit_banyak']; ?></td>
 								</tr>
 							</table>
@@ -115,18 +116,18 @@
 					</div>
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">Data Keanggotaan  Variable Jumlah Pakan</h4>
+							<h4 class="card-title">Data Keanggotaan Variable Jumlah Pakan</h4>
 						</div>
 						<div class="card-body">
 							<table class="table table-bordered table-hoaver" id="table">
 								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<th rowspan="2"class="text-center" >No</th>
+									<th rowspan="2" class="text-center">No</th>
 									<th rowspan="2" class="text-center">Nama</th>
 									<th rowspan="2" class="text-center">Jumlah Pakan</th>
 									<th colspan="3" class="text-center"> Derajat Keanggotaan
-										</th>
-										
-									
+									</th>
+
+
 								</tr>
 								<tr></tr>
 								<tr style="background-color: rgb(78, 115, 223);color:white">
@@ -140,7 +141,7 @@
 									<td>1</td>
 									<td><?= $res['jumlah_bibit']; ?></td>
 									<td><?= $res['nm_pegawai']; ?></td>
-									<td ><?= $res['jumlah_pakan_sedikit']; ?></td>
+									<td><?= $res['jumlah_pakan_sedikit']; ?></td>
 									<td><?= $res['jumlah_pakan_banyak']; ?></td>
 								</tr>
 							</table>
@@ -191,5 +192,33 @@
 							</table>
 						</div>
 					</div>
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Data Mesin Inferensi	</h4>
+						</div>
+						<div class="card-body">
+							<table class="table table-bordered table-hover">
+								<tr>
+									<th>No</th>
+									<th>Type</th>
+									<th>Hasil</th>
+								</tr>
+								<tr>
+									<td>1.</td>
+									<td>Min</td>
+									<td>1</td>
+								</tr>
+								<tr>
+									<td>2.</td>
+									<td>α1</td>
+									<td>ja</td>
+								</tr>
+								<tr>
+									<td>3.</td>
+									<td>Z1</td>
+									<td>ja</td>
+								</tr>
+							</table>
+						</div>
+					</div>
 				</div>
-			

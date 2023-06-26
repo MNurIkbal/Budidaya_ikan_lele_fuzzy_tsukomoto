@@ -1,7 +1,7 @@
 <?php 
-// $luasKolam = 100;
-// $jumlahBibit = 20000;
-// $jumlahPakan = 55;
+$luasKolam = 90;
+$jumlahBibit = 14000;
+$jumlahPakan = 55;
 // function keanggotaan 
 function luasKolamMembership($luasKolam) {
     $membership = [];
@@ -26,8 +26,6 @@ function luasKolamMembership($luasKolam) {
 
     return $membership;
 }
-
-
 
 function jumlahBibitMembership($jumlahBibit) {
     $membership = [];
@@ -77,32 +75,55 @@ function jumlahPakanMembership($jumlahPakan) {
     return $membership;
 }
 
-// function hasilPanenMembership($hasilPanen) {
-//     $membership = [];
 
-//     // Himpunan fuzzy "rendah"
-//     if ($hasilPanen <= 810) {
-//         $membership['rendah'] = 1;
-//     } elseif ($hasilPanen > 810 && $hasilPanen <= 2070) {
-//         $membership['rendah'] = (2070 - $hasilPanen) / (2070 - 810);
-//     } else {
-//         $membership['rendah'] = 0;
-//     }
+function predikat($variabel, $nilai, $fungsiKeanggotaan) {
+    $predikat = [];
 
-//     // Himpunan fuzzy "tinggi"
-//     if ($hasilPanen >=  975) {
-//         $membership['tinggi'] = 0;
-//     } elseif ($hasilPanen > 975 && $hasilPanen <= 2070) {
-//         $membership['tinggi'] = ($hasilPanen - 810) / (2070 - 810);
-//     } else {
-//         $membership['tinggi'] = 1;
-//     }
+    foreach ($fungsiKeanggotaan[$variabel] as $fungsi) {
+        $namaFungsi = $fungsi[0];
+        $parameter = $fungsi[1];
+        
+        
+        if ($nilai >= $parameter[0] && $nilai <= $parameter[1]) {
+            if ($namaFungsi == 'Kecil') {
+                $alpha = ($parameter[1] - $nilai) / ($parameter[1] - $parameter[0]);
+            } elseif ($namaFungsi == 'Besar') {
+                $alpha = ($nilai - $parameter[0]) / ($parameter[1] - $parameter[0]);
+            } 
+            elseif($namaFungsi == "Sedikit") {
+                $alpha = ($parameter[1] - $nilai) / ($parameter[1] - $parameter[0]);
+            } elseif($namaFungsi == "Banyak") {
+                $alpha = ($nilai - $parameter[0]) / ($parameter[1] - $parameter[0]);
+            }
+            else {
+                $alpha = 1;
+            }
+            
+            
+            $predikat[] = $alpha;
+        } else {
+            $predikat[] = 0;
+        }
+    }
 
-//     return $membership;
-// }
+    return $predikat;
+}
 
-
-
+// Definisi fungsi keanggotaan
+$fungsiKeanggotaan = [
+    'luasKolam' => [
+        ['Kecil', [65, 85]],
+        ['Besar', [85, 112]],
+    ],
+    'jumlahBibit' => [
+        ['Sedikit', [10000, 17000]],
+        ['Banyak', [17000, 23000]],
+    ],
+    'jumlahPakan' => [
+        ['Sedikit', [30, 50]],
+        ['Banyak', [50, 69]],
+    ],
+];
 
 function calculateRules($luasKolam, $jumlahBibit, $jumlahPakan) {
     // Menghitung keanggotaan untuk masing-masing variabel
@@ -140,28 +161,20 @@ function calculateRules($luasKolam, $jumlahBibit, $jumlahPakan) {
     return $predikat;
 }
 
-function agregasi($rules) {
-    // Inisialisasi array untuk menyimpan nilai agregasi
-    $agregasi = array();
-    
-    // Iterasi melalui setiap aturan fuzzy
-    foreach ($rules as $rule) {
-        // Iterasi melalui setiap keluaran fuzzy dalam aturan tersebut
-        foreach ($rule['outputs'] as $output => $value) {
-            // Jika keluaran fuzzy sudah ada dalam array agregasi, gunakan operasi minimum untuk menggabungkan nilai
-            if (isset($agregasi[$output])) {
-                $agregasi[$output] = min($agregasi[$output], $value);
-            }
-            // Jika keluaran fuzzy belum ada dalam array agregasi, tambahkan ke array
-            else {
-                $agregasi[$output] = $value;
-            }
-        }
-    }
-    
-    return $agregasi;
-}
-  
+$predikatLuasKolam = predikat('luasKolam', $luasKolam, $fungsiKeanggotaan);
+$predikatJumlahBibit = predikat('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
+$predikatJumlahPakan = predikat('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
+echo "Predikat Luas Kolam: ";
+print_r($predikatLuasKolam);
+
+echo "<br>Predikat Jumlah Bibit: ";
+print_r($predikatJumlahBibit);
+
+echo "<br>Predikat Jumlah Pakan: ";
+print_r($predikatJumlahPakan);
+die;
+
+
 
 
 function inferensi($luasKolam, $jumlahBibit, $jumlahPakan) {
