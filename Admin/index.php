@@ -115,7 +115,7 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
 					<li class="nav-item <?php echo ($_GET['page'] == 'Pegawai') ? "active" : ""; ?>">
 						<a href="?page=Pegawai" class="text-whites">
 							<i class="la la-group text-whites"></i>
-							<p>Pegawai</p>
+							<p>User</p>
 						</a>
 					</li>
 					<li class="nav-item <?php echo ($_GET['page'] == 'NilaiPegawai') ? "active" : ""; ?>">

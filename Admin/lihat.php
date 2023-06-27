@@ -17,11 +17,17 @@
 				$res = mysqli_fetch_assoc($anggota_luas_kolam);
 				$pagwai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai'");
 				$rty = mysqli_fetch_assoc($pagwai);
+
+				$rules = mysqli_query($koneksi, "SELECT * FROM rules WHERE pegawai_id = '$id_pegawai'");
+				$fect_rules = mysqli_fetch_assoc($rules);
 				?>
 
 				<div class="container-fluid">
 					<h4 class="page-title">Hasil</h4>
 					<h4 class="page-title">Nama : <?= $rty['nm_pegawai']; ?></h4>
+					<a href="?page=NilaiPegawai" class="btn btn-warning btn-sm">Kembali</a>
+					<br>
+					<br>	
 					<div class="card">
 						<div class="card-header">
 							<h4 class="card-title">Data Input</h4>
@@ -194,30 +200,40 @@
 					</div>
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">Data Mesin Inferensi	</h4>
+							<h4 class="card-title">Data Inferensi </h4>
 						</div>
 						<div class="card-body">
 							<table class="table table-bordered table-hover">
-								<tr>
-									<th>No</th>
-									<th>Type</th>
-									<th>Hasil</th>
-								</tr>
-								<tr>
-									<td>1.</td>
-									<td>Min</td>
-									<td>1</td>
-								</tr>
-								<tr>
-									<td>2.</td>
-									<td>α1</td>
-									<td>ja</td>
-								</tr>
-								<tr>
-									<td>3.</td>
-									<td>Z1</td>
-									<td>ja</td>
-								</tr>
+								<thead style="background-color: rgb(78, 115, 223);color:white">
+									<tr>
+										<th style="color: white;">#</th>
+										<th style="color: white;">R1</th>
+										<th style="color: white;">R2</th>
+										<th style="color: white;">R3</th>
+										<th style="color: white;">R4</th>
+										<th style="color: white;">R5</th>
+										<th style="color: white;">R6</th>
+										<th style="color: white;">R7</th>
+										<th style="color: white;">R8</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>α</td>
+										<td><?= $fect_rules['role_satu']; ?></td>
+										<td><?= $fect_rules['role_dua']; ?></td>
+										<td><?= $fect_rules['role_tiga']; ?></td>
+										<td><?= $fect_rules['role_empat']; ?></td>
+										<td><?= $fect_rules['role_lima']; ?></td>
+										<td><?= $fect_rules['role_enam']; ?></td>
+										<td><?= $fect_rules['role_tuju']; ?></td>
+										<td><?= $fect_rules['role_delapan']; ?></td>
+									</tr>
+									<tr>
+										<td>Z</td>
+										<td colspan="8"><?= $fect_rules['nilai_z']; ?></td>
+									</tr>
+								</tbody>
 							</table>
 						</div>
 					</div>

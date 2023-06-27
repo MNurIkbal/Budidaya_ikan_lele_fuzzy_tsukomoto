@@ -23,31 +23,11 @@
 										<p>Alamat</p>
 										<input name="alamat" type="text" class="form-control" id="disableinput" value="<?php echo $data['alamat']; ?>" disabled>
 										<br>
-										<p>Posisi</p>
-										<select class="form-control" name='posisi'>
-											<option value = 1 <?php $kond = ($data['id_posisi'] == 1) ? "selected" : ""; echo $kond; ?>>Software Development</option>
-											<option value = 2 <?php $kond = ($data['id_posisi'] == 2) ? "selected" : ""; echo $kond; ?>>Website Development</option>
-											<option value = 3 <?php $kond = ($data['id_posisi'] == 3) ? "selected" : ""; echo $kond; ?>>System Analyst</option>
-											<option value = 4 <?php $kond = ($data['id_posisi'] == 4) ? "selected" : ""; echo $kond; ?>>Network Security</option>
-											<option value = 5 <?php $kond = ($data['id_posisi'] == 5) ? "selected" : ""; echo $kond; ?>>IT Support</option>
-											<option value = 6 <?php $kond = ($data['id_posisi'] == 6) ? "selected" : ""; echo $kond; ?>>None</option>
-										</select>
-										<br>
+										
 									</div>
-									<div class="card-footer" style="display:flex; justify-content:flex-end; width:100%; padding:2;">
-										<input type="submit" name="submit" class="btn btn-rounded btn-success btn-l" value="Simpan"/>
-									</div>
-								</form>
-								<?php
-								if(isset($_POST['submit'])) {
-									$result = $koneksi->query("UPDATE pegawai SET id_posisi='{$_POST['posisi']}' WHERE  id_pegawai={$id_pegawai};");
-									if($result)
-										echo "<script>alert('Posisi sudah diperbarui')</script>";
-										echo "<script>window.location.assign(document.URL);</script>";
-								} else {
 									
-								}
-								?>
+								</form>
+								
 							</div>
 						</div>
 						<!-- <div class="col-md-3">
