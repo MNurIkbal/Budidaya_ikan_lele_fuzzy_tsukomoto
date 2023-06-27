@@ -227,8 +227,7 @@
 
 
     $predikat = calculateRules($luasKolam, $jumlahBibit, $jumlahPakan);
-    // var_dump($predikat);
-    // die;
+    
 
     function calculateZ($rules, $zMin = 0, $zMax = 100)
     {
@@ -250,6 +249,7 @@
 
         return $z;
     }
+
     $fungsiKeanggotaan = [
         'luasKolam' => [
             ['Kecil', [65, 85]],
@@ -264,38 +264,70 @@
             ['Banyak', [50, 69]],
         ],
     ];
+    
+
 
     function fuzzifikasi($variabel, $nilai, $fungsiKeanggotaan)
     {
         $predikat = [];
-
+    
         foreach ($fungsiKeanggotaan[$variabel] as $fungsi) {
             $namaFungsi = $fungsi[0];
             $parameter = $fungsi[1];
-
+    
             if ($nilai >= $parameter[0] && $nilai <= $parameter[1]) {
-                if ($namaFungsi == 'Sedikit' || $namaFungsi == 'Kecil') {
+                if ($namaFungsi == 'Kecil' || $namaFungsi == 'Sedikit') {
                     $alpha = ($parameter[1] - $nilai) / ($parameter[1] - $parameter[0]);
-                } elseif ($namaFungsi == 'Banyak' || $namaFungsi == "Besar") {
+                } elseif ($namaFungsi == 'Besar' || $namaFungsi == "Banyak") {
                     $alpha = ($nilai - $parameter[0]) / ($parameter[1] - $parameter[0]);
                 } else {
                     $alpha = 1;
                 }
-
-                $predikat[] = [$namaFungsi, $alpha];
+    
+                if ($alpha > 0) {
+                    $predikat[$namaFungsi] = $alpha;
+                }
             } else {
-                $predikat[] = [$namaFungsi, 0];
+                $predikat[$namaFungsi] = 0;
             }
         }
-
+$hasil_satu = [];
+        if($variabel == "luasKolam" ) {
+            if($predikat['Kecil'] >= 1) {
+                $hasil_satu = [
+                    'key'   =>  'Kecil',
+                    'value' =>  $predikat['Kecil']
+                ];
+            }
+        }
+        var_dump($hasil_satu);
+        die;
+    
         return $predikat;
     }
-
-    function inferensi($predikatLuasKolam, $predikatJumlahBibit, $predikatJumlahPakan)
-    {
-        // Implementasikan aturan-aturan logika fuzzy yang sesuai dengan sistem Anda
-        // Dalam contoh ini, kita menggunakan aturan sederhana dengan operator AND
     
+
+    
+$luasKolam = 50;
+$jumlahBibit = 180;
+$jumlahPakan = 80;
+
+$predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
+$predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
+$predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
+$predikatGabungan = array_merge(array_filter($predikatJumlahBibit));
+
+var_dump($predikatJumlahBibit);
+die;
+
+// if($predikatLuasKolam['Kecil'] == 1 && ) {
+//     $hasil_satu = "Sedikit";
+// } elseif($predikatJumlahBibit == )
+
+
+    function inferensi($luasKolam, $jumlahBibit, $jumlahPakan)
+    {
+        // Definisikan aturan-aturan logika fuzzy yang sesuai dengan sistem Anda
         $rules = [
             ['Kecil', 'Sedikit', 'Banyak', 'Rendah'],
             ['Kecil', 'Sedikit', 'Sedikit', 'Rendah'],
@@ -306,75 +338,71 @@
             ['Besar', 'Banyak', 'Sedikit', 'Rendah'],
             ['Besar', 'Banyak', 'Banyak', 'Tinggi'],
         ];
-    
+
         $hasilInferensi = [];
-    
+
         foreach ($rules as $rule) {
-            $luasKolam = $rule[0];
-            $jumlahBibit = $rule[1];
-            $jumlahPakan = $rule[2];
-            $hasil = $rule[3];
-            
-        
-            if (isset($predikatLuasKolam[$luasKolam]) && isset($predikatJumlahBibit[$jumlahBibit]) && isset($predikatJumlahPakan[$jumlahPakan])) {
-                $nilaiPredikat = min($predikatLuasKolam[$luasKolam], $predikatJumlahBibit[$jumlahBibit], $predikatJumlahPakan[$jumlahPakan]);
-        
-                if (!isset($hasilInferensi[$hasil])) {
-                    $hasilInferensi[$hasil] = $nilaiPredikat;
-                } else {
-                    $hasilInferensi[$hasil] = max($hasilInferensi[$hasil], $nilaiPredikat);
-                }
+            $luasKolamRule = $rule[0];
+            $jumlahBibitRule = $rule[1];
+            $jumlahPakanRule = $rule[2];
+            $hasilRule = $rule[3];
+
+            // Evaluasi kondisi pada aturan
+            if ($luasKolam == $luasKolamRule && $jumlahBibit == $jumlahBibitRule && $jumlahPakan == $jumlahPakanRule) {
+                // Jika kondisi terpenuhi, tambahkan hasil inferensi dengan nilai 1
+                $hasilInferensi[$hasilRule] = 1;
             }
         }
-    
+
         return $hasilInferensi;
     }
-    
-    // Contoh penggunaan:
-    $luasKolam = 80;
-    $jumlahBibit = 15000;
-    $jumlahPakan = 40;
-    
-    $predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
-    $predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
-    $predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
-    
-    $hasilInferensi = inferensi($predikatLuasKolam, $predikatJumlahBibit, $predikatJumlahPakan);
-    
-    // Tampilkan hasil inferensi
-    echo "Hasil Inferensi: ";
-    
-    function defuzzifikasi($hasilInferensi, $fungsiKeanggotaanOutput) {
-        $totalZ = 0;
-        $totalAlpha = 0;
-    
-        foreach ($hasilInferensi as $hasil => $alpha) {
-            $fungsi = $fungsiKeanggotaanOutput[$hasil];
-            $z = $fungsi[1]; // Nilai Z pada fungsi keanggotaan output
-    
-            $totalZ += $alpha * $z;
-            $totalAlpha += $alpha;
+
+    $luasKolam = "Kecil";
+    $jumlahBibit = 'Sedikit';
+    $jumlahPakan = 'Banyak';
+
+    $hasilInferensi = inferensi($luasKolam, $jumlahBibit, $jumlahPakan);
+    var_dump($hasilInferensi);
+
+
+
+    function defuzzifikasi($hasilInferensi, $aPredikat, $zPredikat)
+    {
+        $totalZA = 0;
+        $totalA = 0;
+
+        $jumlahPredikat = count($hasilInferensi);
+
+        for ($i = 0; $i < $jumlahPredikat; $i++) {
+            $hasil = $i + 1; // Menentukan hasil inferensi berdasarkan indeks
+
+            if (isset($hasilInferensi[$hasil])) {
+                $a = $hasilInferensi[$hasil];
+                $z = $zPredikat[$i];
+
+                $totalZA += ($a * $z);
+                $totalA += $a;
+            }
         }
-    
-        if ($totalAlpha == 0) {
-            return 0;
+
+        if ($totalA != 0) {
+            $hasilDefuzzifikasi = $totalZA / $totalA;
+        } else {
+            $hasilDefuzzifikasi = 0;
         }
-    
-        $hasilDefuzzifikasi = $totalZ / $totalAlpha;
+
         return $hasilDefuzzifikasi;
     }
-    
-    // Defuzzifikasi
-    $hasilDefuzzifikasi = defuzzifikasi($hasilInferensi, $fungsiKeanggotaanOutput);
-    
-    // Tampilkan hasil defuzzifikasi
-    // echo "Hasil Defuzzifikasi: " . $hasilDefuzzifikasi;
-    
+
+    // Contoh penggunaan:
 
 
+    $aPredikat = [0.2, 0.4, 0.6, 0.8];
+    $zPredikat = [1, 2, 3, 4];
 
-    // Menghitung nilai z menggunakan metode Tsukamoto
-    // $z = calculateZ($predikat);
-    // var_dump($z);
+    $aPredikatBaru = 0.5;
 
+    $hasilDefuzzifikasi = defuzzifikasi($hasilInferensi, $aPredikatBaru, $zPredikat);
+
+    echo "Hasil Defuzzifikasi: " . $hasilDefuzzifikasi;
     ?>
