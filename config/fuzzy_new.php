@@ -1,7 +1,7 @@
     <?php
-    $luasKolam = 90;
-    $jumlahBibit = 18000;
-    $jumlahPakan = 65;
+    // $luasKolam = 90;
+    // $jumlahBibit = 18000;
+    // $jumlahPakan = 65;
     // function keanggotaan 
     // function luasKolamMembership($luasKolam)
     // {
@@ -226,8 +226,8 @@
     }
 
 
-    $predikat = calculateRules($luasKolam, $jumlahBibit, $jumlahPakan);
-    
+    // $predikat = calculateRules($luasKolam, $jumlahBibit, $jumlahPakan);
+
 
     function calculateZ($rules, $zMin = 0, $zMax = 100)
     {
@@ -264,17 +264,21 @@
             ['Banyak', [50, 69]],
         ],
     ];
-    
+
+
+    $luasKolam = 90;
+    $jumlahBibit = 100;
+    $jumlahPakan = 80;
 
 
     function fuzzifikasi($variabel, $nilai, $fungsiKeanggotaan)
     {
         $predikat = [];
-    
+
         foreach ($fungsiKeanggotaan[$variabel] as $fungsi) {
             $namaFungsi = $fungsi[0];
             $parameter = $fungsi[1];
-    
+
             if ($nilai >= $parameter[0] && $nilai <= $parameter[1]) {
                 if ($namaFungsi == 'Kecil' || $namaFungsi == 'Sedikit') {
                     $alpha = ($parameter[1] - $nilai) / ($parameter[1] - $parameter[0]);
@@ -283,7 +287,7 @@
                 } else {
                     $alpha = 1;
                 }
-    
+
                 if ($alpha > 0) {
                     $predikat[$namaFungsi] = $alpha;
                 }
@@ -291,48 +295,45 @@
                 $predikat[$namaFungsi] = 0;
             }
         }
-// $hasil_satu = [];
-        if($variabel == "luasKolam" ) {
-            if($predikat['Kecil'] >= 1) {
-                $hasil_satu = [
-                    'key'   =>  'Kecil',
-                    'value' =>  $predikat['Kecil']
-                ];
-            } elseif($predikat['Besar'] >= 1) {
-                $hasil_satu = [
-                    'key'   =>  'Besar',
-                    'value' =>  $predikat['Besar']
-                ];
+        
+        $hasil_satu = [];
+        if ($variabel == "luasKolam") {
+            if ($predikat['Kecil'] <= 0.5) {
+                $hasil_satu[] = "Kecil";
+            } elseif ($predikat['Besar'] >= -0.5) {
+                $hasil_satu[] = "Besar";
             } else {
-                $hasil_satu = [
-                    'key'   =>  'Kecil',
-                    'value' =>  $predikat['Kecil']
-                ];  
+                $hasil_satu[] = "Kecil";
+            }
+        } elseif ($variabel == "jumlahBibit") {
+            if ($predikat['Sedikit'] <= 0.5) {
+                $hasil_satu[] = "Sedikit";
+            } elseif ($predikat['Banyak'] >= 0.5) {
+                $hasil_satu[] = "Banyak";
+            } else {
+                $hasil_satu[] = "Kecil";
             }
         }
-        var_dump($hasil_satu);
-        // die;
-    
+
+
+
+        // return $hasil_satu;
         return $predikat;
-    }die;
-    
+    }
 
-    
-$luasKolam = 90;
-$jumlahBibit = 1800;
-$jumlahPakan = 80;
 
-$predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
-$predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
-$predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
-$predikatGabungan = array_merge(array_filter($predikatJumlahBibit));
 
-var_dump($predikatJumlahBibit);
-die;
+    $predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
+    $predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
+    $predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
+    $predikatGabungan = array_merge(array_filter($predikatJumlahBibit));
 
-// if($predikatLuasKolam['Kecil'] == 1 && ) {
-//     $hasil_satu = "Sedikit";
-// } elseif($predikatJumlahBibit == )
+    var_dump($predikatLuasKolam);
+    die;
+
+    // if($predikatLuasKolam['Kecil'] == 1 && ) {
+    //     $hasil_satu = "Sedikit";
+    // } elseif($predikatJumlahBibit == )
 
 
     function inferensi($luasKolam, $jumlahBibit, $jumlahPakan)
