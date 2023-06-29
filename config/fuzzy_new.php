@@ -291,25 +291,35 @@
                 $predikat[$namaFungsi] = 0;
             }
         }
-$hasil_satu = [];
+// $hasil_satu = [];
         if($variabel == "luasKolam" ) {
             if($predikat['Kecil'] >= 1) {
                 $hasil_satu = [
                     'key'   =>  'Kecil',
                     'value' =>  $predikat['Kecil']
                 ];
+            } elseif($predikat['Besar'] >= 1) {
+                $hasil_satu = [
+                    'key'   =>  'Besar',
+                    'value' =>  $predikat['Besar']
+                ];
+            } else {
+                $hasil_satu = [
+                    'key'   =>  'Kecil',
+                    'value' =>  $predikat['Kecil']
+                ];  
             }
         }
         var_dump($hasil_satu);
-        die;
+        // die;
     
         return $predikat;
-    }
+    }die;
     
 
     
-$luasKolam = 50;
-$jumlahBibit = 180;
+$luasKolam = 90;
+$jumlahBibit = 1800;
 $jumlahPakan = 80;
 
 $predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
