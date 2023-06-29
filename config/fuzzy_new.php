@@ -266,7 +266,7 @@
     ];
 
 
-    $luasKolam = 90;
+    $luasKolam = 9;
     $jumlahBibit = 100;
     $jumlahPakan = 80;
 
@@ -295,25 +295,25 @@
                 $predikat[$namaFungsi] = 0;
             }
         }
-        
-        $hasil_satu = [];
-        if ($variabel == "luasKolam") {
-            if ($predikat['Kecil'] <= 0.5) {
-                $hasil_satu[] = "Kecil";
-            } elseif ($predikat['Besar'] >= -0.5) {
-                $hasil_satu[] = "Besar";
-            } else {
-                $hasil_satu[] = "Kecil";
+
+            $hasil_satu = [];
+            if ($variabel == "luasKolam") {
+                if ($predikat['Kecil'] <= 0) {
+                    $hasil_satu[] = "Kecil";
+                } elseif ($predikat['Besar'] >= -0.5) {
+                    $hasil_satu[] = "Besar";
+                } else {
+                    $hasil_satu[] = "Kecil";
+                }
+            } elseif ($variabel == "jumlahBibit") {
+                if ($predikat['Sedikit'] <= 0.5) {
+                    $hasil_satu[] = "Sedikit";
+                } elseif ($predikat['Banyak'] >= 0.5) {
+                    $hasil_satu[] = "Banyak";
+                } else {
+                    $hasil_satu[] = "Kecil";
+                }
             }
-        } elseif ($variabel == "jumlahBibit") {
-            if ($predikat['Sedikit'] <= 0.5) {
-                $hasil_satu[] = "Sedikit";
-            } elseif ($predikat['Banyak'] >= 0.5) {
-                $hasil_satu[] = "Banyak";
-            } else {
-                $hasil_satu[] = "Kecil";
-            }
-        }
 
 
 
