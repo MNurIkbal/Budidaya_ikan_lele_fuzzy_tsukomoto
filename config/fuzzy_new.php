@@ -278,7 +278,6 @@
         foreach ($fungsiKeanggotaan[$variabel] as $fungsi) {
             $namaFungsi = $fungsi[0];
             $parameter = $fungsi[1];
-
             if ($nilai >= $parameter[0] && $nilai <= $parameter[1]) {
                 if ($namaFungsi == 'Kecil' || $namaFungsi == 'Sedikit') {
                     $alpha = ($parameter[1] - $nilai) / ($parameter[1] - $parameter[0]);
@@ -287,7 +286,8 @@
                 } else {
                     $alpha = 1;
                 }
-
+                
+                var_dump($alpha);
                 if ($alpha > 0) {
                     $predikat[$namaFungsi] = $alpha;
                 }
@@ -295,25 +295,6 @@
                 $predikat[$namaFungsi] = 0;
             }
         }
-
-            $hasil_satu = [];
-            if ($variabel == "luasKolam") {
-                if ($predikat['Kecil'] <= 0) {
-                    $hasil_satu[] = "Kecil";
-                } elseif ($predikat['Besar'] >= -0.5) {
-                    $hasil_satu[] = "Besar";
-                } else {
-                    $hasil_satu[] = "Kecil";
-                }
-            } elseif ($variabel == "jumlahBibit") {
-                if ($predikat['Sedikit'] <= 0.5) {
-                    $hasil_satu[] = "Sedikit";
-                } elseif ($predikat['Banyak'] >= 0.5) {
-                    $hasil_satu[] = "Banyak";
-                } else {
-                    $hasil_satu[] = "Kecil";
-                }
-            }
 
 
 
@@ -327,14 +308,6 @@
     $predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
     $predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
     $predikatGabungan = array_merge(array_filter($predikatJumlahBibit));
-
-    var_dump($predikatLuasKolam);
-    die;
-
-    // if($predikatLuasKolam['Kecil'] == 1 && ) {
-    //     $hasil_satu = "Sedikit";
-    // } elseif($predikatJumlahBibit == )
-
 
     function inferensi($luasKolam, $jumlahBibit, $jumlahPakan)
     {
