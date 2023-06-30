@@ -266,9 +266,9 @@
     ];
 
 
-    $luasKolam = 9;
-    $jumlahBibit = 100;
-    $jumlahPakan = 80;
+    $luasKolam = 90;
+    $jumlahBibit = 18000;
+    $jumlahPakan = 58;
 
 
     function fuzzifikasi($variabel, $nilai, $fungsiKeanggotaan)
@@ -278,22 +278,21 @@
         foreach ($fungsiKeanggotaan[$variabel] as $fungsi) {
             $namaFungsi = $fungsi[0];
             $parameter = $fungsi[1];
-            if ($nilai >= $parameter[0] && $nilai <= $parameter[1]) {
-                if ($namaFungsi == 'Kecil' || $namaFungsi == 'Sedikit') {
-                    $alpha = ($parameter[1] - $nilai) / ($parameter[1] - $parameter[0]);
-                } elseif ($namaFungsi == 'Besar' || $namaFungsi == "Banyak") {
-                    $alpha = ($nilai - $parameter[0]) / ($parameter[1] - $parameter[0]);
-                } else {
-                    $alpha = 1;
-                }
-                
-
-                if ($alpha > 0) {
-                    $predikat[$namaFungsi] = $alpha;
-                }
+            
+            if ($namaFungsi == 'Kecil' || $namaFungsi == 'Sedikit') {
+                $alpha = ($parameter[1] - $nilai) / ($parameter[1] - $parameter[0]);
+            } elseif ($namaFungsi == 'Besar' || $namaFungsi == "Banyak") {
+                $alpha = ($nilai - $parameter[0]) / ($parameter[1] - $parameter[0]);
             } else {
-                $predikat[$namaFungsi] = 0;
+                $alpha = 1;
             }
+            if ($alpha > 0) {
+                $predikat[$namaFungsi] = $alpha;
+            }
+            // if ($nilai >= $parameter[0] && $nilai <= $parameter[1]) {
+            // } else {
+            //     $predikat[$namaFungsi] = 0;
+            // }
         }
 
         // return $hasil_satu;
@@ -306,10 +305,12 @@
     $predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
     $predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
     $predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
-    $predikatGabungan = array_merge(array_filter($predikatJumlahBibit));
-    var_dump($predikatLuasKolam);
-    die;
-
+    
+    $hasil_predikat_kloam = array_keys($predikatLuasKolam)[0];
+    $hasil_jumlah_bibit = array_keys($predikatJumlahBibit)[0];
+    $hasil_jumlah_pakan = array_keys($predikatJumlahPakan)[0];
+ 
+    
     function inferensi($luasKolam, $jumlahBibit, $jumlahPakan)
     {
         // Definisikan aturan-aturan logika fuzzy yang sesuai dengan sistem Anda
@@ -342,14 +343,8 @@
         return $hasilInferensi;
     }
 
-    $luasKolam = "Kecil";
-    $jumlahBibit = 'Sedikit';
-    $jumlahPakan = 'Banyak';
 
-    $hasilInferensi = inferensi($luasKolam, $jumlahBibit, $jumlahPakan);
-    
-
-
+    $hasilInferensi = inferensi($hasil_predikat_kloam, $hasil_jumlah_bibit, $hasil_jumlah_pakan);
 
     function defuzzifikasi($hasilInferensi, $aPredikat, $zPredikat)
     {
