@@ -287,7 +287,7 @@
                     $alpha = 1;
                 }
                 
-                var_dump($alpha);
+
                 if ($alpha > 0) {
                     $predikat[$namaFungsi] = $alpha;
                 }
@@ -296,11 +296,10 @@
             }
         }
 
-
-
         // return $hasil_satu;
         return $predikat;
     }
+
 
 
 
@@ -308,6 +307,8 @@
     $predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
     $predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
     $predikatGabungan = array_merge(array_filter($predikatJumlahBibit));
+    var_dump($predikatLuasKolam);
+    die;
 
     function inferensi($luasKolam, $jumlahBibit, $jumlahPakan)
     {
@@ -346,7 +347,7 @@
     $jumlahPakan = 'Banyak';
 
     $hasilInferensi = inferensi($luasKolam, $jumlahBibit, $jumlahPakan);
-    var_dump($hasilInferensi);
+    
 
 
 
