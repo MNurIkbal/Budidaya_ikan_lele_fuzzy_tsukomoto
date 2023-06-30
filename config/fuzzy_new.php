@@ -352,6 +352,7 @@
         $totalA = 0;
 
         $jumlahPredikat = count($hasilInferensi);
+        
 
         for ($i = 0; $i < $jumlahPredikat; $i++) {
             $hasil = $i + 1; // Menentukan hasil inferensi berdasarkan indeks
@@ -373,8 +374,6 @@
 
         return $hasilDefuzzifikasi;
     }
-
-    // Contoh penggunaan:
 
 
     $aPredikat = [0.2, 0.4, 0.6, 0.8];
