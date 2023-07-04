@@ -200,7 +200,7 @@
 					</div>
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title">Data Inferensi </h4>
+							<h4 class="card-title">Data Perhitungan </h4>
 						</div>
 						<div class="card-body">
 							<table class="table table-bordered table-hover">

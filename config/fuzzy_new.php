@@ -205,7 +205,6 @@
         // Rule 8: IF luas kolam besar AND jumlah bibit banyak AND jumlah pakan sedikit THEN hasil predikat adalah tinggi
         $predikat[] = min($membershipLuasKolam['Besar'], $membershipJumlahBibit['Banyak'], $membershipJumlahPakan['Sedikit']);
 
-
         return $predikat;
     }
 
@@ -266,9 +265,9 @@
     ];
 
 
-    $luasKolam = 90;
-    $jumlahBibit = 18000;
-    $jumlahPakan = 58;
+    // $luasKolam = 90;
+    // $jumlahBibit = 18000;
+    // $jumlahPakan = 58;
 
 
     function fuzzifikasi($variabel, $nilai, $fungsiKeanggotaan)
@@ -302,13 +301,13 @@
 
 
 
-    $predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
-    $predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
-    $predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
+    // $predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
+    // $predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
+    // $predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
     
-    $hasil_predikat_kloam = array_keys($predikatLuasKolam)[0];
-    $hasil_jumlah_bibit = array_keys($predikatJumlahBibit)[0];
-    $hasil_jumlah_pakan = array_keys($predikatJumlahPakan)[0];
+    // $hasil_predikat_kloam = array_keys($predikatLuasKolam)[0];
+    // $hasil_jumlah_bibit = array_keys($predikatJumlahBibit)[0];
+    // $hasil_jumlah_pakan = array_keys($predikatJumlahPakan)[0];
  
     
     function inferensi($luasKolam, $jumlahBibit, $jumlahPakan)
@@ -344,7 +343,8 @@
     }
 
 
-    $hasilInferensi = inferensi($hasil_predikat_kloam, $hasil_jumlah_bibit, $hasil_jumlah_pakan);
+    // $hasilInferensi = inferensi($hasil_predikat_kloam, $hasil_jumlah_bibit, $hasil_jumlah_pakan);
+    
 
     function defuzzifikasi($hasilInferensi, $aPredikat, $zPredikat)
     {
@@ -355,16 +355,16 @@
         
 
         for ($i = 0; $i < $jumlahPredikat; $i++) {
-            $hasil = $i + 1; // Menentukan hasil inferensi berdasarkan indeks
+            $hasil = $i + 1;
 
             if (isset($hasilInferensi[$hasil])) {
                 $a = $hasilInferensi[$hasil];
                 $z = $zPredikat[$i];
-
                 $totalZA += ($a * $z);
                 $totalA += $a;
             }
         }
+        
 
         if ($totalA != 0) {
             $hasilDefuzzifikasi = $totalZA / $totalA;
@@ -381,7 +381,8 @@
 
     $aPredikatBaru = 0.5;
 
-    $hasilDefuzzifikasi = defuzzifikasi($hasilInferensi, $aPredikatBaru, $zPredikat);
+    // $hasilDefuzzifikasi = defuzzifikasi($hasilInferensi, $aPredikat, $zPredikat);
+    // var_dump($hasilInferensi);
 
-    echo "Hasil Defuzzifikasi: " . $hasilDefuzzifikasi;
+    // echo "Hasil Defuzzifikasi: " . $hasilDefuzzifikasi;
     ?>
