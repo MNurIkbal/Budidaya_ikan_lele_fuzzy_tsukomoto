@@ -291,7 +291,7 @@
     $aPredikatBaru = 0.5;
 
     $hasilDefuzzifikasi = defuzzifikasi($hasilInferensi, $aPredikat, $zPredikat);
-    var_dump($hasilInferensi);
+    var_dump($hasilDefuzzifikasi);
 
-    // echo "Hasil Defuzzifikasi: " . $hasilDefuzzifikasi;
+    echo "Hasil Defuzzifikasi: " . $hasilDefuzzifikasi;
     ?>
