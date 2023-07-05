@@ -4,6 +4,7 @@
 				$idt = $_GET['id'];
 
 				$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE id_kategori = '$idt'");
+				$hasil_panen = mysqli_fetch_assoc($check);
 				$count = mysqli_num_rows($check);
 				if (!$count) {
 					echo "<script>
@@ -235,7 +236,18 @@
 									</tr>
 									<tr>
 										<td>Z</td>
-										<td colspan="8"><?= $fect_rules['nilai_z']; ?></td>
+										<td><?= $fect_rules['nilai_z_1']; ?></td>
+										<td><?= $fect_rules['nilai_z_2']; ?></td>
+										<td><?= $fect_rules['nilai_z_3']; ?></td>
+										<td><?= $fect_rules['nilai_z_4']; ?></td>
+										<td><?= $fect_rules['nilai_z_5']; ?></td>
+										<td><?= $fect_rules['nilai_z_6']; ?></td>
+										<td><?= $fect_rules['nilai_z_7']; ?></td>
+										<td><?= $fect_rules['nilai_z_8']; ?></td>
+									</tr>
+									<tr>
+										<td>Hasil Panen</td>
+										<td colspan="8"><?= $hasil_panen['hasil_panen']; ?></td>
 									</tr>
 								</tbody>
 							</table>

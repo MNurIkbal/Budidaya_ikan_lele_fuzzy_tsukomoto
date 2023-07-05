@@ -85,11 +85,7 @@
 															<td><?= number_format($tt['jumlah_bibit']); ?></td>
 															<td><?= number_format($tt['jumlah_pakan']); ?></td>
 															<td>
-																<?php if($tt['hasil_panen'] != null || $tt['hasil_panen']) : ?>
-																	<?php number_format($tt['hasil_panen']) ?>
-																	<?php else: ?>
-																		<span class="badge badge-pill bg-danger text-white">Belum Dihitung</span>
-																	<?php endif; ?>
+																<?= number_format($tt['hasil_panen']) ?>
 															</td>
 															<td>
 																<a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#pen<?= $tt['id_kategori'] ?>"><i class="fas fa-pen"></i></a>
@@ -144,7 +140,7 @@
 
 								</form>
 								<?php
-								include "../config/fuzzy_new.php";
+								include "../config/function_fuzzy.php";
 								if (isset($_POST['edit'])) {
 									$luas_kolam = $_POST['luas_kolam'];
 									$nama = $_POST['nama'];
@@ -153,32 +149,57 @@
 									$id = $_POST['id'];
 
 									$timestamp = date('Y-m-d H:i:s');
-									$logic_kolam = luasKolamMembership($luas_kolam);
-									$logic_jumlah_bibit = jumlahBibitMembership($jumlah_bibit);
-									$logic_jumlah_pakan = jumlahPakanMembership($jumlah_pakan);
+
+									// inisial function
+									$fuzzy = fuzzy($luas_kolam,$jumlah_bibit,$jumlah_pakan);
+									// function keanggotaan luas kolam
+									$fungsi_kolam_kecil = $fuzzy['attributes']['luas_kolam']['Kecil']['fuzzification'];
+									$fungsi_kolam_besar = $fuzzy['attributes']['luas_kolam']['Besar']['fuzzification'];
+
+									// function keanggotaan jumlah bibit
+									$fungsi_jumlah_bibit_sedikit = $fuzzy['attributes']['jumlah_bibit']['Sedikit']['fuzzification'];
+									$fungsi_jumlah_bibit_banyak = $fuzzy['attributes']['jumlah_bibit']['Banyak']['fuzzification'];
+
+									// function keanggotaan jumlah pakan
+									$fungsi_jumlah_pakan_sedikit = $fuzzy['attributes']['jumlah_pakan']['Sedikit']['fuzzification'];
+									$fungsi_jumlah_pakan_banyak = $fuzzy['attributes']['jumlah_pakan']['Banyak']['fuzzification'];
+									$hasil_panen = round($fuzzy['result']);
+
+									$rule_1 = $fuzzy['inference']['alpha_predicate'][0]; 
+									$rule_2 = $fuzzy['inference']['alpha_predicate'][1]; 
+									$rule_3 = $fuzzy['inference']['alpha_predicate'][2]; 
+									$rule_4 = $fuzzy['inference']['alpha_predicate'][3]; 
+									$rule_5 = $fuzzy['inference']['alpha_predicate'][4]; 
+									$rule_6 = $fuzzy['inference']['alpha_predicate'][5]; 
+									$rule_7 = $fuzzy['inference']['alpha_predicate'][6]; 
+									$rule_8 = $fuzzy['inference']['alpha_predicate'][7]; 
+
+									$nilai_1 = $fuzzy['inference']['z'][0]; 
+									$nilai_2 = $fuzzy['inference']['z'][1]; 
+									$nilai_3 = $fuzzy['inference']['z'][2]; 
+									$nilai_4 = $fuzzy['inference']['z'][3]; 
+									$nilai_5 = $fuzzy['inference']['z'][4]; 
+									$nilai_6 = $fuzzy['inference']['z'][5]; 
+									$nilai_7 = $fuzzy['inference']['z'][6]; 
+									$nilai_8 = $fuzzy['inference']['z'][7];
+									
 
 
 									$query = " UPDATE tbl_data_uji SET luas_kolam = '$luas_kolam',
 											jumlah_bibit = '$jumlah_bibit',
 											jumlah_pakan = '$jumlah_pakan',
-											nama_perhitungan = '$nama'
+											nama_perhitungan = '$nama',
+											hasil_panen = '$hasil_panen'
 											WHERE id_kategori = '$id' ";
 												$result = mysqli_query($koneksi, $query);
-									$kecil_kolam = $logic_kolam['Kecil'];
-									$besar_kolam = $logic_kolam['Besar'];
-
-									$sedikit_bibit = $logic_jumlah_bibit['Sedikit'];
-									$banyak_bibit = $logic_jumlah_bibit['Banyak'];
-
-									$sedikit_pakan = $logic_jumlah_pakan['Sedikit'];
-									$banyak_pakan = $logic_jumlah_pakan['Banyak'];
+									
 									$insert_anggota = "UPDATE variable_keanggotaan 
-											SET luas_kolam_sedikit = '$kecil_kolam',
-											luas_kolam_besar = '$besar_kolam',
-											jumlah_bibit_sedikit = '$sedikit_bibit',
-											jumlah_bibit_banyak = '$banyak_bibit',
-											jumlah_pakan_sedikit = '$sedikit_pakan',
-											jumlah_pakan_banyak = '$banyak_pakan',
+											SET luas_kolam_sedikit = '$fungsi_kolam_kecil',
+											luas_kolam_besar = '$fungsi_kolam_besar',
+											jumlah_bibit_sedikit = '$fungsi_jumlah_bibit_sedikit',
+											jumlah_bibit_banyak = '$fungsi_jumlah_bibit_banyak',
+											jumlah_pakan_sedikit = '$fungsi_jumlah_pakan_sedikit',
+											jumlah_pakan_banyak = '$fungsi_jumlah_bibit_banyak',
 											luas_kolam = '$luas_kolam',
 											jumlah_bibit = '$jumlah_bibit',
 											jumlah_pakan = '$jumlah_pakan'
@@ -187,44 +208,23 @@
 
 									mysqli_query($koneksi, $insert_anggota);
 
-									$result_cal = calculateRules($luas_kolam, $jumlah_bibit, $jumlah_pakan);
-									$cal_satu = $result_cal[0];
-									$cal_dua = $result_cal[1];
-									$cal_tiga = $result_cal[2];
-									$cal_empat = $result_cal[3];
-									$cal_lima = $result_cal[4];
-									$cal_enam = $result_cal[5];
-									$cal_tuju = $result_cal[6];
-									$cal_lapan = $result_cal[7];
-									// Definisi fungsi keanggotaan
-									$fungsiKeanggotaan = [
-										'luasKolam' => [
-											['Kecil', [65, 85]],
-											['Besar', [85, 112]],
-										],
-										'jumlahBibit' => [
-											['Sedikit', [10000, 17000]],
-											['Banyak', [17000, 23000]],
-										],
-										'jumlahPakan' => [
-											['Sedikit', [30, 50]],
-											['Banyak', [50, 69]],
-										],
-									];
-
-									$predikat_z = calculateRules($luas_kolam, $jumlah_bibit, $jumlah_pakan);
-									$nilai_z =  calculateZ($predikat_z);
-
 									$rulesr = "UPDATE rules SET 
-											role_satu = '$cal_satu',
-											role_dua = '$cal_dua',
-											role_tiga = '$cal_tiga',
-											role_empat = '$cal_empat',
-											role_lima = '$cal_lima',
-											role_enam	 = '$cal_enam',
-											role_tuju = '$cal_tuju',
-											role_delapan = '$cal_lapan',
-											nilai_z = '$nilai_z'
+											role_satu = '$rule_1',
+											role_dua = '$rule_2',
+											role_tiga = '$rule_3',
+											role_empat = '$rule_4',
+											role_lima = '$rule_5',
+											role_enam	 = '$rule_6',
+											role_tuju = '$rule_7',
+											role_delapan = '$rule_8',
+											nilai_z_1 = '$nilai_1',
+											nilai_z_2 = '$nilai_2',
+											nilai_z_3 = '$nilai_3',
+											nilai_z_4 = '$nilai_4',
+											nilai_z_5 = '$nilai_5',
+											nilai_z_6 = '$nilai_6',
+											nilai_z_7 = '$nilai_7',
+											nilai_z_8 = '$nilai_8',
 											WHERE tbl_uji_id = '$id'
 										";
 
@@ -247,33 +247,55 @@
 									$jumlah_pakan = $_POST['jumlah_pakan'];
 									$id = $_POST['id'];
 									$timestamp = date('Y-m-d H:i:s');
-									$logic_kolam = luasKolamMembership($luas_kolam);
-									$logic_jumlah_bibit = jumlahBibitMembership($jumlah_bibit);
-									$logic_jumlah_pakan = jumlahPakanMembership($jumlah_pakan);
 
-									$query = "INSERT INTO tbl_data_uji VALUES('','$luas_kolam','$jumlah_bibit','$jumlah_pakan','$id','$nama',null)";
+									// inisial function
+									$fuzzy = fuzzy($luas_kolam,$jumlah_bibit,$jumlah_pakan);
+									// function keanggotaan luas kolam
+									$fungsi_kolam_kecil = $fuzzy['attributes']['luas_kolam']['Kecil']['fuzzification'];
+									$fungsi_kolam_besar = $fuzzy['attributes']['luas_kolam']['Besar']['fuzzification'];
+
+									// function keanggotaan jumlah bibit
+									$fungsi_jumlah_bibit_sedikit = $fuzzy['attributes']['jumlah_bibit']['Sedikit']['fuzzification'];
+									$fungsi_jumlah_bibit_banyak = $fuzzy['attributes']['jumlah_bibit']['Banyak']['fuzzification'];
+
+									// function keanggotaan jumlah pakan
+									$fungsi_jumlah_pakan_sedikit = $fuzzy['attributes']['jumlah_pakan']['Sedikit']['fuzzification'];
+									$fungsi_jumlah_pakan_banyak = $fuzzy['attributes']['jumlah_pakan']['Banyak']['fuzzification'];
+									$hasil_panen = round($fuzzy['result']);
+
+									$rule_1 = $fuzzy['inference']['alpha_predicate'][0]; 
+									$rule_2 = $fuzzy['inference']['alpha_predicate'][1]; 
+									$rule_3 = $fuzzy['inference']['alpha_predicate'][2]; 
+									$rule_4 = $fuzzy['inference']['alpha_predicate'][3]; 
+									$rule_5 = $fuzzy['inference']['alpha_predicate'][4]; 
+									$rule_6 = $fuzzy['inference']['alpha_predicate'][5]; 
+									$rule_7 = $fuzzy['inference']['alpha_predicate'][6]; 
+									$rule_8 = $fuzzy['inference']['alpha_predicate'][7]; 
+
+									$nilai_1 = $fuzzy['inference']['z'][0]; 
+									$nilai_2 = $fuzzy['inference']['z'][1]; 
+									$nilai_3 = $fuzzy['inference']['z'][2]; 
+									$nilai_4 = $fuzzy['inference']['z'][3]; 
+									$nilai_5 = $fuzzy['inference']['z'][4]; 
+									$nilai_6 = $fuzzy['inference']['z'][5]; 
+									$nilai_7 = $fuzzy['inference']['z'][6]; 
+									$nilai_8 = $fuzzy['inference']['z'][7]; 
+
+									$query = "INSERT INTO tbl_data_uji VALUES('','$luas_kolam','$jumlah_bibit','$jumlah_pakan','$id','$nama',$hasil_panen)";
 									$result = mysqli_query($koneksi, $query);
-									$kecil_kolam = $logic_kolam['Kecil'];
-									$besar_kolam = $logic_kolam['Besar'];
-
-									$sedikit_bibit = $logic_jumlah_bibit['Sedikit'];
-									$banyak_bibit = $logic_jumlah_bibit['Banyak'];
 									
-									
-									$sedikit_pakan = $logic_jumlah_pakan['Sedikit'];
-									$banyak_pakan = $logic_jumlah_pakan['Banyak'];
 									$op = "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' ORDER BY id_kategori DESC";
 									$rs = mysqli_query($koneksi, $op);
 									$min = mysqli_fetch_assoc($rs);
 									$akhir_id = $min['id_kategori'];
 									
 									$insert_anggota = "INSERT INTO variable_keanggotaan VALUES('',
-											'$kecil_kolam',
-											'$besar_kolam',
-											'$sedikit_bibit',
-											'$banyak_bibit',
-											'$sedikit_pakan',
-											'$banyak_pakan',
+											'$fungsi_kolam_kecil',
+											'$fungsi_kolam_besar',
+											'$fungsi_jumlah_bibit_sedikit',
+											'$fungsi_jumlah_bibit_banyak',
+											'$fungsi_jumlah_pakan_sedikit',
+											'$fungsi_jumlah_pakan_banyak',
 											'$id',
 											'$luas_kolam',
 											'$jumlah_bibit',
@@ -282,53 +304,29 @@
 										)";
 									mysqli_query($koneksi, $insert_anggota);
 
-									$result_cal = calculateRules($luas_kolam, $jumlah_bibit, $jumlah_pakan);
-									$cal_satu = $result_cal[0];
-									$cal_dua = $result_cal[1];
-									$cal_tiga = $result_cal[2];
-									$cal_empat = $result_cal[3];
-									$cal_lima = $result_cal[4];
-									$cal_enam = $result_cal[5];
-									$cal_tuju = $result_cal[6];
-									$cal_lapan = $result_cal[7];
-									// Definisi fungsi keanggotaan
-									$fungsiKeanggotaan = [
-										'luasKolam' => [
-											['Kecil', [65, 85]],
-											['Besar', [85, 112]],
-										],
-										'jumlahBibit' => [
-											['Sedikit', [10000, 17000]],
-											['Banyak', [17000, 23000]],
-										],
-										'jumlahPakan' => [
-											['Sedikit', [30, 50]],
-											['Banyak', [50, 69]],
-										],
-									];
-
-									$predikat_z = calculateRules($luas_kolam, $jumlah_bibit, $jumlah_pakan);
-									$nilai_z =  calculateZ($predikat_z);
 
 									$rulesr = "INSERT INTO rules VALUES('',
 											'$id',
-											'$cal_satu',
-											'$cal_dua',
-											'$cal_tiga',
-											'$cal_empat',
-											'$cal_lima',
-											'$cal_enam',
-											'$cal_tuju',
-											'$cal_lapan',
-											'$nilai_z',
+											'$rule_1',
+											'$rule_2',
+											'$rule_3',
+											'$rule_4',
+											'$rule_5',
+											'$rule_6',
+											'$rule_7',
+											'$rule_8',
+											'$nilai_1',
+											'$nilai_2',
+											'$nilai_3',
+											'$nilai_4',
+											'$nilai_5',
+											'$nilai_6',
+											'$nilai_7',
+											'$nilai_8',
 											'$akhir_id'
 										)";
 
 									mysqli_query($koneksi, $rulesr);
-
-									
-
-
 
 									if ($result) {
 										echo "<script>alert('Data Berhasil Ditambah')</script>";
