@@ -1,0 +1,100 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "688d80453a27af4de510ba7343bfe7a3",
+    "packages": [
+        {
+            "name": "ifaqih/iffuzzy",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ifaqih/IFFuzzy.git",
+                "reference": "9b36bcbb9ff5ae446f64ca9d899a7d9ac8a6f62f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ifaqih/IFFuzzy/zipball/9b36bcbb9ff5ae446f64ca9d899a7d9ac8a6f62f",
+                "reference": "9b36bcbb9ff5ae446f64ca9d899a7d9ac8a6f62f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">= 8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "IFaqih\\AIMethods\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ifaqih",
+                    "email": "awah.if@gmail.com"
+                }
+            ],
+            "description": "Fuzzy Logic library for PHP based on the Mamdani, Sugeno or Tsukamoto methods.",
+            "support": {
+                "issues": "https://github.com/ifaqih/IFFuzzy/issues",
+                "source": "https://github.com/ifaqih/IFFuzzy/tree/1.0.0"
+            },
+            "time": "2023-02-04T06:50:08+00:00"
+        },
+        {
+            "name": "kematjaya/fuzzy-tsukamoto",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kematjaya0/fuzzy-tsukamoto.git",
+                "reference": "02441718986b043c85233921a06bbfef08ed6ea5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kematjaya0/fuzzy-tsukamoto/zipball/02441718986b043c85233921a06bbfef08ed6ea5",
+                "reference": "02441718986b043c85233921a06bbfef08ed6ea5",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.64",
+                "phpunit/phpunit": "^9.4",
+                "symfony/var-dumper": "^4.0|^5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Kematjaya\\FuzzyTsukamoto\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nur Hidayatullah",
+                    "email": "kematjaya0@gmail.com"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/kematjaya0/fuzzy-tsukamoto/issues",
+                "source": "https://github.com/kematjaya0/fuzzy-tsukamoto/tree/1.0"
+            },
+            "time": "2021-01-03T07:40:30+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": [],
+    "plugin-api-version": "2.3.0"
+}

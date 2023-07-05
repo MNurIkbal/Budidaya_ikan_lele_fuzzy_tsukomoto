@@ -1,129 +1,102 @@
-<?php
-include 'fungsi_keanggotaan.php';
+<?php 
+require_once '../vendor/autoload.php';
 
-function Fuzzy($x1, $x2, $x3, $x4) {
-	#Variabel kedisiplinan
-	//$x1 = @$_GET['kedisiplinan'];
-	$kedisiplinan_besar = tinggi($x1);
-	$kedisiplinan_sedang = sedang_($x1);
-	$kedisiplinan_kecil = kecil($x1);
+use IFaqih\AIMethods\Fuzzy as IFFuzzy;
 
-	#Variabel kejujuran
-	//$x2 = @$_GET['kejujuran'];
-	$kejujuran_besar = tinggi($x2);
-	$kejujuran_sedang = sedang_($x2);
-	$kejujuran_kecil = kecil($x2);
+$main = IFFuzzy::method(FUZZY_METHOD_TSUKAMOTO)
+    ->attribute("luas_kolam", [
+        'Kecil'    =>  [
+            'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
+            'domain'        =>  [65, 85]
+        ],
+        'Besar'    =>  [
+            'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_UP,
+            'domain'        =>  [85, 112]
+        ]
+    ])
+    ->attribute("jumlah_bibit", [
+        'Sedikit'    =>  [
+            'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
+            'domain'        =>  [10000, 17000]
+        ],
+        'Banyak'    =>  [
+            'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_UP,
+            'domain'        =>  [17000, 23000]
+        ]
+    ])
+    ->attribute("jumlah_pakan", [
+        'Sedikit'    =>  [
+            'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
+            'domain'        =>  [30, 50]
+        ],
+        'Banyak'    =>  [
+            'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_UP,
+            'domain'        =>  [50, 69]
+        ]
+    ])
+    ->rules(
+        ['rules'  =>  ["luas_kolam" => "Kecil", "jumlah_bibit" => "Sedikit", "jumlah_pakan" => "Sedikit"], 'result' => 'Rendah'],
+        ['rules'  =>  ["luas_kolam" => "Kecil", "jumlah_bibit" => "Sedikit", "jumlah_pakan" => "Banyak"], 'result' => 'Rendah'],
+        ['rules'  =>  ["luas_kolam" => "Kecil", "jumlah_bibit" => "Banyak", "jumlah_pakan" => "Sedikit"], 'result' => 'Rendah'],
+        ['rules'  =>  ["luas_kolam" => "Kecil", "jumlah_bibit" => "Banyak", "jumlah_pakan" => "Banyak"], 'result' => 'Rendah'],
+        ['rules'  =>  ["luas_kolam" => "Besar", "jumlah_bibit" => "Sedikit", "jumlah_pakan" => "Banyak"], 'result' => 'Rendah'],
+        ['rules'  =>  ["luas_kolam" => "Besar", "jumlah_bibit" => "Sedikit", "jumlah_pakan" => "Sedikit"], 'result' => 'Rendah'],
+        ['rules'  =>  ["luas_kolam" => "Besar", "jumlah_bibit" => "Banyak", "jumlah_pakan" => "Banyak"], 'result' => 'Rendah'],
+        ['rules'  =>  ["luas_kolam" => "Besar", "jumlah_bibit" => "Banyak", "jumlah_pakan" => "Sedikit"], 'result' => 'Tinggi']
+    )
+    
+    ->set_values([
+        'luas_kolam' =>  50,
+        'jumlah_bibit' =>  58,
+        'jumlah_pakan'  =>  292
+    ])
+    ->execute();
+var_dump($main);
 
-	#Variabel kepemimpinan
-	//$x3 = @$_GET['kepemimpinan'];
-	$kepemimpinan_besar = tinggi($x3);
-	$kepemimpinan_sedang = sedang_($x3);
-	$kepemimpinan_kecil = kecil($x3);
+//     // ganti program ini untuk variable luas kolam dengan himpunan kecil[65, 85] dan himpunan besar[85, 112],variable jumlah bibit dengan himpunan sedikit [10000, 17000] dan himpunan banyak[17000, 23000],variable jumlah pakan dengan himpunan sedikit[30, 50] dan himpunan banyak[30, 50].beserta rule nya diganti menjadi  Rule 1: IF luas kolam kecil AND jumlah bibit sedikit AND jumlah pakan sedikit THEN hasil predikat adalah rendah  Rule 2: IF luas kolam kecil AND jumlah bibit sedikit AND jumlah pakan banyak THEN hasil predikat adalah rendah  Rule 3: IF luas kolam kecil AND jumlah bibit banyak AND jumlah pakan sedikit THEN hasil predikat adalah rendah  Rule 4: IF luas kolam kecil AND jumlah bibit banyak AND jumlah pakan banyak THEN hasil predikat adalah rendah  Rule 5: IF luas kolam besar AND jumlah bibit sedikit AND jumlah pakan banyak THEN hasil predikat adalah rendah  Rule 6: IF luas kolam besar AND jumlah bibit sedikit AND jumlah pakan sedikit THEN hasil predikat adalah rendah  Rule 7: IF luas kolam besar AND jumlah bibit banyak AND jumlah pakan banyak THEN hasil predikat adalah rendah  Rule 8: IF luas kolam besar AND jumlah bibit banyak AND jumlah pakan sedikit THEN hasil predikat adalah tinggi
 
-	#Variabel kerjasama
-	//$x4 = @$_GET['kerjasama'];
-	$kerjasama_besar = tinggi($x4);
-	$kerjasama_sedang = sedang_($x4);
-	$kerjasama_kecil = kecil($x4);
-
-	#Output Kinerja:
-
-	$rule = array();
-	$z = array();
-	#IF Kedisiplinan KECIL AND Kejujuran KECIL THEN Kinerja : Sangat Buruk
-	$rule[0] = min($kedisiplinan_kecil, $kejujuran_kecil);
-	$z[0] = sangatBuruk($rule[0]);
-
-	#IF Kedisiplinan KECIL AND Kejujuran SEDANG THEN Kinerja : Buruk
-	$rule[1] = min($kedisiplinan_kecil, $kejujuran_sedang);
-	$z[1] = Buruk($rule[1]);
-
-	#IF Kedisiplinan KECIL AND Kejujuran TINGGI THEN Kinerja : sedang
-	$rule[2] = min($kedisiplinan_kecil, $kejujuran_besar);
-	$z[2] = Sedang($rule[2]);
-
-	#IF Kedisiplinan SEDANG AND Kejujuran KECIL THEN Kinerja : Buruk
-	$rule[3] = min($kedisiplinan_sedang, $kejujuran_kecil);
-	$z[3] = Buruk($rule[3]);
-
-	#IF Kedisiplinan SEDANG AND Kejujuran SEDANG THEN Kinerja : sedang
-	$rule[4] = min($kedisiplinan_sedang, $kejujuran_sedang);
-	$z[4] = Sedang($rule[4]);
-
-	#IF Kedisiplinan SEDANG AND Kejujuran TINGGI THEN Kinerja : Baik
-	$rule[5] = min($kedisiplinan_sedang, $kejujuran_besar);
-	$z[5] = Baik($rule[5]);
-
-	#IF Kedisiplinan TINGGI  Kejujuran KECIL THEN Kinerja : Buruk
-	$rule[6] = min($kedisiplinan_besar, $kejujuran_kecil);
-	$z[6] = Buruk($rule[6]);
-
-	#IF Kedisiplinan TINGGI AND Kejujuran SEDANG THEN Kinerja : Baik
-	$rule[7] = min($kedisiplinan_besar, $kejujuran_sedang);
-	$z[7] = Baik($rule[7]);
-
-	#IF Kedisiplinan TINGGI AND Kejujuran TINGGI THEN Kinerja : Sangat Baik 
-	$rule[8] = min($kedisiplinan_besar, $kejujuran_besar);
-	$z[8] = sangatBaik($rule[8]);
-
-	#IF Kepemimpinan KECIL AND Kerjasama KECIL THEN Kenirja : Sangat Buruk
-	$rule[9] = min($kepemimpinan_kecil, $kerjasama_kecil);
-	$z[9] = sangatBuruk($rule[9]);
-
-	#IF Kepemimpinan KECIL AND Kerjasama SEDANG THEN Kenirja : Buruk
-	$rule[10] = min($kepemimpinan_kecil, $kerjasama_sedang);
-	$z[10] = Buruk($rule[10]);
-
-	#IF Kepemimpinan KECIL AND Kerjasama TINGGI THEN Kenirja : sedang
-	$rule[11] = min($kepemimpinan_kecil, $kerjasama_besar);
-	$z[11] = Sedang($rule[11]);
-
-	#IF Kepemimpinan SEDANG AND Kerjasama KECIL THEN Kenirja : Buruk
-	$rule[12] = min($kepemimpinan_sedang, $kerjasama_kecil);
-	$z[12] = Buruk($rule[12]);
-
-	#IF Kepemimpinan SEDANG AND Kerjasama SEDANG THEN Kenirja : sedang
-	$rule[13] = min($kepemimpinan_sedang, $kerjasama_sedang);
-	$z[13] = Sedang($rule[13]);
-
-	#IF Kepemimpinan SEDANG AND Kerjasama TINGGI THEN Kenirja : Baik
-	$rule[14] = min($kepemimpinan_sedang, $kerjasama_besar);
-	$z[14] = Baik($rule[14]);
-
-	#IF Kepemimpinan TINGGI AND Kerjasama KECIL THEN Kenirja : Buruk
-	$rule[15] = min($kepemimpinan_besar, $kerjasama_kecil);
-	$z[15] = Buruk($rule[15]);
-
-	#IF Kepemimpinan TINGGI AND Kerjasama SEDANG THEN Kenirja : Baik
-	$rule[16] = min($kepemimpinan_besar, $kerjasama_sedang);
-	$z[16] = Baik($rule[16]);
-
-	#IF Kepemimpinan TINGGI AND Kerjasama TINGGI THEN Kenirja : Sangat Baik
-	$rule[17] = min($kepemimpinan_besar, $kerjasama_besar);
-	$z[17] = sangatBaik($rule[17]);
-
-	$a = 0;
-	$b = 0;
-	for ($i = 0; $i<18; $i++) {
-		/* echo "Rule $i: ".$rule[$i]."<br>";
-		echo "Z $i: ".$z[$i]."<br>"; */
-		$a += $z[$i];
-		$b += $rule[$i];
-	}
-	return (($a/$b));
-}
-
-function kinerja($x) {
-	if($x < 20 and $x > 0)
-		echo "<center><legend class=\"btn-rounded btn-danger btn-lg\">Sangat Buruk</legend></center>";
-	else if ($x < 40 and $x > 20)
-		echo "<center><legend class=\"btn-rounded btn-warning btn-lg\">Buruk</legend></center>";
-	else if ($x < 60 and $x > 40)
-		echo "<center><legend class=\"btn-rounded btn-info btn-lg\">Normal</legend></center>";
-	else if ($x < 80 and $x > 60)
-		echo "<center><legend class=\"btn-rounded btn-primary btn-lg\">Baik</legend></center>";
-	else
-		echo "<center><legend class=\"btn-rounded btn-success btn-lg\">Sangat Baik</legend></center>";
-}
-
-?>
+// $va = IFFuzzy::method(FUZZY_METHOD_TSUKAMOTO)
+//     ->attributes(
+//         [
+//             "luas_kolam" =>  [
+//                 'kecil'   =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
+//                 'besar'    =>  FUZZY_MEMBERSHIP_LINEAR_UP
+//             ],
+//             [65, 112]
+//         ],
+//         [
+//             "jumlah_bibit" => [
+//                 'sedikit'    =>  [
+//                     'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
+//                     'domain'        =>  [10000, 17000]
+//                 ],
+//                 'banyak'    =>  [
+//                     'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_UP,
+//                     'domain'        =>  [17000, 23000]
+//                 ]
+//             ]
+//         ],
+//         [
+//             "jumlah_pakan" =>  [
+//                 'sedikit'    =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
+//                 'banyak'     =>  FUZZY_MEMBERSHIP_LINEAR_UP
+//             ],
+//             [30, 50]
+//         ]
+//     )
+//     ->rules(
+//         ['rules'  =>  ["luas_kolam" => "kecil", "jumlah_bibit" => "sedikit", "jumlah_pakan" => "sedikit"], 'result' => 'rendah'],
+//         ['rules'  =>  ["luas_kolam" => "kecil", "jumlah_bibit" => "sedikit", "jumlah_pakan" => "banyak"], 'result' => 'rendah'],
+//         ['rules'  =>  ["luas_kolam" => "kecil", "jumlah_bibit" => "banyak", "jumlah_pakan" => "sedikit"], 'result' => 'rendah'],
+//         ['rules'  =>  ["luas_kolam" => "kecil", "jumlah_bibit" => "banyak", "jumlah_pakan" => "banyak"], 'result' => 'rendah'],
+//         ['rules'  =>  ["luas_kolam" => "besar", "jumlah_bibit" => "sedikit", "jumlah_pakan" => "banyak"], 'result' => 'rendah'],
+//         ['rules'  =>  ["luas_kolam" => "besar", "jumlah_bibit" => "sedikit", "jumlah_pakan" => "sedikit"], 'result' => 'rendah'],
+//         ['rules'  =>  ["luas_kolam" => "besar", "jumlah_bibit" => "banyak", "jumlah_pakan" => "banyak"], 'result' => 'rendah'],
+//         ['rules'  =>  ["luas_kolam" => "besar", "jumlah_bibit" => "banyak", "jumlah_pakan" => "sedikit"], 'result' => 'tinggi']
+//     )
+//     ->set_values([
+//         'luas_kolam' => 100,
+//         'jumlah_bibit' => 102,
+//         'jumlah_pakan' => 102
+//     ])
+//     ->execute();

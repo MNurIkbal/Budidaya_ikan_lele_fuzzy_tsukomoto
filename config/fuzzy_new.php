@@ -252,26 +252,6 @@
 
     $hasilInferensi = inferensi($hasil_predikat_kloam, $hasil_jumlah_bibit, $hasil_jumlah_pakan);
 
-    function predikat($luasKolam, $jumlahBibit, $jumlahPakan, $zmax, $z7, $zmin)
-    {
-        $predikat7 = ($zmax - $z7) / ($zmax - $zmin) * ($luasKolam - $jumlahBibit) + $jumlahPakan;
-        $predikat7 = max($predikat7, 3);
-
-        return $predikat7;
-    }
-
-    // Contoh penggunaan fungsi
-    $luasKolam = 90;
-    $jumlahBibit = 18000;
-    $jumlahPakan = 90;
-    $zmax = 100;
-    $z7 = 5;
-    $zmin = 0;
-
-    $hasilPredikat7 = predikat($luasKolam, $jumlahBibit, $jumlahPakan, $zmax, $z7, $zmin);
-
-    echo "Hasil Predikat7: " . $hasilPredikat7;
-    die;
 
     function defuzzifikasi($hasilInferensi, $aPredikat, $zPredikat)
     {

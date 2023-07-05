@@ -1,0 +1,19 @@
+{
+    "name": "user/fuzzy_pegawai",
+    "autoload": {
+        "psr-4": {
+            "User\\FuzzyPegawai\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "MNurIkbal",
+            "email": "ikbalmnur17@gmail.com"
+        }
+    ],
+    "require": {
+        "kematjaya/fuzzy-tsukamoto": "^1.0",
+        "ifaqih/iffuzzy": "^1.0"
+    }
+
+}
