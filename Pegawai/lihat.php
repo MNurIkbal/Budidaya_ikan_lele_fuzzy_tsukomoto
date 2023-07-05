@@ -6,7 +6,7 @@ $id_pegawai = $_SESSION['id_pegawai'];
 				if (!$count) {
 					echo "<script>
 					alert('Data Masih Kosong');
-					window.location.href = 'index.php?page=NilaiPegawai';
+					window.location.href = 'index.php?page=Kosong';
 					</script>";
 					exit;
 				}

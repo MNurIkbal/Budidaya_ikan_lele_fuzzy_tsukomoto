@@ -1,36 +1,11 @@
     <?php
-    // $luasKolam = 90;
-    // $jumlahBibit = 18000;
-    // $jumlahPakan = 65;
+    $luasKolam = 90;
+    $jumlahBibit = 18000;
+    $jumlahPakan = 90;
     // function keanggotaan 
-    // function luasKolamMembership($luasKolam)
-    // {
-    //     $membership = [];
-
-    //     // Himpunan fuzzy "kecil"
-    //     if ($luasKolam < 65) {
-    //         $membership['Kecil'] = 1;
-    //         $membership['Besar'] = 0;
-    //     } elseif ($luasKolam >= 65 && $luasKolam <= 85) {
-    //         $membership['Kecil'] = (112 - $luasKolam) / (112 - 65);
-    //         $membership['Besar'] = 0;
-    //     }
-
-    //     // Himpunan fuzzy "besar"
-    //     elseif ($luasKolam >= 85 && $luasKolam <= 112) {
-    //         $membership['Besar'] = ($luasKolam - 65) / (112 - 65);
-    //         $membership['Kecil'] = 0;
-    //     } else {
-    //         $membership['Besar'] = 1;
-    //         $membership['Kecil'] = 0;
-    //     }
-
-    //     return $membership;
-    // }
     function luasKolamMembership($luasKolam)
     {
         $membership = [];
-
         // Himpunan fuzzy "kecil"
         if ($luasKolam < 65) {
             $membership['Kecil'] = 1;
@@ -40,7 +15,7 @@
             $membership['Besar'] = 0;
         } else {
             $membership['Kecil'] = 0;
-            $membership['Besar'] = 0; // Set nilai menjadi 0 jika tidak memenuhi kondisi
+            $membership['Besar'] = 0; 
         }
 
         // Himpunan fuzzy "besar"
@@ -51,36 +26,9 @@
             $membership['Besar'] = 1;
             $membership['Kecil'] = 0;
         }
-
         return $membership;
     }
 
-
-
-    // function jumlahBibitMembership($jumlahBibit)
-    // {
-    //     $membership = [];
-
-    //     // Himpunan fuzzy "sedikit"
-    //     if ($jumlahBibit < 10000) {
-    //         $membership['Sedikit'] = 1;
-    //         $membership['Banyak'] = 0;
-    //     } elseif ($jumlahBibit >= 10000 && $jumlahBibit <= 17000) {
-    //         $membership['Sedikit'] = (23000 - $jumlahBibit) / (23000 - 10000);
-    //         $membership['Banyak'] = 0;
-    //     }
-
-    //     // Himpunan fuzzy "banyak"
-    //     elseif ($jumlahBibit > 17000 && $jumlahBibit <= 23000) {
-    //         $membership['Banyak'] = ($jumlahBibit - 10000) / (23000 - 10000);
-    //         $membership['Sedikit'] = 0;
-    //     } else {
-    //         $membership['Banyak'] = 1;
-    //         $membership['Sedikit'] = 0;
-    //     }
-
-    //     return $membership;
-    // }
 
     function jumlahBibitMembership($jumlahBibit)
     {
@@ -95,7 +43,7 @@
             $membership['Banyak'] = 0;
         } else {
             $membership['Sedikit'] = 0;
-            $membership['Banyak'] = 0; // Set nilai menjadi 0 jika tidak memenuhi kondisi
+            $membership['Banyak'] = 0; 
         }
 
         // Himpunan fuzzy "banyak"
@@ -125,7 +73,7 @@
             $membership['Banyak'] = 0;
         } else {
             $membership['Sedikit'] = 0;
-            $membership['Banyak'] = 0; // Set nilai menjadi 0 jika tidak memenuhi kondisi
+            $membership['Banyak'] = 0; 
         }
 
         // Himpunan fuzzy "banyak"
@@ -139,37 +87,6 @@
 
         return $membership;
     }
-
-
-    // function jumlahPakanMembership($jumlahPakan)
-    // {
-    //     $membership = [];
-
-    //     // Himpunan fuzzy "sedikit"
-    //     if ($jumlahPakan < 30) {
-    //         $membership['Sedikit'] = 1;
-    //         $membership['Banyak'] = 0;
-    //     } elseif ($jumlahPakan >= 30 && $jumlahPakan <= 50) {
-    //         $membership['Sedikit'] = (69 - $jumlahPakan) / (69 - 30);
-    //         $membership['Banyak'] = 0;
-    //     }
-
-    //     // Himpunan fuzzy "banyak"
-    //     elseif ($jumlahPakan > 50 && $jumlahPakan <= 69) {
-    //         $membership['Sedikit'] = 0;
-    //         $membership['Banyak'] = ($jumlahPakan - 30) / (69 - 30);
-    //     } else {
-    //         $membership['Banyak'] = 1;
-    //         $membership['Sedikit'] = 0;
-    //     }
-
-    //     return $membership;
-    // }
-
-
-
-
-
 
     function calculateRules($luasKolam, $jumlahBibit, $jumlahPakan)
     {
@@ -226,6 +143,7 @@
 
 
     // $predikat = calculateRules($luasKolam, $jumlahBibit, $jumlahPakan);
+    
 
 
     function calculateZ($rules, $zMin = 0, $zMax = 100)
@@ -264,12 +182,6 @@
         ],
     ];
 
-
-    // $luasKolam = 90;
-    // $jumlahBibit = 18000;
-    // $jumlahPakan = 58;
-
-
     function fuzzifikasi($variabel, $nilai, $fungsiKeanggotaan)
     {
         $predikat = [];
@@ -288,10 +200,7 @@
             if ($alpha > 0) {
                 $predikat[$namaFungsi] = $alpha;
             }
-            // if ($nilai >= $parameter[0] && $nilai <= $parameter[1]) {
-            // } else {
-            //     $predikat[$namaFungsi] = 0;
-            // }
+            
         }
 
         // return $hasil_satu;
@@ -301,14 +210,13 @@
 
 
 
-    // $predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
-    // $predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
-    // $predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
+    $predikatLuasKolam = fuzzifikasi('luasKolam', $luasKolam, $fungsiKeanggotaan);
+    $predikatJumlahBibit = fuzzifikasi('jumlahBibit', $jumlahBibit, $fungsiKeanggotaan);
+    $predikatJumlahPakan = fuzzifikasi('jumlahPakan', $jumlahPakan, $fungsiKeanggotaan);
     
-    // $hasil_predikat_kloam = array_keys($predikatLuasKolam)[0];
-    // $hasil_jumlah_bibit = array_keys($predikatJumlahBibit)[0];
-    // $hasil_jumlah_pakan = array_keys($predikatJumlahPakan)[0];
- 
+    $hasil_predikat_kloam = array_keys($predikatLuasKolam)[0];
+    $hasil_jumlah_bibit = array_keys($predikatJumlahBibit)[0];
+    $hasil_jumlah_pakan = array_keys($predikatJumlahPakan)[0];
     
     function inferensi($luasKolam, $jumlahBibit, $jumlahPakan)
     {
@@ -343,7 +251,8 @@
     }
 
 
-    // $hasilInferensi = inferensi($hasil_predikat_kloam, $hasil_jumlah_bibit, $hasil_jumlah_pakan);
+    $hasilInferensi = inferensi($hasil_predikat_kloam, $hasil_jumlah_bibit, $hasil_jumlah_pakan);
+    
     
 
     function defuzzifikasi($hasilInferensi, $aPredikat, $zPredikat)
@@ -381,8 +290,8 @@
 
     $aPredikatBaru = 0.5;
 
-    // $hasilDefuzzifikasi = defuzzifikasi($hasilInferensi, $aPredikat, $zPredikat);
-    // var_dump($hasilInferensi);
+    $hasilDefuzzifikasi = defuzzifikasi($hasilInferensi, $aPredikat, $zPredikat);
+    var_dump($hasilInferensi);
 
     // echo "Hasil Defuzzifikasi: " . $hasilDefuzzifikasi;
     ?>
