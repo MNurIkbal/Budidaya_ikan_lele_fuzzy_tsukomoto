@@ -1,7 +1,9 @@
 				<?php
 				// include '../config/koneksi.php';
+				$id_pegawai = $_GET['pegawai'];
+				$idt = $_GET['id'];
 
-				$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id_pegawai'");
+				$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE id_kategori = '$idt'");
 				$count = mysqli_num_rows($check);
 				if (!$count) {
 					echo "<script>
@@ -12,15 +14,17 @@
 				}
 
 
-				$result = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji INNER JOIN pegawai ON tbl_data_uji.pegawai_id = pegawai.id_pegawai WHERE tbl_data_uji.pegawai_id = '$id_pegawai' ORDER by id_kategori DESC");
-				$anggota_luas_kolam = mysqli_query($koneksi, "SELECT * FROM variable_keanggotaan INNER JOIN pegawai ON variable_keanggotaan.pegawai_id = pegawai.id_pegawai WHERE pegawai_id = '$id_pegawai'");
+				$result = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji INNER JOIN pegawai ON tbl_data_uji.pegawai_id = pegawai.id_pegawai WHERE tbl_data_uji.pegawai_id = '$id_pegawai' AND tbl_data_uji.id_kategori = '$idt' ORDER by id_kategori DESC");
+				$anggota_luas_kolam = mysqli_query($koneksi, "SELECT * FROM variable_keanggotaan INNER JOIN pegawai ON variable_keanggotaan.pegawai_id = pegawai.id_pegawai WHERE pegawai_id = '$id_pegawai' AND variable_keanggotaan.	tbl_uji_id = '$idt'");
 				$res = mysqli_fetch_assoc($anggota_luas_kolam);
+				
 				$pagwai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai'");
 				$rty = mysqli_fetch_assoc($pagwai);
 
-				$rules = mysqli_query($koneksi, "SELECT * FROM rules WHERE pegawai_id = '$id_pegawai'");
+				$rules = mysqli_query($koneksi, "SELECT * FROM rules WHERE pegawai_id = '$id_pegawai' AND tbl_uji_id = '$idt'");
 				$fect_rules = mysqli_fetch_assoc($rules);
 				?>
+
 
 				<div class="container-fluid">
 					<h4 class="page-title">Hasil</h4>
@@ -54,7 +58,7 @@
 							</table>
 						</div>
 					</div>
-					<div class="card">
+					<div class="card mt-3">
 						<div class="card-header">
 							<h4 class="card-title">Data Keanggotaan Variable Luas Kolam</h4>
 						</div>
@@ -87,7 +91,7 @@
 							</table>
 						</div>
 					</div>
-					<div class="card">
+					<div class="card mt-3">
 						<div class="card-header">
 							<h4 class="card-title">Data Keanggotaan Variable Jumlah Bibit</h4>
 						</div>
@@ -120,7 +124,7 @@
 							</table>
 						</div>
 					</div>
-					<div class="card">
+					<div class="card mt-3">
 						<div class="card-header">
 							<h4 class="card-title">Data Keanggotaan Variable Jumlah Pakan</h4>
 						</div>
@@ -153,7 +157,7 @@
 							</table>
 						</div>
 					</div>
-					<div class="card">
+					<div class="card mt-3">
 						<div class="card-header">
 							<h4 class="card-title">Data Rules</h4>
 						</div>
@@ -198,7 +202,7 @@
 							</table>
 						</div>
 					</div>
-					<div class="card">
+					<div class="card mt-3">
 						<div class="card-header">
 							<h4 class="card-title">Data Perhitungan </h4>
 						</div>

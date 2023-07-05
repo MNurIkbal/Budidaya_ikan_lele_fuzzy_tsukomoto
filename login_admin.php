@@ -7,7 +7,7 @@ include 'config/koneksi.php';
 <html>
 <head>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-	<title>Sistem Penilaian Kinerja Pegawai</title>
+	<title>SISTEM MANAJEMEN BUDIDAYA IKAN LEL MENGGUNAKAN FUZZY TSUKAMOTO</title>
 	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
 	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i">
@@ -26,7 +26,7 @@ include 'config/koneksi.php';
 							<div class="card">
 								<form method="POST" action="">
 									<div class="card-header">
-										<h4 class="card-title">Admin Login</h4>
+										<h4 class="card-title text-center">Admin Login</h4>
 									</div>
 									<div class="card-body">
 										<p>Username</p>
@@ -46,7 +46,7 @@ include 'config/koneksi.php';
 									$password = $koneksi->real_escape_string(@$_POST['password']); //md5($_POST['password']."IniSALTNYAYAAA");
 									$result = $koneksi->query("SELECT * FROM admin WHERE username = '$username' AND password = '$password'")->num_rows;
 									$data = $koneksi->query("SELECT * FROM admin WHERE username = '$username' AND password = '$password'")->fetch_array();
-									if($result > 0) {
+									if($result > 0) {		
 										$_SESSION['id_admin'] = $data['id'];
 										$_SESSION['username'] = $data['username'];
 										$_SESSION['status'] = 'Aktif';

@@ -1,5 +1,5 @@
 				<div class = "container-fluid">
-					<h4 class = "page-title">Profil</h4>
+					
 					<div class="row">
 						<div class="col-md-12">
 							<div class="card">
