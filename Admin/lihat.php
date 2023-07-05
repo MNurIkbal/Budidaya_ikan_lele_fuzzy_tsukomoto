@@ -29,7 +29,7 @@
 				<div class="container-fluid">
 					<h4 class="page-title">Hasil</h4>
 					<h4 class="page-title">Nama : <?= $rty['nm_pegawai']; ?></h4>
-					<a href="?page=NilaiPegawai" class="btn btn-warning btn-sm">Kembali</a>
+					<a href="?page=NilaiKinerja&id=<?= $id_pegawai ?>" class="btn btn-warning btn-sm">Kembali</a>
 					<br>
 					<br>	
 					<div class="card">
@@ -116,8 +116,8 @@
 								</tr>
 								<tr>
 									<td>1</td>
-									<td><?= $res['jumlah_bibit']; ?></td>
 									<td><?= $res['nm_pegawai']; ?></td>
+									<td><?= $res['jumlah_bibit']; ?></td>
 									<td><?= $res['jumlah_bibit_sedikit']; ?></td>
 									<td><?= $res['jumlah_bibit_banyak']; ?></td>
 								</tr>
@@ -149,8 +149,8 @@
 								</tr>
 								<tr>
 									<td>1</td>
-									<td><?= $res['jumlah_bibit']; ?></td>
 									<td><?= $res['nm_pegawai']; ?></td>
+									<td><?= $res['jumlah_bibit']; ?></td>
 									<td><?= $res['jumlah_pakan_sedikit']; ?></td>
 									<td><?= $res['jumlah_pakan_banyak']; ?></td>
 								</tr>
