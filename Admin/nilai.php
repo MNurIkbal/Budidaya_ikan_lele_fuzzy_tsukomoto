@@ -57,6 +57,7 @@
 											</div>
 										</div>
 										<a href="?page=NilaiPegawai" class="btn btn-warning btn-rounded mr-2		">Kembali</a>
+										<a href="print.php?pegawai=<?= $id_pegawai ?>" class="btn btn-danger btn-rounded mr-2		">Print</a>
 									</div>
 
 									<div class="card-body">
@@ -182,7 +183,6 @@
 									$nilai_6 = $fuzzy['inference']['z'][5]; 
 									$nilai_7 = $fuzzy['inference']['z'][6]; 
 									$nilai_8 = $fuzzy['inference']['z'][7];
-									
 
 
 									$query = " UPDATE tbl_data_uji SET luas_kolam = '$luas_kolam',
@@ -224,7 +224,7 @@
 											nilai_z_5 = '$nilai_5',
 											nilai_z_6 = '$nilai_6',
 											nilai_z_7 = '$nilai_7',
-											nilai_z_8 = '$nilai_8',
+											nilai_z_8 = '$nilai_8'
 											WHERE tbl_uji_id = '$id'
 										";
 
