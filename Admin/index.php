@@ -69,6 +69,11 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
                     <i class="fas fa-fw fa-clipboard"></i>
                     <span>Hasil Panen</span></a>
             </li>
+            <li class="nav-item <?php echo ($_GET['page'] == 'laporan') ? "active" : ""; ?>">
+                <a class="nav-link" href="?page=laporan">
+                    <i class="fas fa-fw fa-print"></i>
+                    <span>Laporan</span></a>
+            </li>
 
         </ul>
         <!-- End of Sidebar -->
@@ -88,10 +93,18 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
                     </button>
 
 
+                    <style>
+
+                        @media screen and (max-width:950px) {
+                            .titles {
+                                display: none !important;
+                            }
+                        }
+                    </style>
+                    <h6 class="titles"><b> SISTEM MANAJEMEN BUDIDAYA IKAN LELE MENGGUNAKAN FUZZY TSUKAMOTO </b></h6>
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                    
 
 
                         <!-- Nav Item - User Information -->
@@ -160,6 +173,12 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
 					break;
 				case "lihat":
 					include 'lihat.php';
+					break;
+				case "artikel":
+					include 'artikel.php';
+					break;
+				case "laporan":
+					include 'laporan.php';
 					break;
 				default:
 					echo "404 Not Found!";

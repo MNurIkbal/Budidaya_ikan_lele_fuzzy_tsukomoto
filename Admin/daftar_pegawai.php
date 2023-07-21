@@ -6,7 +6,7 @@
 									<form action='' method='POST'>
 										<div class='row'>
 											<div class='col-md-7'>
-												<h4 class="card-title">Daftar User</h4>
+												<h4 class="card-title"> Daftar User </h4>
 											</div>
 
 											

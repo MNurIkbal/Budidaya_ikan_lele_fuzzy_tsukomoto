@@ -16,7 +16,7 @@
 							<div class="card">
 								<form method="POST" action="">
 									<div class="card-header">
-										<h4 class="card-title">Input Hasil Panen</h4>
+										<h4 class="card-title"><b> Input Hasil Panen </b></h4>
 										<h5 class="card-title">Nama : <?= $rt['nm_pegawai']; ?></h5>
 										<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Tambah</a>
 										<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -32,8 +32,8 @@
 														</div>
 														<div class="modal-body">
 															<div class="mb-3">
-																<label for="">Nama Perhitungan</label>
-																<input type="text" class="form-control" required placeholder="Nama Perhitungan" name="nama">
+																<label for="">Tanggal Panen</label>
+																<input type="date" class="form-control" required placeholder="" name="tgl">
 															</div>
 															<div class="mb-3">
 																<label for="">Luas Kolam</label>
@@ -57,7 +57,6 @@
 											</div>
 										</div>
 										<a href="?page=NilaiPegawai" class="btn btn-warning btn-rounded mr-2		">Kembali</a>
-										<a href="print.php?pegawai=<?= $id_pegawai ?>" class="btn btn-danger btn-rounded mr-2		">Print</a>
 									</div>
 
 									<div class="card-body">
@@ -66,11 +65,12 @@
 												<thead>
 													<tr>
 														<th>No</th>
-														<th>Nama Perhitungan</th>
+														<th>Tanggal Panen</th>
 														<th>Luas Kolam</th>
 														<th>Jumlah Bibit</th>
 														<th>Jumlah Pakan</th>
 														<th>Hasil Panen</th>
+														<th>Keterangan</th>
 														<th>Aksi</th>
 													</tr>
 												</thead>
@@ -80,13 +80,20 @@
 														<tr>
 															<td><?= $no++; ?></td>
 															<td>
-																<?= $tt['nama_perhitungan']; ?>
+																<?= date("d, F Y",strtotime($tt['tgl_panen'])); ?>
 															</td>
 															<td><?= number_format($tt['luas_kolam']); ?></td>
 															<td><?= number_format($tt['jumlah_bibit']); ?></td>
 															<td><?= number_format($tt['jumlah_pakan']); ?></td>
 															<td>
 																<?= number_format($tt['hasil_panen']) ?>
+															</td>
+															<td>
+																<?php if($tt['keterangan'] == "Tinggi") : ?>
+																	<span class="badge badge-pill badge-success p-2"><?= $tt['keterangan']; ?></span>
+																	<?php else: ?>
+																		<span class="badge badge-pill badge-danger p-2"><?= $tt['keterangan']; ?></span>
+																	<?php endif; ?>
 															</td>
 															<td>
 																<a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#pen<?= $tt['id_kategori'] ?>"><i class="fas fa-pen"></i></a>
@@ -104,8 +111,8 @@
 																				</div>
 																				<div class="modal-body">
 																					<div class="mb-3">
-																						<label for="">Nama Perhitungan</label>
-																						<input type="text" class="form-control" value="<?= $tt['nama_perhitungan']; ?>" required placeholder="Nama Perhitungan" name="nama">
+																						<label for="">Tanggal Panen</label>
+																						<input type="date" class="form-control" value="<?= $tt['tgl_panen']; ?>" required placeholder="" name="tgl">
 																					</div>
 																					<div class="mb-3">
 																						<label for="">Luas Kolam</label>
@@ -144,10 +151,10 @@
 								include "../config/function_fuzzy.php";
 								if (isset($_POST['edit'])) {
 									$luas_kolam = $_POST['luas_kolam'];
-									$nama = $_POST['nama'];
+									$tgl = $_POST['tgl'];
 									$jumlah_bibit = $_POST['jumlah_bibit'];
 									$jumlah_pakan = $_POST['jumlah_pakan'];
-									$id = $_POST['id'];
+									$id_kategori = $_POST['id'];
 
 									$timestamp = date('Y-m-d H:i:s');
 
@@ -156,6 +163,7 @@
 									// function keanggotaan luas kolam
 									$fungsi_kolam_kecil = $fuzzy['attributes']['luas_kolam']['Kecil']['fuzzification'];
 									$fungsi_kolam_besar = $fuzzy['attributes']['luas_kolam']['Besar']['fuzzification'];
+									
 
 									// function keanggotaan jumlah bibit
 									$fungsi_jumlah_bibit_sedikit = $fuzzy['attributes']['jumlah_bibit']['Sedikit']['fuzzification'];
@@ -165,6 +173,7 @@
 									$fungsi_jumlah_pakan_sedikit = $fuzzy['attributes']['jumlah_pakan']['Sedikit']['fuzzification'];
 									$fungsi_jumlah_pakan_banyak = $fuzzy['attributes']['jumlah_pakan']['Banyak']['fuzzification'];
 									$hasil_panen = round($fuzzy['result']);
+									
 
 									$rule_1 = $fuzzy['inference']['alpha_predicate'][0]; 
 									$rule_2 = $fuzzy['inference']['alpha_predicate'][1]; 
@@ -174,6 +183,7 @@
 									$rule_6 = $fuzzy['inference']['alpha_predicate'][5]; 
 									$rule_7 = $fuzzy['inference']['alpha_predicate'][6]; 
 									$rule_8 = $fuzzy['inference']['alpha_predicate'][7]; 
+									
 
 									$nilai_1 = $fuzzy['inference']['z'][0]; 
 									$nilai_2 = $fuzzy['inference']['z'][1]; 
@@ -184,13 +194,112 @@
 									$nilai_7 = $fuzzy['inference']['z'][6]; 
 									$nilai_8 = $fuzzy['inference']['z'][7];
 
+									if(
+										// R1
+										$rule_1 > 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									)  {
+										$ket = "Rendah";
+									} elseif(
+										// R2
+										$rule_1 == 0 && 
+										$rule_2 > 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Rendah";
+									} elseif(
+										// R3
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 > 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Tinggi";
+									} elseif(
+										// R4
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 > 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Rendah";
+									} elseif(
+										// R5
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 > 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Rendah";
+									} elseif(
+										// R6
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 > 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Tinggi";
+									} elseif(
+										// R7
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 > 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Rendah";
+									} elseif(
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 > 0
+									) {
+										$ket = "Tinggi";
+									} else {
+										$ket = "Rendah";
+									}
 
 									$query = " UPDATE tbl_data_uji SET luas_kolam = '$luas_kolam',
 											jumlah_bibit = '$jumlah_bibit',
 											jumlah_pakan = '$jumlah_pakan',
-											nama_perhitungan = '$nama',
-											hasil_panen = '$hasil_panen'
-											WHERE id_kategori = '$id' ";
+											tgl_panen = '$tgl',
+											hasil_panen = '$hasil_panen',
+											keterangan = '$ket'
+											WHERE id_kategori = '$id_kategori' ";
 												$result = mysqli_query($koneksi, $query);
 									
 									$insert_anggota = "UPDATE variable_keanggotaan 
@@ -199,11 +308,11 @@
 											jumlah_bibit_sedikit = '$fungsi_jumlah_bibit_sedikit',
 											jumlah_bibit_banyak = '$fungsi_jumlah_bibit_banyak',
 											jumlah_pakan_sedikit = '$fungsi_jumlah_pakan_sedikit',
-											jumlah_pakan_banyak = '$fungsi_jumlah_bibit_banyak',
+											jumlah_pakan_banyak = '$fungsi_jumlah_pakan_banyak',
 											luas_kolam = '$luas_kolam',
 											jumlah_bibit = '$jumlah_bibit',
 											jumlah_pakan = '$jumlah_pakan'
-											WHERE tbl_uji_id = '$id'
+											WHERE tbl_uji_id = '$id_kategori'
 										";
 
 									mysqli_query($koneksi, $insert_anggota);
@@ -225,12 +334,32 @@
 											nilai_z_6 = '$nilai_6',
 											nilai_z_7 = '$nilai_7',
 											nilai_z_8 = '$nilai_8'
-											WHERE tbl_uji_id = '$id'
+											WHERE tbl_uji_id = '$id_kategori'
 										";
 
 									mysqli_query($koneksi, $rulesr);
 
 								
+									$main_sekarang = mysqli_query($koneksi,"SELECT * FROM dashboard WHERE pegawai_id = '$id'");
+									$kolam = mysqli_num_rows($main_sekarang);
+									if(!$kolam) {
+										$sekarang = date("Y-m-d");
+										$dash = "INSERT INTO dashboard VALUES('',
+											'$id',
+											'$hasil_panen',
+											'$sekarang'
+										)";
+										mysqli_query($koneksi,$dash);
+									} else {
+										$sekarang = date("Y-m-d");
+										$fects = mysqli_fetch_assoc($main_sekarang);
+										$kasih = $fects['nilai'] + $hasil_panen;
+										$dash = "UPDATE dashboard  SET
+											nilai = '$kasih'
+										WHERE pegawai_id = '$id'
+										";
+										mysqli_query($koneksi,$dash);
+									}
 
 									if ($result) {
 										echo "<script>alert('Data Berhasil Diupdate')</script>";
@@ -242,7 +371,7 @@
 								}
 								if (isset($_POST['submit'])) {
 									$luas_kolam = $_POST['luas_kolam'];
-									$nama = $_POST['nama'];
+									$tgl = $_POST['tgl'];
 									$jumlah_bibit = $_POST['jumlah_bibit'];
 									$jumlah_pakan = $_POST['jumlah_pakan'];
 									$id = $_POST['id'];
@@ -250,6 +379,7 @@
 
 									// inisial function
 									$fuzzy = fuzzy($luas_kolam,$jumlah_bibit,$jumlah_pakan);
+									
 									// function keanggotaan luas kolam
 									$fungsi_kolam_kecil = $fuzzy['attributes']['luas_kolam']['Kecil']['fuzzification'];
 									$fungsi_kolam_besar = $fuzzy['attributes']['luas_kolam']['Besar']['fuzzification'];
@@ -262,7 +392,7 @@
 									$fungsi_jumlah_pakan_sedikit = $fuzzy['attributes']['jumlah_pakan']['Sedikit']['fuzzification'];
 									$fungsi_jumlah_pakan_banyak = $fuzzy['attributes']['jumlah_pakan']['Banyak']['fuzzification'];
 									$hasil_panen = round($fuzzy['result']);
-
+									
 									$rule_1 = $fuzzy['inference']['alpha_predicate'][0]; 
 									$rule_2 = $fuzzy['inference']['alpha_predicate'][1]; 
 									$rule_3 = $fuzzy['inference']['alpha_predicate'][2]; 
@@ -279,11 +409,111 @@
 									$nilai_5 = $fuzzy['inference']['z'][4]; 
 									$nilai_6 = $fuzzy['inference']['z'][5]; 
 									$nilai_7 = $fuzzy['inference']['z'][6]; 
-									$nilai_8 = $fuzzy['inference']['z'][7]; 
-
-									$query = "INSERT INTO tbl_data_uji VALUES('','$luas_kolam','$jumlah_bibit','$jumlah_pakan','$id','$nama',$hasil_panen)";
-									$result = mysqli_query($koneksi, $query);
+									$nilai_8 = $fuzzy['inference']['z'][7];
 									
+									if(
+										// R1
+										$rule_1 > 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									)  {
+										$ket = "Rendah";
+									} elseif(
+										// R2
+										$rule_1 == 0 && 
+										$rule_2 > 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Rendah";
+									} elseif(
+										// R3
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 > 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Tinggi";
+									} elseif(
+										// R4
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 > 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Rendah";
+									} elseif(
+										// R5
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 > 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Rendah";
+									} elseif(
+										// R6
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 > 0 &&
+										$rule_7 == 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Tinggi";
+									} elseif(
+										// R7
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 > 0 &&
+										$rule_8 == 0
+									) {
+										$ket = "Rendah";
+									} elseif(
+										$rule_1 == 0 && 
+										$rule_2 == 0 &&
+										$rule_3 == 0 && 
+										$rule_4 == 0 && 
+										$rule_5 == 0 && 
+										$rule_6 == 0 &&
+										$rule_7 == 0 &&
+										$rule_8 > 0
+									) {
+										$ket = "Tinggi";
+									} else {
+										$ket = "Rendah";
+									}
+									
+									$query = "INSERT INTO tbl_data_uji VALUES('','$luas_kolam','$jumlah_bibit','$jumlah_pakan','$id','$tgl','$hasil_panen','$ket')";
+									
+									$result = mysqli_query($koneksi, $query);
+
 									$op = "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' ORDER BY id_kategori DESC";
 									$rs = mysqli_query($koneksi, $op);
 									$min = mysqli_fetch_assoc($rs);
@@ -327,6 +557,27 @@
 										)";
 
 									mysqli_query($koneksi, $rulesr);
+
+									$main_sekarang = mysqli_query($koneksi,"SELECT * FROM dashboard WHERE pegawai_id = '$id'");
+									$kolam = mysqli_num_rows($main_sekarang);
+									if(!$kolam) {
+										$sekarang = date("Y-m-d");
+										$dash = "INSERT INTO dashboard VALUES('',
+											'$id',
+											'$hasil_panen',
+											'$sekarang'
+										)";
+										mysqli_query($koneksi,$dash);
+									} else {
+										$sekarang = date("Y-m-d");
+										$fects = mysqli_fetch_assoc($main_sekarang);
+										$kasih = $fects['nilai'] + $hasil_panen;
+										$dash = "UPDATE dashboard  SET
+											nilai = '$kasih'
+										WHERE pegawai_id = '$id'
+										";
+										mysqli_query($koneksi,$dash);
+									}
 
 									if ($result) {
 										echo "<script>alert('Data Berhasil Ditambah')</script>";

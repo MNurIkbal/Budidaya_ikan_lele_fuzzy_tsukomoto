@@ -1,28 +1,13 @@
 <?php
 date_default_timezone_set('Asia/Jakarta');
 require "../config/koneksi.php";
-$id = $_GET['pegawai'];
+$id = $_GET['id'];
+$mulai = $_GET['mulai'];
+$akhir = $_GET['akhir'];
 
-$result = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id'");
-$fect = mysqli_fetch_assoc($result);
-
-$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id'");
-
-
-$check_bibit = mysqli_query($koneksi, "SELECT SUM(jumlah_bibit) FROM tbl_data_uji WHERE pegawai_id = '$id'");
-$data = mysqli_fetch_assoc($check);
-$jumlahBibit = $data['jumlah_bibit'];
-var_dump($jumlahBibit);
-
-// echo "Jumlah bibit: " . $jumlahBibit;
-
-$num = mysqli_num_rows($check);
-if (!$num) {
-    header("Location: index.php?page=NilaiKinerja&id=$id");
-    exit;
-}
-
-
+$check = mysqli_query($koneksi,"SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' AND tgl_panen BETWEEN '$mulai' AND '$akhir'");
+$fect = mysqli_query($koneksi,"SELECT * FROM pegawai WHERE id_pegawai = '$id'");
+$asos = mysqli_fetch_assoc($fect);
 ?>
 <!doctype html>
 <html lang="en">
@@ -45,29 +30,35 @@ if (!$num) {
             <img src="../assets_fuzy/logo.jpeg" style="width: 150px;height: 150px;" alt="">
         </div>
         <br>
-        <h5>Nama : <?= $fect['nm_pegawai']; ?></h5>
+        <h5>Nama : <?= $asos['nm_pegawai']; ?></h5>
 
         <div class="table-responsive mt-3">
             <table class="table table-bordered table-striped table-hover w-100">
                 <thead class="text-center">
                     <tr>
                         <th>No</th>
-                        <th>Nama Pehitungan</th>
+                        <th>Tanggal Panen</th>
                         <th>Luas Kolam</th>
                         <th>Jumlah Bibit</th>
                         <th>Jumlah Pakan</th>
                         <th>Hasil Panen</th>
+                        <th>Dibuat</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php $no = 1; foreach ($check as $row) : ?>
                         <tr>
                             <td><?= $no++; ?></td>
-                            <td><?= $row['nama_perhitungan']; ?></td>
+                            <td><?= date("d, F Y",strtotime($row['tgl_panen'])) ?></td>
                             <td><?= number_format($row['luas_kolam']); ?></td>
                             <td><?= number_format($row['jumlah_bibit']); ?></td>
                             <td><?= number_format($row['jumlah_pakan']); ?></td>
                             <td><?= number_format($row['hasil_panen']); ?></td>
+                            <td>
+                                <span style="text-transform: uppercase;">
+                                <?= $row['keterangan']; ?>
+                                </span>
+                            </td>
                         </tr>
                     <?php endforeach ?>
                 </tbody>
@@ -76,7 +67,9 @@ if (!$num) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
+<script>
+    window.print();
+</script>
 
 </body>
 

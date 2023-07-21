@@ -5,7 +5,7 @@
 							<div class="card">
 								<form method="POST" action="" enctype='multipart/form-data'>
 									<div class="card-header">
-										<h4 class="card-title">Edit Profil</h4>
+										<h4 class="card-title"> Edit Profil </h4>
 									</div>
 									<div class="card-body">
 										<p>Nama</p>

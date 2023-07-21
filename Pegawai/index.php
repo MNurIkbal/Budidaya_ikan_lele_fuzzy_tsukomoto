@@ -33,7 +33,7 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
     
     <div id="wrapper">
 
-        
+    
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             
@@ -51,6 +51,11 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
+            <!-- <li class="nav-item <?php echo ($_GET['page'] == 'artikel' || $_GET['page'] == "detail") ? "active" : ""; ?>">
+                <a class="nav-link" href="?page=artikel">
+                    <i class="fas fa-fw fa-newspaper"></i>
+                    <span>Artikel</span></a>
+            </li> -->
             <li class="nav-item <?php echo ($_GET['page'] == 'Profil') ? "active" : ""; ?>">
                 <a class="nav-link" href="?page=Profil">
                     <i class="fas fa-fw fa-address-card"></i>
@@ -61,7 +66,7 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
                     <i class="fas fa-fw fa-key"></i>
                     <span>Password</span></a>
             </li>
-            <li class="nav-item <?php echo ($_GET['page'] == 'Kinerja' || $_GET['page'] == "Kosong") ? "active" : ""; ?>">
+            <li class="nav-item <?php echo ($_GET['page'] == 'Kinerja' || $_GET['page'] == "Kosong" || $_GET['page'] == "list") ? "active" : ""; ?>">
                 <a class="nav-link" href="?page=Kinerja">
                     <i class="fas fa-fw fa-clipboard"></i>
                     <span>Hasil Panen</span></a>
@@ -76,6 +81,15 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
+                    <style>
+
+@media screen and (max-width:950px) {
+    .titles {
+        display: none !important;
+    }
+}
+</style>
+<h6 class="titles"><b> SISTEM MANAJEMEN BUDIDAYA IKAN LELE MENGGUNAKAN FUZZY TSUKAMOTO </b> </h6>
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
@@ -125,6 +139,15 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
 					break;
 				case "Kinerja":
 					include 'lihat.php';
+					break;
+				case "artikel":
+					include 'artikel.php';
+					break;
+				case "detail":
+					include 'artikel_detail.php';
+					break;
+				case "list":
+					include 'check_list.php';
 					break;
 				case "Kosong":
 					include 'kosong.php';

@@ -1,255 +1,75 @@
 <?php
-				// include '../config/koneksi.php';
-$id_pegawai = $_SESSION['id_pegawai'];
-				$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id_pegawai'");
-				$count = mysqli_num_rows($check);
-				if (!$count) {
-					echo "<script>
-					alert('Data Masih Kosong');
-					window.location.href = 'index.php?page=Kosong';
-					</script>";
-					exit;
-				}
+
+$id = $_SESSION['id_pegawai'];
+
+$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' ORDER BY id_kategori DESC");
+$pegawai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id'");
+$rt = mysqli_fetch_assoc($pegawai);
+$count = mysqli_num_rows($check);
+$fect = mysqli_fetch_assoc($check);
+
+?>
+<div class="container-fluid">
 
 
-				$result = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji INNER JOIN pegawai ON tbl_data_uji.pegawai_id = pegawai.id_pegawai WHERE tbl_data_uji.pegawai_id = '$id_pegawai' ORDER by id_kategori DESC");
-				$anggota_luas_kolam = mysqli_query($koneksi, "SELECT * FROM variable_keanggotaan INNER JOIN pegawai ON variable_keanggotaan.pegawai_id = pegawai.id_pegawai WHERE pegawai_id = '$id_pegawai'");
-				$res = mysqli_fetch_assoc($anggota_luas_kolam);
-				$pagwai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id_pegawai'");
-				$rty = mysqli_fetch_assoc($pagwai);
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<form method="POST" action="">
+					<div class="card-header">
+						<h4 class="card-title">Input Hasil Panen</h4>
+						<h5 class="card-title">Nama : <?= $rt['nm_pegawai']; ?></h5>
+					</div>
 
-				$rules = mysqli_query($koneksi, "SELECT * FROM rules WHERE pegawai_id = '$id_pegawai'");
-				$fect_rules = mysqli_fetch_assoc($rules);
-				?>
-
-				<div class="container-fluid">
-					<h4 class="page-title">Hasil</h4>
-					<h4 class="page-title">Nama : <?= $rty['nm_pegawai']; ?></h4>
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Data Input</h4>
-						</div>
-						<div class="card-body">
-							<table class="table table-bordered table-hoaver" id="table">
-								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<th class="text-center">No</th>
-									<th class="text-center">Nama</th>
-									<th class="text-center">Luas Kolam</th>
-									<th class="text-center">Jumlah Bibit</th>
-									<th class="text-center">Jumlah Pakan</th>
-								</tr>
-								<?php $no = 1;
-								foreach ($result as $row) : ?>
+					<div class="card-body">
+						<div class="table-responsive">
+							<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+								<thead>
 									<tr>
-										<td><?= $no++; ?></td>
-										<td><?= $row['nm_pegawai']; ?></td>
-										<td><?= $row['luas_kolam']; ?></td>
-										<td><?= $row['jumlah_bibit']; ?></td>
-										<td><?= $row['jumlah_pakan']; ?></td>
-									</tr>
-								<?php endforeach; ?>
-							</table>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Data Keanggotaan Variable Luas Kolam</h4>
-						</div>
-						<div class="card-body">
-							<table class="table table-bordered table-hoaver" id="table">
-								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<th rowspan="2" class="text-center">No</th>
-									<th rowspan="2" class="text-center">Nama</th>
-									<th rowspan="2" class="text-center">Luas Kolam</th>
-									<th colspan="3" class="text-center"> Derajat Keanggotaan
-									</th>
-
-
-								</tr>
-								<tr></tr>
-								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<td></td>
-									<td></td>
-									<td></td>
-									<td class="text-center">Kecil</td>
-									<td class="text-center">Besar</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td><?= $res['nm_pegawai']; ?></td>
-									<td><?= $res['luas_kolam']; ?></td>
-									<td><?= $res['luas_kolam_sedikit']; ?></td>
-									<td><?= $res['luas_kolam_besar']; ?></td>
-								</tr>
-							</table>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Data Keanggotaan Variable Jumlah Bibit</h4>
-						</div>
-						<div class="card-body">
-							<table class="table table-bordered table-hoaver" id="table">
-								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<th rowspan="2" class="text-center">No</th>
-									<th rowspan="2" class="text-center">Nama</th>
-									<th rowspan="2" class="text-center">Jumlah Bibit</th>
-									<th colspan="3" class="text-center"> Derajat Keanggotaan
-									</th>
-
-
-								</tr>
-								<tr></tr>
-								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<td></td>
-									<td></td>
-									<td></td>
-									<td class="text-center">Sedikit</td>
-									<td class="text-center">Banyak</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td><?= $res['jumlah_bibit']; ?></td>
-									<td><?= $res['nm_pegawai']; ?></td>
-									<td><?= $res['jumlah_bibit_sedikit']; ?></td>
-									<td><?= $res['jumlah_bibit_banyak']; ?></td>
-								</tr>
-							</table>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Data Keanggotaan Variable Jumlah Pakan</h4>
-						</div>
-						<div class="card-body">
-							<table class="table table-bordered table-hoaver" id="table">
-								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<th rowspan="2" class="text-center">No</th>
-									<th rowspan="2" class="text-center">Nama</th>
-									<th rowspan="2" class="text-center">Jumlah Pakan</th>
-									<th colspan="3" class="text-center"> Derajat Keanggotaan
-									</th>
-
-
-								</tr>
-								<tr></tr>
-								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<td></td>
-									<td></td>
-									<td></td>
-									<td class="text-center">Sedikit</td>
-									<td class="text-center"> Banyak</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td><?= $res['jumlah_bibit']; ?></td>
-									<td><?= $res['nm_pegawai']; ?></td>
-									<td><?= $res['jumlah_pakan_sedikit']; ?></td>
-									<td><?= $res['jumlah_pakan_banyak']; ?></td>
-								</tr>
-							</table>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Data Rules</h4>
-						</div>
-						<div class="card-body">
-							<table class="table table-bordered table-hoaver" id="table">
-								<tr style="background-color: rgb(78, 115, 223);color:white">
-									<th class="text-center">Rules</th>
-									<th class="text-center">Keterangan</th>
-								</tr>
-								<tr>
-									<td>[R1]</td>
-									<td>IF luas kolam <span style="font-weight: bold;"> Kecil </span> AND jumlah bibit <span style="font-weight: bold;">Sedikit</span> jumlah pakan <span style="font-weight: bold;">Banyak</span> THEN hasil panen <span style="font-weight: bold;">Rendah</span></td>
-								</tr>
-								<tr>
-									<td>[R2]</td>
-									<td>IF luas kolam <span style="font-weight: bold;"> Kecil </span> AND jumlah bibit <span style="font-weight: bold;">Sedikit</span> jumlah pakan <span style="font-weight: bold;">Sedikit</span> THEN hasil panen <span style="font-weight: bold;">Rendah</span></td>
-								</tr>
-								<tr>
-									<td>[R3]</td>
-									<td>IF luas kolam <span style="font-weight: bold;"> Kecil </span> AND jumlah bibit <span style="font-weight: bold;">Banyak</span> jumlah pakan <span style="font-weight: bold;">Banyak</span> THEN hasil panen <span style="font-weight: bold;">Rendah</span></td>
-								</tr>
-								<tr>
-									<td>[R4]</td>
-									<td>IF luas kolam <span style="font-weight: bold;"> Kecil </span> AND jumlah bibit <span style="font-weight: bold;">Banyak</span> jumlah pakan <span style="font-weight: bold;">Sedikit</span> THEN hasil panen <span style="font-weight: bold;">Rendah</span></td>
-								</tr>
-								<tr>
-									<td>[R5]</td>
-									<td>IF luas kolam <span style="font-weight: bold;"> Besar </span> AND jumlah bibit <span style="font-weight: bold;">Sedikit</span> jumlah pakan <span style="font-weight: bold;">Sedikit</span> THEN hasil panen <span style="font-weight: bold;">Rendah</span></td>
-								</tr>
-								<tr>
-									<td>[R6]</td>
-									<td>IF luas kolam <span style="font-weight: bold;"> Besar </span> AND jumlah bibit <span style="font-weight: bold;">Sedikit</span> jumlah pakan <span style="font-weight: bold;">Banyak</span> THEN hasil panen <span style="font-weight: bold;">Rendah</span></td>
-								</tr>
-								<tr>
-									<td>[R7]</td>
-									<td>IF luas kolam <span style="font-weight: bold;"> Besar </span> AND jumlah bibit <span style="font-weight: bold;">Banyak</span> jumlah pakan <span style="font-weight: bold;">Sedikit</span> THEN hasil panen <span style="font-weight: bold;">Rendah</span></td>
-								</tr>
-								<tr>
-									<td>[R8]</td>
-									<td>IF luas kolam <span style="font-weight: bold;"> Besar </span> AND jumlah bibit <span style="font-weight: bold;">Banyak</span> jumlah pakan <span style="font-weight: bold;">Banyak</span> THEN hasil panen <span style="font-weight: bold;">Tinggi</span></td>
-								</tr>
-							</table>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title">Data Mesin Inferensi </h4>
-						</div>
-						<div class="card-body">
-							<table class="table table-bordered table-hover">
-								<thead style="background-color: rgb(78, 115, 223);color:white">
-									<tr>
-										<th style="color: white;">#</th>
-										<th style="color: white;">R1</th>
-										<th style="color: white;">R2</th>
-										<th style="color: white;">R3</th>
-										<th style="color: white;">R4</th>
-										<th style="color: white;">R5</th>
-										<th style="color: white;">R6</th>
-										<th style="color: white;">R7</th>
-										<th style="color: white;">R8</th>
+										<th>No</th>
+										<th>Tanggal Panen</th>
+										<th>Luas Kolam</th>
+										<th>Jumlah Bibit</th>
+										<th>Jumlah Pakan</th>
+										<th>Hasil Panen</th>
+										<th>Keterangan</th>
+										<th>Aksi</th>
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>Min</td>
-										<td><?= $fect_rules['role_satu']; ?></td>
-										<td><?= $fect_rules['role_dua']; ?></td>
-										<td><?= $fect_rules['role_tiga']; ?></td>
-										<td><?= $fect_rules['role_empat']; ?></td>
-										<td><?= $fect_rules['role_lima']; ?></td>
-										<td><?= $fect_rules['role_enam']; ?></td>
-										<td><?= $fect_rules['role_tuju']; ?></td>
-										<td><?= $fect_rules['role_delapan']; ?></td>
-									</tr>
-									<tr>
-										<td>α1</td>
-										<td>1</td>
-										<td>2</td>
-										<td>3</td>
-										<td>4</td>
-										<td>5</td>
-										<td>6</td>
-										<td>7</td>
-										<td>8</td>
-									</tr>
-									<tr>
-										<td>Z1</td>
-										<td>1</td>
-										<td>2</td>
-										<td>3</td>
-										<td>4</td>
-										<td>5</td>
-										<td>6</td>
-										<td>7</td>
-										<td>8</td>
-									</tr>
+									<?php $no = 1;
+									foreach ($check as $tt) : ?>
+										<tr>
+											<td><?= $no++; ?></td>
+											<td>
+												<?= date("d, F Y",strtotime($tt['tgl_panen'])) ?>
+											</td>
+											<td><?= number_format($tt['luas_kolam']); ?></td>
+											<td><?= number_format($tt['jumlah_bibit']); ?></td>
+											<td><?= number_format($tt['jumlah_pakan']); ?></td>
+											<td>
+												<?= number_format($tt['hasil_panen']) ?>
+											</td>
+											<td>
+											<?php if($tt['keterangan'] == "Tinggi") : ?>
+																	<span class="badge badge-pill badge-success p-2"><?= $tt['keterangan']; ?></span>
+																	<?php else: ?>
+																		<span class="badge badge-pill badge-danger p-2"><?= $tt['keterangan']; ?></span>
+																	<?php endif; ?>	
+											</td>
+											<td>
+												<a href="index.php?page=list&id=<?= $tt['id_kategori'] ?>" class="btn btn-primary btn-sm"><i class="fas fa-eye"></i></a>
+											</td>
+										</tr>
+									<?php endforeach; ?>
 								</tbody>
 							</table>
 						</div>
+
 					</div>
-				</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

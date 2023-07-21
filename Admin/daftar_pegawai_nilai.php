@@ -7,7 +7,7 @@
 					<form action='' method='POST'>
 						<div class='row'>
 							<div class='col-md-7'>
-								<h4 class="card-title">Hasil Panen</h4>
+								<h4 class="card-title"> Hasil Panen </h4>
 							</div>
 						</div>
 					</form>
