@@ -80,7 +80,7 @@
 														<tr>
 															<td><?= $no++; ?></td>
 															<td>
-																<?= date("d, F Y",strtotime($tt['tgl_panen'])); ?>
+																<?= date("d, F Y", strtotime($tt['tgl_panen'])); ?>
 															</td>
 															<td><?= number_format($tt['luas_kolam']); ?></td>
 															<td><?= number_format($tt['jumlah_bibit']); ?></td>
@@ -89,11 +89,11 @@
 																<?= number_format($tt['hasil_panen']) ?>
 															</td>
 															<td>
-																<?php if($tt['keterangan'] == "Tinggi") : ?>
+																<?php if ($tt['keterangan'] == "Tinggi") : ?>
 																	<span class="badge badge-pill badge-success p-2"><?= $tt['keterangan']; ?></span>
-																	<?php else: ?>
-																		<span class="badge badge-pill badge-danger p-2"><?= $tt['keterangan']; ?></span>
-																	<?php endif; ?>
+																<?php else : ?>
+																	<span class="badge badge-pill badge-danger p-2"><?= $tt['keterangan']; ?></span>
+																<?php endif; ?>
 															</td>
 															<td>
 																<a href="#" class="btn btn-success btn-sm" data-toggle="modal" data-target="#pen<?= $tt['id_kategori'] ?>"><i class="fas fa-pen"></i></a>
@@ -136,7 +136,7 @@
 																	</div>
 																</div>
 																<a href="hapus_perhitungan.php?id=<?= $tt['id_kategori'] ?>&pegawai=<?= $id_pegawai ?>" class="btn btn-danger btn-sm">
-															<i class="fas fa-trash"></i></a>
+																	<i class="fas fa-trash"></i></a>
 															</td>
 														</tr>
 													<?php endforeach; ?>
@@ -159,11 +159,11 @@
 									$timestamp = date('Y-m-d H:i:s');
 
 									// inisial function
-									$fuzzy = fuzzy($luas_kolam,$jumlah_bibit,$jumlah_pakan);
+									$fuzzy = fuzzy($luas_kolam, $jumlah_bibit, $jumlah_pakan);
 									// function keanggotaan luas kolam
 									$fungsi_kolam_kecil = $fuzzy['attributes']['luas_kolam']['Kecil']['fuzzification'];
 									$fungsi_kolam_besar = $fuzzy['attributes']['luas_kolam']['Besar']['fuzzification'];
-									
+
 
 									// function keanggotaan jumlah bibit
 									$fungsi_jumlah_bibit_sedikit = $fuzzy['attributes']['jumlah_bibit']['Sedikit']['fuzzification'];
@@ -173,124 +173,48 @@
 									$fungsi_jumlah_pakan_sedikit = $fuzzy['attributes']['jumlah_pakan']['Sedikit']['fuzzification'];
 									$fungsi_jumlah_pakan_banyak = $fuzzy['attributes']['jumlah_pakan']['Banyak']['fuzzification'];
 									$hasil_panen = round($fuzzy['result']);
-									
 
-									$rule_1 = $fuzzy['inference']['alpha_predicate'][0]; 
-									$rule_2 = $fuzzy['inference']['alpha_predicate'][1]; 
-									$rule_3 = $fuzzy['inference']['alpha_predicate'][2]; 
-									$rule_4 = $fuzzy['inference']['alpha_predicate'][3]; 
-									$rule_5 = $fuzzy['inference']['alpha_predicate'][4]; 
-									$rule_6 = $fuzzy['inference']['alpha_predicate'][5]; 
-									$rule_7 = $fuzzy['inference']['alpha_predicate'][6]; 
-									$rule_8 = $fuzzy['inference']['alpha_predicate'][7]; 
-									
 
-									$nilai_1 = $fuzzy['inference']['z'][0]; 
-									$nilai_2 = $fuzzy['inference']['z'][1]; 
-									$nilai_3 = $fuzzy['inference']['z'][2]; 
-									$nilai_4 = $fuzzy['inference']['z'][3]; 
-									$nilai_5 = $fuzzy['inference']['z'][4]; 
-									$nilai_6 = $fuzzy['inference']['z'][5]; 
-									$nilai_7 = $fuzzy['inference']['z'][6]; 
+									$rule_1 = $fuzzy['inference']['alpha_predicate'][0];
+									$rule_2 = $fuzzy['inference']['alpha_predicate'][1];
+									$rule_3 = $fuzzy['inference']['alpha_predicate'][2];
+									$rule_4 = $fuzzy['inference']['alpha_predicate'][3];
+									$rule_5 = $fuzzy['inference']['alpha_predicate'][4];
+									$rule_6 = $fuzzy['inference']['alpha_predicate'][5];
+									$rule_7 = $fuzzy['inference']['alpha_predicate'][6];
+									$rule_8 = $fuzzy['inference']['alpha_predicate'][7];
+
+
+									$nilai_1 = $fuzzy['inference']['z'][0];
+									$nilai_2 = $fuzzy['inference']['z'][1];
+									$nilai_3 = $fuzzy['inference']['z'][2];
+									$nilai_4 = $fuzzy['inference']['z'][3];
+									$nilai_5 = $fuzzy['inference']['z'][4];
+									$nilai_6 = $fuzzy['inference']['z'][5];
+									$nilai_7 = $fuzzy['inference']['z'][6];
 									$nilai_8 = $fuzzy['inference']['z'][7];
 
-									if(
-										// R1
-										$rule_1 > 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									)  {
-										$ket = "Rendah";
-									} elseif(
-										// R2
-										$rule_1 == 0 && 
-										$rule_2 > 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Rendah";
-									} elseif(
-										// R3
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 > 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Tinggi";
-									} elseif(
-										// R4
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 > 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Rendah";
-									} elseif(
-										// R5
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 > 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Rendah";
-									} elseif(
-										// R6
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 > 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Tinggi";
-									} elseif(
-										// R7
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 > 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Rendah";
-									} elseif(
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 > 0
-									) {
-										$ket = "Tinggi";
+
+									// Himpunan Fuzzy untuk "result"
+									function result_membership($result)
+									{
+										$himpunan_rendah = max(1 - ($result - 810) / (2070 - 810), 0);
+										$himpunan_tinggi = min(($result - 810) / (2070 - 810), 1);
+
+										return array('Rendah' => $himpunan_rendah, 'Tinggi' => $himpunan_tinggi);
+									}
+
+									// Ambil nilai tingkat keanggotaan tertinggi dari himpunan "result"
+									$membership_result = result_membership($hasil_panen);
+									$max_membership = max($membership_result);
+
+									// Ambil keterangan hasil (rendah atau tinggi)
+									if ($membership_result['Rendah'] == $max_membership) {
+										$keterangan_hasil = 'Rendah';
+									} elseif ($membership_result['Tinggi'] == $max_membership) {
+										$keterangan_hasil = 'Tinggi';
 									} else {
-										$ket = "Rendah";
+										$keterangan_hasil = 'Rendah';
 									}
 
 									$query = " UPDATE tbl_data_uji SET luas_kolam = '$luas_kolam',
@@ -298,10 +222,10 @@
 											jumlah_pakan = '$jumlah_pakan',
 											tgl_panen = '$tgl',
 											hasil_panen = '$hasil_panen',
-											keterangan = '$ket'
+											keterangan = '$keterangan_hasil'
 											WHERE id_kategori = '$id_kategori' ";
-												$result = mysqli_query($koneksi, $query);
-									
+									$result = mysqli_query($koneksi, $query);
+
 									$insert_anggota = "UPDATE variable_keanggotaan 
 											SET luas_kolam_sedikit = '$fungsi_kolam_kecil',
 											luas_kolam_besar = '$fungsi_kolam_besar',
@@ -339,17 +263,17 @@
 
 									mysqli_query($koneksi, $rulesr);
 
-								
-									$main_sekarang = mysqli_query($koneksi,"SELECT * FROM dashboard WHERE pegawai_id = '$id'");
+
+									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE pegawai_id = '$id'");
 									$kolam = mysqli_num_rows($main_sekarang);
-									if(!$kolam) {
+									if (!$kolam) {
 										$sekarang = date("Y-m-d");
 										$dash = "INSERT INTO dashboard VALUES('',
 											'$id',
 											'$hasil_panen',
 											'$sekarang'
 										)";
-										mysqli_query($koneksi,$dash);
+										mysqli_query($koneksi, $dash);
 									} else {
 										$sekarang = date("Y-m-d");
 										$fects = mysqli_fetch_assoc($main_sekarang);
@@ -358,7 +282,7 @@
 											nilai = '$kasih'
 										WHERE pegawai_id = '$id'
 										";
-										mysqli_query($koneksi,$dash);
+										mysqli_query($koneksi, $dash);
 									}
 
 									if ($result) {
@@ -378,9 +302,9 @@
 									$timestamp = date('Y-m-d H:i:s');
 
 									// inisial function
-									$fuzzy = fuzzy($luas_kolam,$jumlah_bibit,$jumlah_pakan);
-									
-									
+									$fuzzy = fuzzy($luas_kolam, $jumlah_bibit, $jumlah_pakan);
+
+
 									// function keanggotaan luas kolam
 									$fungsi_kolam_kecil = $fuzzy['attributes']['luas_kolam']['Kecil']['fuzzification'];
 									$fungsi_kolam_besar = $fuzzy['attributes']['luas_kolam']['Besar']['fuzzification'];
@@ -393,134 +317,57 @@
 									$fungsi_jumlah_pakan_sedikit = $fuzzy['attributes']['jumlah_pakan']['Sedikit']['fuzzification'];
 									$fungsi_jumlah_pakan_banyak = $fuzzy['attributes']['jumlah_pakan']['Banyak']['fuzzification'];
 									$hasil_panen = round($fuzzy['result']);
-									
-									$rule_1 = $fuzzy['inference']['alpha_predicate'][0]; 
-									$rule_2 = $fuzzy['inference']['alpha_predicate'][1]; 
-									$rule_3 = $fuzzy['inference']['alpha_predicate'][2]; 
-									$rule_4 = $fuzzy['inference']['alpha_predicate'][3]; 
-									$rule_5 = $fuzzy['inference']['alpha_predicate'][4]; 
-									$rule_6 = $fuzzy['inference']['alpha_predicate'][5]; 
-									$rule_7 = $fuzzy['inference']['alpha_predicate'][6]; 
-									$rule_8 = $fuzzy['inference']['alpha_predicate'][7]; 
 
-									$nilai_1 = $fuzzy['inference']['z'][0]; 
-									$nilai_2 = $fuzzy['inference']['z'][1]; 
-									$nilai_3 = $fuzzy['inference']['z'][2]; 
-									$nilai_4 = $fuzzy['inference']['z'][3]; 
-									$nilai_5 = $fuzzy['inference']['z'][4]; 
-									$nilai_6 = $fuzzy['inference']['z'][5]; 
-									$nilai_7 = $fuzzy['inference']['z'][6]; 
-									$nilai_8 = $fuzzy['inference']['z'][7];
-									
-									
-									if(
-										// R1
-										$rule_1 > 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									)  {
-										$ket = "Rendah";
-									} elseif(
-										// R2
-										$rule_1 == 0 && 
-										$rule_2 > 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Rendah";
-									} elseif(
-										// R3
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 > 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Tinggi";
-									} elseif(
-										// R4
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 > 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Rendah";
-									} elseif(
-										// R5
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 > 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Rendah";
-									} elseif(
-										// R6
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 > 0 &&
-										$rule_7 == 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Tinggi";
-									} elseif(
-										// R7
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 > 0 &&
-										$rule_8 == 0
-									) {
-										$ket = "Rendah";
-									} elseif(
-										$rule_1 == 0 && 
-										$rule_2 == 0 &&
-										$rule_3 == 0 && 
-										$rule_4 == 0 && 
-										$rule_5 == 0 && 
-										$rule_6 == 0 &&
-										$rule_7 == 0 &&
-										$rule_8 > 0
-									) {
-										$ket = "Tinggi";
-									} else {
-										$ket = "Rendah";
+									// Himpunan Fuzzy untuk "result"
+									function result_membership($result)
+									{
+										$himpunan_rendah = max(1 - ($result - 810) / (2070 - 810), 0);
+										$himpunan_tinggi = min(($result - 810) / (2070 - 810), 1);
+
+										return array('Rendah' => $himpunan_rendah, 'Tinggi' => $himpunan_tinggi);
 									}
-									
-									$query = "INSERT INTO tbl_data_uji VALUES('','$luas_kolam','$jumlah_bibit','$jumlah_pakan','$id','$tgl','$hasil_panen','$ket')";
-									
+
+									// Ambil nilai tingkat keanggotaan tertinggi dari himpunan "result"
+									$membership_result = result_membership($hasil_panen);
+									$max_membership = max($membership_result);
+
+									// Ambil keterangan hasil (rendah atau tinggi)
+									if ($membership_result['Rendah'] == $max_membership) {
+										$keterangan_hasil = 'Rendah';
+									} elseif ($membership_result['Tinggi'] == $max_membership) {
+										$keterangan_hasil = 'Tinggi';
+									} else {
+										$keterangan_hasil = 'Rendah';
+									}
+
+
+									$rule_1 = $fuzzy['inference']['alpha_predicate'][0];
+									$rule_2 = $fuzzy['inference']['alpha_predicate'][1];
+									$rule_3 = $fuzzy['inference']['alpha_predicate'][2];
+									$rule_4 = $fuzzy['inference']['alpha_predicate'][3];
+									$rule_5 = $fuzzy['inference']['alpha_predicate'][4];
+									$rule_6 = $fuzzy['inference']['alpha_predicate'][5];
+									$rule_7 = $fuzzy['inference']['alpha_predicate'][6];
+									$rule_8 = $fuzzy['inference']['alpha_predicate'][7];
+
+									$nilai_1 = $fuzzy['inference']['z'][0];
+									$nilai_2 = $fuzzy['inference']['z'][1];
+									$nilai_3 = $fuzzy['inference']['z'][2];
+									$nilai_4 = $fuzzy['inference']['z'][3];
+									$nilai_5 = $fuzzy['inference']['z'][4];
+									$nilai_6 = $fuzzy['inference']['z'][5];
+									$nilai_7 = $fuzzy['inference']['z'][6];
+									$nilai_8 = $fuzzy['inference']['z'][7];
+
+									$query = "INSERT INTO tbl_data_uji VALUES('','$luas_kolam','$jumlah_bibit','$jumlah_pakan','$id','$tgl','$hasil_panen','$keterangan_hasil')";
+
 									$result = mysqli_query($koneksi, $query);
 
 									$op = "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' ORDER BY id_kategori DESC";
 									$rs = mysqli_query($koneksi, $op);
 									$min = mysqli_fetch_assoc($rs);
 									$akhir_id = $min['id_kategori'];
-									
+
 									$insert_anggota = "INSERT INTO variable_keanggotaan VALUES('',
 											'$fungsi_kolam_kecil',
 											'$fungsi_kolam_besar',
@@ -561,16 +408,16 @@
 									mysqli_query($koneksi, $rulesr);
 									$tahun = date("Y");
 
-									$main_sekarang = mysqli_query($koneksi,"SELECT * FROM dashboard WHERE YEAR(created_at) = '$tahun'");
+									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE YEAR(created_at) = '$tahun'");
 									$kolam = mysqli_num_rows($main_sekarang);
-									if(!$kolam) {
+									if (!$kolam) {
 										$sekarang = date("Y-m-d");
 										$dash = "INSERT INTO dashboard VALUES('',
 											'0',
 											'$hasil_panen',
 											'$sekarang'
 										)";
-										mysqli_query($koneksi,$dash);
+										mysqli_query($koneksi, $dash);
 									} else {
 										$sekarang = date("Y-m-d");
 										$fects = mysqli_fetch_assoc($main_sekarang);
@@ -579,7 +426,7 @@
 											nilai = '$kasih'
 										WHERE YEAR(created_at) = '$tahun'
 										";
-										mysqli_query($koneksi,$dash);
+										mysqli_query($koneksi, $dash);
 									}
 
 									if ($result) {
