@@ -9,41 +9,41 @@ function fuzzy($luas_kolam, $jumlah_bibit, $jumlah_pakan)
         ->attribute("luas_kolam", [
             'Kecil'    =>  [
                 'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
-                'domain'        =>  [1, 65]
+                'domain'        =>  [65, 112]
             ],
             'Besar'    =>  [
                 'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_UP,
-                'domain'        =>  [66, 112]
+                'domain'        =>  [65, 112]
             ]
         ])
         ->attribute("jumlah_bibit", [
             'Sedikit'    =>  [
                 'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
-                'domain'        =>  [1, 10000]
+                'domain'        =>  [10000, 23000]
             ],
             'Banyak'    =>  [
                 'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_UP,
-                'domain'        =>  [10001, 23000]
+                'domain'        =>  [10000, 23000]
             ]
         ])
         ->attribute("jumlah_pakan", [
             'Sedikit'    =>  [
                 'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
-                'domain'        =>  [1, 30]
+                'domain'        =>  [30, 69]
             ],
             'Banyak'    =>  [
                 'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_UP,
-                'domain'        =>  [31, 69]
+                'domain'        =>  [30, 69]
             ]
         ])
         ->attribute("result", [
             'Rendah'    =>  [
                 'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_DOWN,
-                'domain'        =>  [1, 810]
+                'domain'        =>  [810, 2070]
             ],
             'Tinggi'    =>  [
                 'membership'    =>  FUZZY_MEMBERSHIP_LINEAR_UP,
-                'domain'        =>  [811, 2070]
+                'domain'        =>  [810, 2070]
             ]
         ])
         ->rules(

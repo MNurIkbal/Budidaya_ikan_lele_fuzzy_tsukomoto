@@ -380,6 +380,7 @@
 									// inisial function
 									$fuzzy = fuzzy($luas_kolam,$jumlah_bibit,$jumlah_pakan);
 									
+									
 									// function keanggotaan luas kolam
 									$fungsi_kolam_kecil = $fuzzy['attributes']['luas_kolam']['Kecil']['fuzzification'];
 									$fungsi_kolam_besar = $fuzzy['attributes']['luas_kolam']['Besar']['fuzzification'];
@@ -410,6 +411,14 @@
 									$nilai_6 = $fuzzy['inference']['z'][5]; 
 									$nilai_7 = $fuzzy['inference']['z'][6]; 
 									$nilai_8 = $fuzzy['inference']['z'][7];
+									var_dump($rule_1 . "<br>");
+									var_dump($rule_2  . "<br>") ;
+									var_dump($rule_3  . "<br>") ;
+									var_dump($rule_4  . "<br>") ;
+									var_dump($rule_5  . "<br>") ;
+									var_dump($rule_6  . "<br>") ;
+									var_dump($rule_7  . "<br>") ;
+									var_dump($rule_8  . "<br>") ;
 									
 									if(
 										// R1
@@ -557,13 +566,14 @@
 										)";
 
 									mysqli_query($koneksi, $rulesr);
+									$tahun = date("Y");
 
-									$main_sekarang = mysqli_query($koneksi,"SELECT * FROM dashboard WHERE pegawai_id = '$id'");
+									$main_sekarang = mysqli_query($koneksi,"SELECT * FROM dashboard WHERE YEAR(created_at) = '$tahun'");
 									$kolam = mysqli_num_rows($main_sekarang);
 									if(!$kolam) {
 										$sekarang = date("Y-m-d");
 										$dash = "INSERT INTO dashboard VALUES('',
-											'$id',
+											'0',
 											'$hasil_panen',
 											'$sekarang'
 										)";
@@ -574,7 +584,7 @@
 										$kasih = $fects['nilai'] + $hasil_panen;
 										$dash = "UPDATE dashboard  SET
 											nilai = '$kasih'
-										WHERE pegawai_id = '$id'
+										WHERE YEAR(created_at) = '$tahun'
 										";
 										mysqli_query($koneksi,$dash);
 									}

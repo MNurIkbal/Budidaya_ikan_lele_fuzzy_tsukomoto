@@ -78,10 +78,8 @@
           categories: [
 			<?php foreach($result as $r) : ?>
 				<?php
-				$id = $r['pegawai_id'];
-					$main = mysqli_query($koneksi,"SELECT * FROM pegawai WHERE id_pegawai = '$id'");
-					$fect = mysqli_fetch_assoc($main);
-					$nama = $fect['nm_pegawai'];
+				
+					$nama = date("Y",strtotime($r['created_at']));
 					echo "'$nama',"; ?>
 				<?php endforeach; ?>
 
