@@ -263,8 +263,8 @@
 
 									mysqli_query($koneksi, $rulesr);
 
-
-									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE pegawai_id = '$id'");
+									$tahun_ini = date("Y");
+									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE YEAR(created_at) = '$tahun_ini'");
 									$kolam = mysqli_num_rows($main_sekarang);
 									if (!$kolam) {
 										$sekarang = date("Y-m-d");
@@ -278,9 +278,10 @@
 										$sekarang = date("Y-m-d");
 										$fects = mysqli_fetch_assoc($main_sekarang);
 										$kasih = $fects['nilai'] + $hasil_panen;
+										
 										$dash = "UPDATE dashboard  SET
 											nilai = '$kasih'
-										WHERE pegawai_id = '$id'
+										WHERE YEAR(created_at) = '$tahun_ini'
 										";
 										mysqli_query($koneksi, $dash);
 									}
@@ -290,7 +291,7 @@
 										echo "<script>window.location.href = '?page=NilaiKinerja&id=$id_pegawai';</script>";
 									} else {
 										echo "<script>alert('Data Gagal Diupdate')</script>";
-										echo "<script>window.location.href = '?page=NilaiKinerja&id=$id_pegawai';</script>";
+										echo "<sc	ript>window.location.href = '?page=NilaiKinerja&id=$id_pegawai';</sc>";
 									}
 								}
 								if (isset($_POST['submit'])) {
