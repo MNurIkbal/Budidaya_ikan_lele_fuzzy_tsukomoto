@@ -411,14 +411,7 @@
 									$nilai_6 = $fuzzy['inference']['z'][5]; 
 									$nilai_7 = $fuzzy['inference']['z'][6]; 
 									$nilai_8 = $fuzzy['inference']['z'][7];
-									var_dump($rule_1 . "<br>");
-									var_dump($rule_2  . "<br>") ;
-									var_dump($rule_3  . "<br>") ;
-									var_dump($rule_4  . "<br>") ;
-									var_dump($rule_5  . "<br>") ;
-									var_dump($rule_6  . "<br>") ;
-									var_dump($rule_7  . "<br>") ;
-									var_dump($rule_8  . "<br>") ;
+									
 									
 									if(
 										// R1
