@@ -383,7 +383,6 @@
 										)";
 									mysqli_query($koneksi, $insert_anggota);
 
-
 									$rulesr = "INSERT INTO rules VALUES('',
 											'$id',
 											'$rule_1',

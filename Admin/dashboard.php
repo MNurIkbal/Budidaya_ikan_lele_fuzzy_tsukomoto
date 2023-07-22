@@ -56,7 +56,7 @@
         plotOptions: {
           bar: {
             borderRadius: 5,
-            columnWidth: '10%',
+            columnWidth: '30%',
           }
         },
         dataLabels: {
