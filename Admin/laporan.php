@@ -15,7 +15,7 @@ if(isset($_POST['kirim'])) {
 
     $id = $_POST['user'];
 
-    $check = mysqli_query($koneksi,"SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' AND tgl_panen BETWEEN '$mulai' AND '$akhir'");
+    $check = mysqli_query($koneksi,"SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' AND type_as = 'otomatis' AND tgl_panen BETWEEN '$mulai' AND '$akhir'");
     $num = mysqli_num_rows($check);
     if(!$num) {
         echo "<script>

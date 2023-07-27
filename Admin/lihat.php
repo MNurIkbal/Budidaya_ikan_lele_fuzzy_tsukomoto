@@ -26,7 +26,7 @@
 				?>
 
 				<div class="container-fluid">
-					<h4 class="page-title">Hasil</h4>
+					<h4 class="page-title">Hasil Perhitungan Fuzzy Tsukamoto</h4>
 					<h4 class="page-title">Nama : <?= $rty['nm_pegawai']; ?></h4>
 					<a href="?page=NilaiKinerja&id=<?= $id_pegawai ?>" class="btn btn-warning btn-sm">Kembali</a>
 					<br>
@@ -52,9 +52,9 @@
 											<td><?= $no++; ?></td>
 											<td><?= $row['nm_pegawai']; ?></td>
 											<td><?= date("d, F Y",strtotime($row['tgl_panen'])); ?></td>
-											<td><?= number_format($row['luas_kolam']); ?></td>
-											<td><?= number_format($row['jumlah_bibit']); ?></td>
-											<td><?= number_format($row['jumlah_pakan']); ?></td>
+											<td><?= number_format($row['luas_kolam']); ?> m² </td>
+											<td><?= number_format($row['jumlah_bibit']); ?> ekor </td>
+											<td><?= number_format($row['jumlah_pakan']); ?> sak </td>
 										</tr>
 									<?php endforeach; ?>
 								</table>
@@ -88,7 +88,7 @@
 									<tr>
 										<td>1</td>
 										<td><?= $res['nm_pegawai']; ?></td>
-										<td><?= number_format($res['luas_kolam']); ?></td>
+										<td><?= number_format($res['luas_kolam']); ?> m²</td>
 										<td><?= $res['luas_kolam_sedikit']; ?></td>
 										<td><?= $res['luas_kolam_besar']; ?></td>
 									</tr>
@@ -123,7 +123,7 @@
 									<tr>
 										<td>1</td>
 										<td><?= $res['nm_pegawai']; ?></td>
-										<td><?= number_format($res['jumlah_bibit']); ?></td>
+										<td><?= number_format($res['jumlah_bibit']); ?> Ekor</td>
 										<td><?= $res['jumlah_bibit_sedikit']; ?></td>
 										<td><?= $res['jumlah_bibit_banyak']; ?></td>
 									</tr>
@@ -158,7 +158,7 @@
 									<tr>
 										<td>1</td>
 										<td><?= $res['nm_pegawai']; ?></td>
-										<td><?= number_format($res['jumlah_pakan']); ?></td>
+										<td><?= number_format($res['jumlah_pakan']); ?> Sak</td>
 										<td><?= $res['jumlah_pakan_sedikit']; ?></td>
 										<td><?= $res['jumlah_pakan_banyak']; ?></td>
 									</tr>
@@ -256,13 +256,28 @@
 											<td><?= $fect_rules['nilai_z_7']; ?></td>
 											<td><?= $fect_rules['nilai_z_8']; ?></td>
 										</tr>
+										</table>
+							</div>
+						</div>
+					</div>
+						<div class="card mt-3">
+						<div class="card-header">
+							<h4 class="card-title">Hasil Perhitungan </h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover" id="table">
+								<tr style="background-color: rgb(78, 115, 223);color:white">
+										<th class="text-center"> Jumlah Panen </th>
+										<th class="text-center"> Keterangan </th>
+								</tr>
 										<tr>
-											<td><b> Hasil Panen </b></td>
-											<td colspan="8"><?= $hasil_panen['hasil_panen']; ?></td>
-										</tr>
-										<tr>
-											<td><b> Keterangan </b></td>
-											<td colspan="8"><?= $hasil_panen['keterangan']; ?></td>
+											<td class="text-center"><?= $hasil_panen['hasil_panen']; ?> Kg </td>
+											<?php if($hasil_panen['keterangan'] == "Tinggi") : ?>
+												<td class="text-center"><span class="badge badge-pill bg-success p-2 text-white"><?= $hasil_panen['keterangan']; ?></span></td>
+												<?php else: ?>
+													<td class="text-center"><span class="badge badge-pill bg-danger p-2 text-white"><?= $hasil_panen['keterangan']; ?></span></td>
+													<?php endif; ?>
 										</tr>
 									</tbody>
 								</table>

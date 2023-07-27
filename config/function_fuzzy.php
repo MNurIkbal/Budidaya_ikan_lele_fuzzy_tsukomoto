@@ -68,7 +68,7 @@ function fuzzy($luas_kolam, $jumlah_bibit, $jumlah_pakan)
             // R7
             ['rules'  =>  ["luas_kolam" => "Besar", "jumlah_bibit" => "Banyak", "jumlah_pakan" => "Sedikit"], 'result' => 'Rendah'],
 
-            // R6
+            // R8
             ['rules'  =>  ["luas_kolam" => "Besar", "jumlah_bibit" => "Banyak", "jumlah_pakan" => "Banyak"], 'result' => 'Tinggi']
         )
         ->set_values([

@@ -51,12 +51,12 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-            <!-- <li class="nav-item <?php echo ($_GET['page'] == 'artikel' || $_GET['page'] == "detail") ? "active" : ""; ?>">
-                <a class="nav-link" href="?page=artikel">
-                    <i class="fas fa-fw fa-newspaper"></i>
-                    <span>Artikel</span></a>
-            </li> -->
-            <li class="nav-item <?php echo ($_GET['page'] == 'Profil') ? "active" : ""; ?>">
+            <li class="nav-item <?php echo ($_GET['page'] == 'training' || $_GET['page'] == "detail_training") ? "active" : ""; ?>">
+                <a class="nav-link" href="?page=detail_training">
+                    <i class="fas fa-fw fa-edit"></i>
+                    <span>Data Training</span></a>
+            </li>
+            <!-- <li class="nav-item <?php echo ($_GET['page'] == 'Profil') ? "active" : ""; ?>">
                 <a class="nav-link" href="?page=Profil">
                     <i class="fas fa-fw fa-address-card"></i>
                     <span>Profil</span></a>
@@ -65,11 +65,11 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
                 <a class="nav-link" href="?page=Pengaturan">
                     <i class="fas fa-fw fa-key"></i>
                     <span>Password</span></a>
-            </li>
+            </li> -->
             <li class="nav-item <?php echo ($_GET['page'] == 'Kinerja' || $_GET['page'] == "Kosong" || $_GET['page'] == "list") ? "active" : ""; ?>">
                 <a class="nav-link" href="?page=Kinerja">
                     <i class="fas fa-fw fa-clipboard"></i>
-                    <span>Hasil Panen</span></a>
+                    <span>Data Budidaya</span></a>
             </li>
         </ul>
 
@@ -151,6 +151,9 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
 					break;
 				case "Kosong":
 					include 'kosong.php';
+					break;
+				case "detail_training":
+					include 'isi_manual.php';
 					break;
 				default:
 					echo '404 Not Found!';

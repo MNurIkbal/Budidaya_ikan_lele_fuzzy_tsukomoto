@@ -1,4 +1,8 @@
-<div class="container-fluid">
+				<!-- DASHBOARD -->
+				<?php 
+				$result = mysqli_query($koneksi,"SELECT * FROM dashboard ORDER BY id DESC");
+				?>
+				<div class="container-fluid">
 	
 	<div class="row">
 		<div class="col-md-12">
@@ -7,7 +11,7 @@
 					<form action='' method='POST'>
 						<div class='row'>
 							<div class='col-md-7'>
-								<h4 class="card-title"> Input Data Hasil Budidaya </h4>
+								<h4 class="card-title"> Data Training </h4>
 							</div>
 						</div>
 					</form>
@@ -36,7 +40,7 @@
 										<td><?php echo $data['nm_pegawai']; ?></td>
 										<td class="td-actions text-center">
 											<div class="form-button-action">
-												<a type="button" data-toggle="tooltip" title="Nilai" class="btn btn-success btn-sm btn-simple-primary" href="?page=NilaiKinerja&id=<?php echo $data['id_pegawai']; ?>">
+												<a type="button" data-toggle="tooltip" title="Nilai" class="btn btn-success btn-sm btn-simple-primary" href="?page=isi_manual&id=<?php echo $data['id_pegawai']; ?>">
 													<i class="fas fa-eye"></i>
 												</a>
 												
@@ -56,3 +60,4 @@
 		
 	</div>
 </div>
+				<!-- DASHBOARD -->

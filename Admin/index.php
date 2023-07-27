@@ -54,20 +54,20 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span></a>
             </li>
-            <li class="nav-item <?php echo ($_GET['page'] == 'Profil') ? "active" : ""; ?>">
-                <a class="nav-link" href="?page=Profil">
-                    <i class="fas fa-fw fa-address-card"></i>
-                    <span>Profil</span></a>
-            </li>
             <li class="nav-item <?php echo ($_GET['page'] == 'Pegawai') ? "active" : ""; ?>">
                 <a class="nav-link" href="?page=Pegawai">
                     <i class="fas fa-fw fa-user"></i>
                     <span>User</span></a>
             </li>
+            <li class="nav-item <?php echo ($_GET['page'] == 'budi_daya' || $_GET['page'] == "isi_manual") ? "active" : ""; ?>">
+                <a class="nav-link" href="?page=budi_daya">
+                    <i class="fas fa-fw fa-edit"></i>
+                    <span>Data Training</span></a>
+            </li>
             <li class="nav-item <?php echo ($_GET['page'] == 'NilaiPegawai' || $_GET['page'] == "lihat" || $_GET['page'] == "NilaiKinerja") ? "active" : ""; ?>">
                 <a class="nav-link" href="?page=NilaiPegawai">
                     <i class="fas fa-fw fa-clipboard"></i>
-                    <span>Hasil Panen</span></a>
+                    <span>Input Data</span></a>
             </li>
             <li class="nav-item <?php echo ($_GET['page'] == 'laporan') ? "active" : ""; ?>">
                 <a class="nav-link" href="?page=laporan">
@@ -179,6 +179,12 @@ $nilai = mysqli_num_rows($koneksi->query("SELECT * FROM nilai WHERE id_pegawai =
 					break;
 				case "laporan":
 					include 'laporan.php';
+					break;
+				case "budi_daya":
+					include 'budi_daya.php';
+					break;
+				case "isi_manual":
+					include 'isi_manual.php';
 					break;
 				default:
 					echo "404 Not Found!";

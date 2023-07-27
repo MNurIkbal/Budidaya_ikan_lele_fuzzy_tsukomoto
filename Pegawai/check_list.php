@@ -29,7 +29,7 @@ $fect_rules = mysqli_fetch_assoc($rules);
 
 <div class="container-fluid">
 
-	<h4 class="page-title">Hasil</h4>
+	<h4 class="page-title">Hasil Perhitungan Fuzzy Tsukamoto</h4>
 	<h4 class="page-title">Nama : <?= $rty['nm_pegawai']; ?></h4>
 	<a href="?page=Kinerja" class="btn btn-warning btn-sm">Kembali</a>
 	<br>
@@ -57,9 +57,9 @@ $fect_rules = mysqli_fetch_assoc($rules);
 							<td>
 								<?= date("d, F Y", strtotime($row['tgl_panen'])) ?>
 							</td>
-							<td><?= number_format($row['luas_kolam']); ?></td>
+							<td><?= number_format($row['luas_kolam']); ?> m² </td>
 							<td><?= number_format($row['jumlah_bibit']); ?></td>
-							<td><?= number_format($row['jumlah_pakan']); ?></td>
+							<td><?= number_format($row['jumlah_pakan']); ?> sak </td>
 						</tr>
 					<?php endforeach; ?>
 				</table>
@@ -255,16 +255,27 @@ $fect_rules = mysqli_fetch_assoc($rules);
 							<td><?= $fect_rules['nilai_z_7']; ?></td>
 							<td><?= $fect_rules['nilai_z_8']; ?></td>
 						</tr>
-						<tr>
-							<td><b> Hasil Panen </b></td>
-							<td colspan="8"><?= $hasil_panen['hasil_panen']; ?></td>
-						</tr>
-						<tr>
-							<td><b> Keterangan </b></td>
-							<td colspan="8"><?= $hasil_panen['keterangan']; ?></td>
-						</tr>
-					</tbody>
-				</table>
+						</table>
+							</div>
+						</div>
+					</div>
+						<div class="card mt-3">
+						<div class="card-header">
+							<h4 class="card-title">Hasil Perhitungan </h4>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-bordered table-hover" id="table">
+								<tr style="background-color: rgb(78, 115, 223);color:white">
+										<th class="text-center"> Jumlah Panen </th>
+										<th class="text-center"> Keterangan </th>
+								</tr>
+										<tr>
+											<td class="text-center"><?= $hasil_panen['hasil_panen']; ?> Kg </td>
+											<td class="text-center"><?= $hasil_panen['keterangan']; ?> </td>
+										</tr>
+								</tbody>
+						</table>
 			</div>
 		</div>
 	</div>

@@ -17,7 +17,7 @@ $fect = mysqli_fetch_assoc($check);
 			<div class="card">
 				<form method="POST" action="">
 					<div class="card-header">
-						<h4 class="card-title">Input Hasil Panen</h4>
+						<h4 class="card-title">Data Hasil Budidaya</h4>
 						<h5 class="card-title">Nama : <?= $rt['nm_pegawai']; ?></h5>
 					</div>
 
@@ -28,10 +28,10 @@ $fect = mysqli_fetch_assoc($check);
 									<tr>
 										<th>No</th>
 										<th>Tanggal Panen</th>
-										<th>Luas Kolam</th>
+										<th>Luas Kolam (m²)</th>
 										<th>Jumlah Bibit</th>
-										<th>Jumlah Pakan</th>
-										<th>Hasil Panen</th>
+										<th>Jumlah Pakan (sak)</th>
+										<th>Hasil Panen (kg)</th>
 										<th>Keterangan</th>
 										<th>Aksi</th>
 									</tr>
@@ -44,11 +44,11 @@ $fect = mysqli_fetch_assoc($check);
 											<td>
 												<?= date("d, F Y",strtotime($tt['tgl_panen'])) ?>
 											</td>
-											<td><?= number_format($tt['luas_kolam']); ?></td>
+											<td><?= number_format($tt['luas_kolam']); ?> m² </td>
 											<td><?= number_format($tt['jumlah_bibit']); ?></td>
-											<td><?= number_format($tt['jumlah_pakan']); ?></td>
+											<td><?= number_format($tt['jumlah_pakan']); ?> sak </td>
 											<td>
-												<?= number_format($tt['hasil_panen']) ?>
+												<?= number_format($tt['hasil_panen']) ?> kg
 											</td>
 											<td>
 											<?php if($tt['keterangan'] == "Tinggi") : ?>

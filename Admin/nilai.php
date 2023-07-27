@@ -1,7 +1,7 @@
 				<?php
 
 				$id = $_GET['id'];
-				$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id_pegawai' ORDER BY id_kategori DESC");
+				$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id_pegawai' AND type_as = 'otomatis' ORDER BY id_kategori DESC");
 				$pegawai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id'");
 				$rt = mysqli_fetch_assoc($pegawai);
 				$count = mysqli_num_rows($check);
@@ -16,7 +16,7 @@
 							<div class="card">
 								<form method="POST" action="">
 									<div class="card-header">
-										<h4 class="card-title"><b> Input Hasil Panen </b></h4>
+										<h4 class="card-title"><b> Input Data Hasil Budidaya </b></h4>
 										<h5 class="card-title">Nama : <?= $rt['nm_pegawai']; ?></h5>
 										<a href="#" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Tambah</a>
 										<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -36,15 +36,15 @@
 																<input type="date" class="form-control" required placeholder="" name="tgl">
 															</div>
 															<div class="mb-3">
-																<label for="">Luas Kolam</label>
+																<label for="">Luas Kolam (m²)</label>
 																<input type="number" class="form-control" required placeholder="Luas Kolam" name="luas_kolam">
 															</div>
 															<div class="mb-3">
-																<label for="">Jumlah Bibit</label>
+																<label for="">Jumlah Bibit (ekor)</label>
 																<input type="number" class="form-control" required placeholder="Jumlah Bibit" name="jumlah_bibit">
 															</div>
 															<div class="mb-3">
-																<label for="">Jumlah Pakan</label>
+																<label for="">Jumlah Pakan (sak)</label>
 																<input type="number" class="form-control" required placeholder="Jumlah Pakan" name="jumlah_pakan">
 															</div>
 														</div>
@@ -66,10 +66,10 @@
 													<tr>
 														<th>No</th>
 														<th>Tanggal Panen</th>
-														<th>Luas Kolam</th>
-														<th>Jumlah Bibit</th>
-														<th>Jumlah Pakan</th>
-														<th>Hasil Panen</th>
+														<th>Luas Kolam (m²)</th>
+														<th>Jumlah Bibit (ekor)</th>
+														<th>Jumlah Pakan (sak)</th>
+														<th>Hasil Panen (kg)</th>
 														<th>Keterangan</th>
 														<th>Aksi</th>
 													</tr>
@@ -82,11 +82,11 @@
 															<td>
 																<?= date("d, F Y", strtotime($tt['tgl_panen'])); ?>
 															</td>
-															<td><?= number_format($tt['luas_kolam']); ?></td>
-															<td><?= number_format($tt['jumlah_bibit']); ?></td>
-															<td><?= number_format($tt['jumlah_pakan']); ?></td>
+															<td><?= number_format($tt['luas_kolam']); ?> m²</td>
+															<td><?= number_format($tt['jumlah_bibit']); ?> ekor</td>
+															<td><?= number_format($tt['jumlah_pakan']); ?> sak</td>
 															<td>
-																<?= number_format($tt['hasil_panen']) ?>
+																<?= number_format($tt['hasil_panen']) ?> Kg
 															</td>
 															<td>
 																<?php if ($tt['keterangan'] == "Tinggi") : ?>
@@ -115,15 +115,15 @@
 																						<input type="date" class="form-control" value="<?= $tt['tgl_panen']; ?>" required placeholder="" name="tgl">
 																					</div>
 																					<div class="mb-3">
-																						<label for="">Luas Kolam</label>
+																						<label for="">Luas Kolam (m²)</label>
 																						<input type="number" class="form-control" value="<?= $tt['luas_kolam']; ?>" required placeholder="Luas Kolam" name="luas_kolam">
 																					</div>
 																					<div class="mb-3">
-																						<label for="">Jumlah Bibit</label>
+																						<label for="">Jumlah Bibit (ekor)</label>
 																						<input type="number" class="form-control" value="<?= $tt['jumlah_bibit']; ?>" required placeholder="Jumlah Bibit" name="jumlah_bibit">
 																					</div>
 																					<div class="mb-3">
-																						<label for="">Jumlah Pakan</label>
+																						<label for="">Jumlah Pakan (sak)</label>
 																						<input type="number" class="form-control" value="<?= $tt['jumlah_pakan']; ?>" required placeholder="Jumlah Pakan" name="jumlah_pakan">
 																					</div>
 																				</div>
@@ -160,6 +160,7 @@
 
 									// inisial function
 									$fuzzy = fuzzy($luas_kolam, $jumlah_bibit, $jumlah_pakan);
+									
 									// function keanggotaan luas kolam
 									$fungsi_kolam_kecil = $fuzzy['attributes']['luas_kolam']['Kecil']['fuzzification'];
 									$fungsi_kolam_besar = $fuzzy['attributes']['luas_kolam']['Besar']['fuzzification'];
@@ -360,7 +361,7 @@
 									$nilai_7 = $fuzzy['inference']['z'][6];
 									$nilai_8 = $fuzzy['inference']['z'][7];
 
-									$query = "INSERT INTO tbl_data_uji VALUES('','$luas_kolam','$jumlah_bibit','$jumlah_pakan','$id','$tgl','$hasil_panen','$keterangan_hasil')";
+									$query = "INSERT INTO tbl_data_uji VALUES('','$luas_kolam','$jumlah_bibit','$jumlah_pakan','$id','$tgl','$hasil_panen','$keterangan_hasil','otomatis')";
 
 									$result = mysqli_query($koneksi, $query);
 
@@ -408,7 +409,7 @@
 									mysqli_query($koneksi, $rulesr);
 									$tahun = date("Y");
 
-									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE YEAR(created_at) = '$tahun'");
+									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE pegawai_id = '$id' AND YEAR(created_at) = '$tahun' ");
 									$kolam = mysqli_num_rows($main_sekarang);
 									if (!$kolam) {
 										$sekarang = date("Y-m-d");

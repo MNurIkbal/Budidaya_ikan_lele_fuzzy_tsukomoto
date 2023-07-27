@@ -5,7 +5,7 @@ $id = $_GET['id'];
 $mulai = $_GET['mulai'];
 $akhir = $_GET['akhir'];
 
-$check = mysqli_query($koneksi,"SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' AND tgl_panen BETWEEN '$mulai' AND '$akhir'");
+$check = mysqli_query($koneksi,"SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' AND type_as = 'otomatis' AND tgl_panen BETWEEN '$mulai' AND '$akhir'");
 $fect = mysqli_query($koneksi,"SELECT * FROM pegawai WHERE id_pegawai = '$id'");
 $asos = mysqli_fetch_assoc($fect);
 ?>
@@ -42,7 +42,7 @@ $asos = mysqli_fetch_assoc($fect);
                         <th>Jumlah Bibit</th>
                         <th>Jumlah Pakan</th>
                         <th>Hasil Panen</th>
-                        <th>Dibuat</th>
+                        <th>Keterangan</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -50,10 +50,10 @@ $asos = mysqli_fetch_assoc($fect);
                         <tr>
                             <td><?= $no++; ?></td>
                             <td><?= date("d, F Y",strtotime($row['tgl_panen'])) ?></td>
-                            <td><?= number_format($row['luas_kolam']); ?></td>
+                            <td><?= number_format($row['luas_kolam']); ?> m² </td>
                             <td><?= number_format($row['jumlah_bibit']); ?></td>
-                            <td><?= number_format($row['jumlah_pakan']); ?></td>
-                            <td><?= number_format($row['hasil_panen']); ?></td>
+                            <td><?= number_format($row['jumlah_pakan']); ?> sak </td>
+                            <td><?= number_format($row['hasil_panen']); ?> kg </td>
                             <td>
                                 <span style="text-transform: uppercase;">
                                 <?= $row['keterangan']; ?>

@@ -1,4 +1,11 @@
 				<!-- DASHBOARD -->
+        <?php 
+        if(isset($_POST['cari'])) {
+          $nama = $_POST['nama'];
+
+          $check = mysqli_query($koneksi,"SELECT * FROM tbl_data_uji WHERE pegawai_id = ''");
+        }
+        ?>
 				<?php 
 				$result = mysqli_query($koneksi,"SELECT * FROM dashboard ORDER BY id DESC");
 				?>
@@ -33,13 +40,89 @@
 							<h4 class="card-title"> Grafik Hasil Panen </h4>
 						</div>
 						<div class="card-body">
-							<div style="height: 450px;" id="grafik"></div>
+              <?php 
+              $users = mysqli_query($koneksi,"SELECT * FROM pegawai ORDER BY nm_pegawai ASC");
+              ?>
+              <form action="" method="post">
+                <div class="row">
+                  <div class="col-md-11">
+                    <select name="nama" id="" class="form-control" required> 
+                    <option value="">Pilih</option>
+                    <?php foreach($users as $rows) : ?>
+                      <option value="<?= $rows['id_pegawai']; ?>"><?= $rows['nm_pegawai']; ?></option>
+                      <?php endforeach; ?>
+                    </select>
+                  </div>
+                  <div class="col-md-1">
+                    <button type="submit" name="cari" class="btn btn-primary">Search</button>
+                  </div>
+                </div>
+                <br>
+              </form>
+              <br>
+              <br>
+              <br>
+							<div style="height: 450px;" id="chart"></div>
 						</div>
 					</div>
 				</div>
 
 				<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script>
+        <script>
+          
+          var options = {
+          series: [{
+          name: 'Hasil Panen',
+          data: [44, 55, 41, 67, 22, 43, 21, 33, 45, 31, 87, 65, 35]
+        }],
+       
+        chart: {
+          height: 500,
+          type: 'bar',
+        },
+        
+        dataLabels: {
+          enabled: false
+        },
+        stroke: {
+          width: 2
+        },
+        
+        grid: {
+          row: {
+            colors: ['#fff', '#f2f2f2']
+          }
+        },
+        xaxis: {
+          labels: {
+            rotate: -45
+          },
+          categories: ['Apples', 'Oranges', 'Strawberries', 'Pineapples', 'Mangoes', 'Bananas',
+            'Blackberries', 'Pears', 'Watermelons', 'Cherries', 'Pomegranates', 'Tangerines', 'Papayas'
+          ],
+          tickPlacement: 'on'
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shade: 'light',
+            type: "horizontal",
+            shadeIntensity: 0.25,
+            gradientToColors: undefined,
+            inverseColors: true,
+            opacityFrom: 0.85,
+            opacityTo: 0.85,
+            stops: [50, 0, 100]
+          },
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart"), options);
+        chart.render();
+      
+        </script>
+        
+<!-- <script>
 	  var options = {
           series: [{
           name: 'Hasil Panen',
@@ -108,5 +191,5 @@
 
         var chart = new ApexCharts(document.querySelector("#grafik"), options);
         chart.render();
-</script>
+</script> -->
 				<!-- DASHBOARD -->
