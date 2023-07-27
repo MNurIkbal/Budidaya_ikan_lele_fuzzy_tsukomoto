@@ -1,6 +1,10 @@
 <?php
 include 'config/koneksi.php';
-
+if(isset($_SESSION['id_pegawai'])) {
+	return header("Location: Pegawai/?page=Dashboard");
+} elseif(isset($_SESSION['id_admin'])) {
+	return header("Location: Admin/?page=Dashboard");
+}
 ?>
 
 <!DOCTYPE html>

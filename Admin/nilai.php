@@ -264,11 +264,12 @@
 
 									mysqli_query($koneksi, $rulesr);
 
-									$tahun_ini = date("Y");
-									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE YEAR(created_at) = '$tahun_ini'");
+									$tahun_ini = date("Y-m",strtotime($tgl));
+									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE  pegawai_id = '$id' AND DATE_FORMAT(created_at, '%Y-%m') = '$tahun_ini'");
 									$kolam = mysqli_num_rows($main_sekarang);
+									
 									if (!$kolam) {
-										$sekarang = date("Y-m-d");
+										$sekarang = date("Y-m-d",strtotime($tgl));
 										$dash = "INSERT INTO dashboard VALUES('',
 											'$id',
 											'$hasil_panen',
@@ -279,10 +280,9 @@
 										$sekarang = date("Y-m-d");
 										$fects = mysqli_fetch_assoc($main_sekarang);
 										$kasih = $fects['nilai'] + $hasil_panen;
-										
 										$dash = "UPDATE dashboard  SET
 											nilai = '$kasih'
-										WHERE YEAR(created_at) = '$tahun_ini'
+										WHERE pegawai_id = '$id' AND DATE_FORMAT(created_at, '%Y-%m') = '$tahun_ini'
 										";
 										mysqli_query($koneksi, $dash);
 									}
@@ -292,7 +292,7 @@
 										echo "<script>window.location.href = '?page=NilaiKinerja&id=$id_pegawai';</script>";
 									} else {
 										echo "<script>alert('Data Gagal Diupdate')</script>";
-										echo "<sc	ript>window.location.href = '?page=NilaiKinerja&id=$id_pegawai';</sc>";
+										echo "<script>window.location.href = '?page=NilaiKinerja&id=$id_pegawai';</script>";
 									}
 								}
 								if (isset($_POST['submit'])) {
@@ -407,25 +407,24 @@
 										)";
 
 									mysqli_query($koneksi, $rulesr);
-									$tahun = date("Y");
+									$tahun = date("Y-m",strtotime($tgl));
 
-									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE pegawai_id = '$id' AND YEAR(created_at) = '$tahun' ");
+									$main_sekarang = mysqli_query($koneksi, "SELECT * FROM dashboard WHERE pegawai_id = '$id' AND DATE_FORMAT(created_at, '%Y-%m') = '$tahun' ");
 									$kolam = mysqli_num_rows($main_sekarang);
 									if (!$kolam) {
-										$sekarang = date("Y-m-d");
+										$sekarang = date("Y-m-d",strtotime($tgl));
 										$dash = "INSERT INTO dashboard VALUES('',
-											'0',
+											'$id',
 											'$hasil_panen',
 											'$sekarang'
 										)";
 										mysqli_query($koneksi, $dash);
 									} else {
-										$sekarang = date("Y-m-d");
 										$fects = mysqli_fetch_assoc($main_sekarang);
 										$kasih = $fects['nilai'] + $hasil_panen;
 										$dash = "UPDATE dashboard  SET
 											nilai = '$kasih'
-										WHERE YEAR(created_at) = '$tahun'
+										WHERE pegawai_id = '$id'  AND DATE_FORMAT(created_at, '%Y-%m') = '$tahun' 
 										";
 										mysqli_query($koneksi, $dash);
 									}

@@ -58,7 +58,7 @@ $fect_rules = mysqli_fetch_assoc($rules);
 								<?= date("d, F Y", strtotime($row['tgl_panen'])) ?>
 							</td>
 							<td><?= number_format($row['luas_kolam']); ?> m² </td>
-							<td><?= number_format($row['jumlah_bibit']); ?></td>
+							<td><?= number_format($row['jumlah_bibit']); ?> ekor</td>
 							<td><?= number_format($row['jumlah_pakan']); ?> sak </td>
 						</tr>
 					<?php endforeach; ?>
@@ -91,7 +91,7 @@ $fect_rules = mysqli_fetch_assoc($rules);
 					<tr>
 						<td>1</td>
 						<td><?= $res['nm_pegawai']; ?></td>
-						<td><?= number_format($res['luas_kolam']); ?></td>
+						<td><?= number_format($res['luas_kolam']); ?> m²</td>
 						<td><?= $res['luas_kolam_sedikit']; ?></td>
 						<td><?= $res['luas_kolam_besar']; ?></td>
 					</tr>
@@ -124,7 +124,7 @@ $fect_rules = mysqli_fetch_assoc($rules);
 					<tr>
 						<td>1</td>
 						<td><?= $res['nm_pegawai']; ?></td>
-						<td><?= number_format($res['jumlah_bibit']); ?></td>
+						<td><?= number_format($res['jumlah_bibit']); ?> ekor</td>
 						<td><?= $res['jumlah_bibit_sedikit']; ?></td>
 						<td><?= $res['jumlah_bibit_banyak']; ?></td>
 					</tr>
@@ -157,7 +157,7 @@ $fect_rules = mysqli_fetch_assoc($rules);
 					<tr>
 						<td>1</td>
 						<td><?= $res['nm_pegawai']; ?></td>
-						<td><?= number_format($res['jumlah_pakan']); ?></td>
+						<td><?= number_format($res['jumlah_pakan']); ?> sak</td>
 						<td><?= $res['jumlah_pakan_sedikit']; ?></td>
 						<td><?= $res['jumlah_pakan_banyak']; ?></td>
 					</tr>
@@ -272,7 +272,11 @@ $fect_rules = mysqli_fetch_assoc($rules);
 								</tr>
 										<tr>
 											<td class="text-center"><?= $hasil_panen['hasil_panen']; ?> Kg </td>
-											<td class="text-center"><?= $hasil_panen['keterangan']; ?> </td>
+											<?php if($hasil_panen['keterangan'] == "Tinggi") : ?>
+												<td class="text-center"><span class="badge badge-pill bg-success text-white p-2"><?= $hasil_panen['keterangan']; ?></span> </td>
+												<?php else: ?>
+													<td class="text-center"><span class="badge badge-pill bg-danger p-2 text-white"><?= $hasil_panen['keterangan']; ?></span> </td>
+												<?php endif; ?>
 										</tr>
 								</tbody>
 						</table>

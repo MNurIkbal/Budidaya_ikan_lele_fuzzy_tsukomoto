@@ -2,10 +2,12 @@
 
 $id = $_SESSION['id_pegawai'];
 
-$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' ORDER BY id_kategori DESC");
+$check = mysqli_query($koneksi, "SELECT * FROM tbl_data_uji WHERE pegawai_id = '$id' AND type_as = 'otomatis' ORDER BY id_kategori DESC");
+
 $pegawai = mysqli_query($koneksi, "SELECT * FROM pegawai WHERE id_pegawai = '$id'");
 $rt = mysqli_fetch_assoc($pegawai);
 $count = mysqli_num_rows($check);
+
 $fect = mysqli_fetch_assoc($check);
 
 ?>
